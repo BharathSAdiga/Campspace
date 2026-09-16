@@ -75,7 +75,7 @@ export const ProductCard = ({ product }) => {
           position: 'relative',
           width: '100%',
           paddingTop: '65%', // 16:10 aspect ratio
-          backgroundColor: 'rgba(10, 15, 28, 0.65)',
+          backgroundColor: 'rgba(238, 233, 224, 0.5)',
           overflow: 'hidden',
           borderBottom: '1px solid var(--border-subtle)',
         }}
@@ -120,16 +120,16 @@ export const ProductCard = ({ product }) => {
         <div style={{ position: 'absolute', top: '0.75rem', left: '0.75rem', zIndex: 5 }}>
           <span
             style={{
-              backgroundColor: 'rgba(15, 23, 42, 0.72)',
+              backgroundColor: 'rgba(255, 255, 255, 0.92)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)',
               padding: '0.22rem 0.65rem',
               borderRadius: '9999px',
               fontSize: '0.75rem',
               fontWeight: '600',
-              color: '#f8fafc',
-              border: '1px solid rgba(255, 255, 255, 0.18)',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.35)',
+              color: '#0F172A',
+              border: '1px solid rgba(216, 204, 184, 0.8)',
+              boxShadow: '0 2px 8px rgba(44, 36, 22, 0.08)',
             }}
           >
             {category}
@@ -161,7 +161,7 @@ export const ProductCard = ({ product }) => {
         <div>
           {/* Price & Condition */}
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-            <span style={{ fontSize: '1.35rem', fontWeight: '800', color: 'var(--primary-400)', textShadow: '0 0 16px rgba(59, 130, 246, 0.25)' }}>
+            <span style={{ fontSize: '1.35rem', fontWeight: '800', color: '#0F172A' }}>
               ${typeof price === 'number' ? price.toFixed(price % 1 === 0 ? 0 : 2) : price}
             </span>
             <Badge variant={getConditionBadgeVariant(condition)} size="sm">
@@ -206,9 +206,8 @@ export const ProductCard = ({ product }) => {
                   width: '20px',
                   height: '20px',
                   borderRadius: '50%',
-                  backgroundColor: 'rgba(59, 130, 246, 0.2)',
-                  color: '#93c5fd',
-                  border: '1px solid rgba(96, 165, 250, 0.3)',
+                  backgroundColor: '#0F172A',
+                  color: '#FFFFFF',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -218,7 +217,7 @@ export const ProductCard = ({ product }) => {
               >
                 {seller?.name ? seller.name.charAt(0).toUpperCase() : 'U'}
               </div>
-              <span style={{ color: 'var(--slate-300)' }}>{seller?.name || 'Verified Student'}</span>
+              <span style={{ color: 'var(--text-secondary)' }}>{seller?.name || 'Verified Student'}</span>
             </div>
             {createdAt && (
               <span>{new Date(createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>

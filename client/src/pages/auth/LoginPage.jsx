@@ -84,11 +84,11 @@ export const LoginPage = () => {
           width: '100%',
           maxWidth: '440px',
           padding: '2.5rem 2rem',
-          background: 'linear-gradient(180deg, rgba(20, 29, 48, 0.75) 0%, rgba(15, 23, 42, 0.88) 100%)',
+          background: 'var(--liquid-glass-bg)',
           backdropFilter: 'var(--liquid-glass-blur)',
           WebkitBackdropFilter: 'var(--liquid-glass-blur)',
-          border: '1px solid var(--liquid-glass-border)',
-          boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 40px -10px rgba(59, 130, 246, 0.18), var(--liquid-glass-highlight)',
+          border: '1px solid var(--border-subtle)',
+          boxShadow: 'var(--shadow-lg), var(--liquid-glass-highlight)',
         }}
       >
         {/* Header */}
@@ -98,19 +98,19 @@ export const LoginPage = () => {
               width: '52px',
               height: '52px',
               borderRadius: '14px',
-              background: 'rgba(59, 130, 246, 0.15)',
-              border: '1px solid rgba(96, 165, 250, 0.35)',
-              color: '#60a5fa',
+              background: '#E8E0D2',
+              border: '1px solid rgba(216, 204, 184, 0.9)',
+              color: '#0F172A',
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
               marginBottom: '1rem',
-              boxShadow: '0 0 24px -4px rgba(59, 130, 246, 0.35)',
+              boxShadow: '0 4px 14px rgba(44, 36, 22, 0.1)',
             }}
           >
             <GraduationCap size={28} />
           </div>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '0.35rem', letterSpacing: '-0.02em' }}>Welcome Back</h1>
+          <h1 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '0.35rem', letterSpacing: '-0.02em', color: 'var(--text-primary)' }}>Welcome Back</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
             Sign in to access your Campspace dashboard and campus tools.
           </p>
@@ -233,7 +233,7 @@ export const LoginPage = () => {
         {/* Footer Link */}
         <div style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
           Don't have an account?{' '}
-          <Link to="/register" style={{ color: '#60a5fa', fontWeight: '600' }}>
+          <Link to="/register" style={{ color: '#0F172A', fontWeight: '700', textDecoration: 'underline' }}>
             Sign up
           </Link>
         </div>

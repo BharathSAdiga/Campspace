@@ -203,7 +203,7 @@ export const EventsListPage = () => {
       {/* 1. Header Section */}
       <section
         style={{
-          background: 'linear-gradient(180deg, rgba(15, 23, 42, 0.75) 0%, rgba(8, 12, 20, 0.9) 100%)',
+          background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(243, 239, 230, 0.75) 100%)',
           backdropFilter: 'var(--liquid-glass-blur)',
           WebkitBackdropFilter: 'var(--liquid-glass-blur)',
           borderBottom: '1px solid var(--border-subtle)',
@@ -230,16 +230,16 @@ export const EventsListPage = () => {
                     gap: '0.35rem',
                     fontSize: '0.75rem',
                     fontWeight: '700',
-                    color: '#93c5fd',
-                    backgroundColor: 'rgba(59, 130, 246, 0.15)',
-                    border: '1px solid rgba(96, 165, 250, 0.3)',
+                    color: '#0F172A',
+                    backgroundColor: '#E8E0D2',
+                    border: '1px solid rgba(216, 204, 184, 0.9)',
                     padding: '0.2rem 0.65rem',
                     borderRadius: '9999px',
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em',
                   }}
                 >
-                  <Sparkles size={12} /> Campus Life & Activities
+                  <Sparkles size={12} color="#0F172A" /> Campus Life & Activities
                 </span>
               </div>
               <h1 style={{ fontSize: '2rem', fontWeight: '800', margin: 0, color: 'var(--text-primary)' }}>
@@ -347,18 +347,18 @@ export const EventsListPage = () => {
                     borderRadius: '9999px',
                     fontSize: '0.8125rem',
                     fontWeight: isSelected ? '700' : '500',
-                    border: isSelected ? '1px solid rgba(96, 165, 250, 0.5)' : '1px solid var(--border-subtle)',
-                    backgroundColor: isSelected ? 'rgba(59, 130, 246, 0.22)' : 'rgba(15, 23, 42, 0.6)',
+                    border: isSelected ? '1px solid #0F172A' : '1px solid var(--border-subtle)',
+                    backgroundColor: isSelected ? '#0F172A' : 'rgba(255, 255, 255, 0.9)',
                     backdropFilter: 'blur(10px)',
                     WebkitBackdropFilter: 'blur(10px)',
-                    color: isSelected ? '#93c5fd' : 'var(--text-secondary)',
-                    boxShadow: isSelected ? '0 0 16px -2px rgba(59, 130, 246, 0.35)' : 'none',
+                    color: isSelected ? '#FFFFFF' : 'var(--text-secondary)',
+                    boxShadow: isSelected ? '0 4px 14px rgba(15, 23, 42, 0.2)' : 'none',
                     cursor: 'pointer',
                     whiteSpace: 'nowrap',
                     transition: 'all 0.15s ease',
                   }}
                 >
-                  <Icon size={14} color={isSelected ? '#60a5fa' : 'currentColor'} />
+                  <Icon size={14} color={isSelected ? '#FFFFFF' : 'currentColor'} />
                   <span>{cat.label}</span>
                 </button>
               );
@@ -400,9 +400,9 @@ export const EventsListPage = () => {
                       borderRadius: 'var(--radius-full)',
                       fontSize: '0.775rem',
                       fontWeight: isSelected ? '700' : '500',
-                      border: isSelected ? '1px solid rgba(96, 165, 250, 0.45)' : '1px solid var(--border-subtle)',
-                      backgroundColor: isSelected ? 'rgba(59, 130, 246, 0.2)' : 'rgba(15, 23, 42, 0.5)',
-                      color: isSelected ? '#93c5fd' : 'var(--text-secondary)',
+                      border: isSelected ? '1px solid #0F172A' : '1px solid var(--border-subtle)',
+                      backgroundColor: isSelected ? '#0F172A' : 'rgba(255, 255, 255, 0.9)',
+                      color: isSelected ? '#FFFFFF' : 'var(--text-secondary)',
                       cursor: 'pointer',
                       transition: 'all 0.15s ease',
                     }}
@@ -548,9 +548,9 @@ export const EventsListPage = () => {
                         borderRadius: 'var(--radius-md)',
                         fontSize: '0.875rem',
                         fontWeight: p === page ? '700' : '500',
-                        border: p === page ? '1px solid rgba(96, 165, 250, 0.5)' : '1px solid var(--border-subtle)',
-                        backgroundColor: p === page ? 'rgba(59, 130, 246, 0.25)' : 'rgba(15, 23, 42, 0.6)',
-                        color: p === page ? '#93c5fd' : 'var(--text-secondary)',
+                        border: p === page ? '1px solid #0F172A' : '1px solid var(--border-subtle)',
+                        backgroundColor: p === page ? '#0F172A' : 'rgba(255, 255, 255, 0.9)',
+                        color: p === page ? '#FFFFFF' : 'var(--text-secondary)',
                         cursor: 'pointer',
                         transition: 'all 0.15s ease',
                       }}

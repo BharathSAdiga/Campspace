@@ -291,16 +291,16 @@ export const MarketplaceDetailPage = () => {
               <div style={{ position: 'absolute', top: '1rem', left: '1rem', zIndex: 5 }}>
                 <span
                   style={{
-                    backgroundColor: 'rgba(15, 23, 42, 0.75)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.92)',
                     backdropFilter: 'blur(10px)',
                     WebkitBackdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    border: '1px solid rgba(216, 204, 184, 0.85)',
                     padding: '0.25rem 0.75rem',
                     borderRadius: '9999px',
                     fontSize: '0.8125rem',
                     fontWeight: '700',
-                    color: '#f8fafc',
-                    boxShadow: '0 4px 14px rgba(0,0,0,0.35)',
+                    color: '#0F172A',
+                    boxShadow: '0 4px 14px rgba(44, 36, 22, 0.08)',
                   }}
                 >
                   {product.category}
@@ -331,9 +331,9 @@ export const MarketplaceDetailPage = () => {
                       overflow: 'hidden',
                       border:
                         activeImageIndex === idx
-                          ? '2px solid #3b82f6'
+                          ? '2px solid #0F172A'
                           : '1px solid var(--border-subtle)',
-                      boxShadow: activeImageIndex === idx ? '0 0 12px rgba(59, 130, 246, 0.5)' : 'none',
+                      boxShadow: activeImageIndex === idx ? '0 0 12px rgba(15, 23, 42, 0.25)' : 'none',
                       padding: 0,
                       cursor: 'pointer',
                       flexShrink: 0,
@@ -366,11 +366,11 @@ export const MarketplaceDetailPage = () => {
                 gap: '0.5rem',
                 fontSize: '0.875rem',
                 fontWeight: '700',
-                color: '#60a5fa',
+                color: '#0F172A',
                 marginBottom: '0.5rem',
               }}
             >
-              <ShieldCheck size={18} />
+              <ShieldCheck size={18} color="#0F172A" />
               <span>Campus Trading Safety</span>
             </div>
             <ul
@@ -394,7 +394,7 @@ export const MarketplaceDetailPage = () => {
           {/* Header Info */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
-              <span style={{ fontSize: '2.25rem', fontWeight: '800', color: '#60a5fa', textShadow: '0 0 20px rgba(59, 130, 246, 0.25)' }}>
+              <span style={{ fontSize: '2.25rem', fontWeight: '800', color: '#0F172A' }}>
                 ${typeof product.price === 'number' ? product.price.toFixed(product.price % 1 === 0 ? 0 : 2) : product.price}
               </span>
               <Badge variant={getConditionBadgeVariant(product.condition)} size="md">
@@ -431,11 +431,11 @@ export const MarketplaceDetailPage = () => {
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                <Tag size={16} color="#60a5fa" />
+                <Tag size={16} color="#0F172A" />
                 <span>Category: <strong>{product.category}</strong></span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                <MapPin size={16} color="var(--accent-teal)" />
+                <MapPin size={16} color="var(--text-muted)" />
                 <span>Pickup: <strong>{product.location || 'Campus Pickup'}</strong></span>
               </div>
             </div>

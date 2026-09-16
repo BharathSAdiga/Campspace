@@ -37,19 +37,19 @@ export const LandingPage = () => {
               alignItems: 'center',
               gap: '0.5rem',
               padding: '0.45rem 1.15rem',
-              background: 'rgba(59, 130, 246, 0.12)',
+              background: '#E8E0D2',
               backdropFilter: 'blur(16px)',
               WebkitBackdropFilter: 'blur(16px)',
-              border: '1px solid rgba(96, 165, 250, 0.35)',
+              border: '1px solid rgba(216, 204, 184, 0.9)',
               borderRadius: 'var(--radius-full)',
-              color: '#93c5fd',
+              color: '#0F172A',
               fontSize: '0.85rem',
               fontWeight: 600,
               marginBottom: '2rem',
-              boxShadow: '0 0 25px -4px rgba(59, 130, 246, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.3)',
+              boxShadow: '0 4px 14px rgba(44, 36, 22, 0.1)',
             }}
           >
-            <Sparkles size={16} color="#60a5fa" />
+            <Sparkles size={16} color="#0F172A" />
             <span>The Unified Next-Gen Campus Platform</span>
           </div>
 
@@ -61,13 +61,13 @@ export const LandingPage = () => {
               marginBottom: '1.5rem',
               lineHeight: 1.12,
               letterSpacing: '-0.03em',
-              color: '#ffffff',
+              color: 'var(--text-primary)',
             }}
           >
             Experience Campus Life in{' '}
             <span
               style={{
-                background: 'linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #f472b6 100%)',
+                background: 'linear-gradient(135deg, #0F172A 0%, #8E785D 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 display: 'inline-block',
@@ -80,7 +80,7 @@ export const LandingPage = () => {
           <p
             style={{
               fontSize: 'clamp(1.05rem, 2vw, 1.25rem)',
-              color: 'var(--slate-300)',
+              color: 'var(--text-secondary)',
               marginBottom: '2.75rem',
               lineHeight: 1.65,
               maxWidth: '740px',
@@ -279,20 +279,20 @@ export const LandingPage = () => {
                 fontWeight: 700,
                 textTransform: 'uppercase',
                 letterSpacing: '0.08em',
-                color: 'var(--primary-400)',
-                backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                border: '1px solid rgba(59, 130, 246, 0.25)',
+                color: '#0F172A',
+                backgroundColor: '#E8E0D2',
+                border: '1px solid rgba(216, 204, 184, 0.9)',
                 padding: '0.25rem 0.75rem',
                 borderRadius: '9999px',
                 marginBottom: '0.75rem',
               }}
             >
-              <Layers size={13} /> Integrated Architecture
+              <Layers size={13} color="#0F172A" /> Integrated Architecture
             </div>
-            <h2 style={{ fontSize: '2.25rem', fontWeight: 800, marginBottom: '0.75rem', color: '#ffffff' }}>
+            <h2 style={{ fontSize: '2.25rem', fontWeight: 800, marginBottom: '0.75rem', color: 'var(--text-primary)' }}>
               Everything Campus, In One Place
             </h2>
-            <p style={{ fontSize: '1.05rem', color: 'var(--slate-300)' }}>
+            <p style={{ fontSize: '1.05rem', color: 'var(--text-secondary)' }}>
               Built from the ground up for college campuses with state-of-the-art security, speed, and real-time collaboration.
             </p>
           </div>
@@ -320,14 +320,14 @@ export const LandingPage = () => {
                     width: '52px',
                     height: '52px',
                     borderRadius: '14px',
-                    background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.2) 0%, rgba(37, 99, 235, 0.05) 100%)',
-                    border: '1px solid rgba(96, 165, 250, 0.35)',
+                    background: '#E8E0D2',
+                    border: '1px solid rgba(216, 204, 184, 0.9)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: '#60a5fa',
+                    color: '#0F172A',
                     marginBottom: '1.5rem',
-                    boxShadow: '0 8px 16px -4px rgba(37, 99, 235, 0.3)',
+                    boxShadow: '0 4px 14px rgba(44, 36, 22, 0.1)',
                   }}
                 >
                   <ShoppingBag size={26} />
@@ -336,10 +336,10 @@ export const LandingPage = () => {
                   <span className="badge badge-primary">Developer 1</span>
                   <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Peer-to-Peer</span>
                 </div>
-                <h3 style={{ fontSize: '1.35rem', fontWeight: 700, marginBottom: '0.75rem', color: '#ffffff' }}>
+                <h3 style={{ fontSize: '1.35rem', fontWeight: 700, marginBottom: '0.75rem', color: 'var(--text-primary)' }}>
                   Campus Marketplace
                 </h3>
-                <p style={{ fontSize: '0.9rem', color: 'var(--slate-300)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
+                <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
                   Buy and sell textbooks, electronics, calculators, dorm furniture, and fitness gear directly with verified campus peers.
                 </p>
               </div>
@@ -370,26 +370,26 @@ export const LandingPage = () => {
                     width: '52px',
                     height: '52px',
                     borderRadius: '14px',
-                    background: 'linear-gradient(135deg, rgba(124, 58, 237, 0.2) 0%, rgba(124, 58, 237, 0.05) 100%)',
-                    border: '1px solid rgba(167, 139, 250, 0.35)',
+                    background: '#E8E0D2',
+                    border: '1px solid rgba(216, 204, 184, 0.9)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: '#a78bfa',
+                    color: '#0F172A',
                     marginBottom: '1.5rem',
-                    boxShadow: '0 8px 16px -4px rgba(124, 58, 237, 0.3)',
+                    boxShadow: '0 4px 14px rgba(44, 36, 22, 0.1)',
                   }}
                 >
                   <Calendar size={26} />
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                  <span className="badge badge-primary" style={{ borderColor: 'rgba(167, 139, 250, 0.35)', color: '#c4b5fd' }}>Developer 1</span>
+                  <span className="badge badge-primary">Developer 1</span>
                   <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Discovery & RSVP</span>
                 </div>
-                <h3 style={{ fontSize: '1.35rem', fontWeight: 700, marginBottom: '0.75rem', color: '#ffffff' }}>
+                <h3 style={{ fontSize: '1.35rem', fontWeight: 700, marginBottom: '0.75rem', color: 'var(--text-primary)' }}>
                   Events & Activities
                 </h3>
-                <p style={{ fontSize: '0.9rem', color: 'var(--slate-300)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
+                <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
                   Discover hackathons, guest lectures, club mixers, and career events with instant one-click registrations and capacity tracking.
                 </p>
               </div>
@@ -420,14 +420,14 @@ export const LandingPage = () => {
                     width: '52px',
                     height: '52px',
                     borderRadius: '14px',
-                    background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.2) 0%, rgba(6, 182, 212, 0.05) 100%)',
-                    border: '1px solid rgba(103, 232, 249, 0.35)',
+                    background: '#E8E0D2',
+                    border: '1px solid rgba(216, 204, 184, 0.9)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: '#67e8f9',
+                    color: '#0F172A',
                     marginBottom: '1.5rem',
-                    boxShadow: '0 8px 16px -4px rgba(6, 182, 212, 0.3)',
+                    boxShadow: '0 4px 14px rgba(44, 36, 22, 0.1)',
                   }}
                 >
                   <Layers size={26} />
@@ -436,10 +436,10 @@ export const LandingPage = () => {
                   <span className="badge badge-default">Developer 2</span>
                   <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Facilities</span>
                 </div>
-                <h3 style={{ fontSize: '1.35rem', fontWeight: 700, marginBottom: '0.75rem', color: '#ffffff' }}>
+                <h3 style={{ fontSize: '1.35rem', fontWeight: 700, marginBottom: '0.75rem', color: 'var(--text-primary)' }}>
                   Resource Bookings
                 </h3>
-                <p style={{ fontSize: '0.9rem', color: 'var(--slate-300)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
+                <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
                   Book campus study pods, conference rooms, high-performance computing labs, and multimedia gear without paperwork.
                 </p>
               </div>
@@ -470,14 +470,14 @@ export const LandingPage = () => {
                     width: '52px',
                     height: '52px',
                     borderRadius: '14px',
-                    background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(245, 158, 11, 0.05) 100%)',
-                    border: '1px solid rgba(252, 211, 77, 0.35)',
+                    background: '#E8E0D2',
+                    border: '1px solid rgba(216, 204, 184, 0.9)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: '#fcd34d',
+                    color: '#0F172A',
                     marginBottom: '1.5rem',
-                    boxShadow: '0 8px 16px -4px rgba(245, 158, 11, 0.3)',
+                    boxShadow: '0 4px 14px rgba(44, 36, 22, 0.1)',
                   }}
                 >
                   <Users size={26} />
@@ -486,10 +486,10 @@ export const LandingPage = () => {
                   <span className="badge badge-default">Developer 2</span>
                   <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Student Groups</span>
                 </div>
-                <h3 style={{ fontSize: '1.35rem', fontWeight: 700, marginBottom: '0.75rem', color: '#ffffff' }}>
+                <h3 style={{ fontSize: '1.35rem', fontWeight: 700, marginBottom: '0.75rem', color: 'var(--text-primary)' }}>
                   Clubs & Organizations
                 </h3>
-                <p style={{ fontSize: '0.9rem', color: 'var(--slate-300)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
+                <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
                   Find and join recognized student organizations, sports leagues, cultural societies, and technical interest groups.
                 </p>
               </div>
@@ -514,10 +514,10 @@ export const LandingPage = () => {
           style={{
             padding: '3.5rem 2.5rem',
             textAlign: 'center',
-            background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(124, 58, 237, 0.1) 100%), rgba(15, 23, 42, 0.75)',
-            border: '1px solid rgba(96, 165, 250, 0.3)',
+            background: 'var(--liquid-glass-bg)',
+            border: '1px solid var(--border-subtle)',
             borderRadius: 'var(--radius-xl)',
-            boxShadow: '0 25px 60px -15px rgba(37, 99, 235, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.3)',
+            boxShadow: 'var(--shadow-lg), var(--liquid-glass-highlight)',
           }}
         >
           <div
@@ -525,24 +525,24 @@ export const LandingPage = () => {
               width: '56px',
               height: '56px',
               borderRadius: '50%',
-              background: 'var(--liquid-gradient-primary)',
+              background: '#0F172A',
               color: '#ffffff',
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
               marginBottom: '1.25rem',
-              boxShadow: '0 8px 24px rgba(37, 99, 235, 0.5)',
+              boxShadow: '0 8px 24px rgba(15, 23, 42, 0.2)',
             }}
           >
             <ShieldCheck size={28} />
           </div>
-          <h2 style={{ fontSize: '2.25rem', fontWeight: 800, color: '#ffffff', marginBottom: '1rem' }}>
+          <h2 style={{ fontSize: '2.25rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '1rem' }}>
             Built Exclusively for Verified Students & Faculty
           </h2>
           <p
             style={{
               fontSize: '1.1rem',
-              color: 'var(--slate-200)',
+              color: 'var(--text-secondary)',
               maxWidth: '640px',
               margin: '0 auto 2rem auto',
               lineHeight: 1.6,

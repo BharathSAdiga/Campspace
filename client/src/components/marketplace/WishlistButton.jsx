@@ -67,38 +67,38 @@ export const WishlistButton = ({
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: isSaved
-            ? 'rgba(225, 29, 72, 0.22)'
+            ? '#fee2e2'
             : isHovered
-            ? 'rgba(30, 41, 59, 0.85)'
-            : 'rgba(15, 23, 42, 0.72)',
+            ? 'rgba(255, 255, 255, 0.98)'
+            : 'rgba(255, 255, 255, 0.9)',
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
           border: isSaved
-            ? '1px solid rgba(244, 63, 94, 0.45)'
+            ? '1px solid #fca5a5'
             : isHovered
-            ? '1px solid rgba(255, 255, 255, 0.28)'
-            : '1px solid rgba(255, 255, 255, 0.16)',
+            ? '1px solid rgba(176, 155, 126, 0.9)'
+            : '1px solid rgba(216, 204, 184, 0.85)',
           boxShadow: isSaved
-            ? '0 0 16px -2px rgba(244, 63, 94, 0.45)'
+            ? '0 0 16px -2px rgba(244, 63, 94, 0.3)'
             : isHovered
-            ? '0 4px 14px rgba(0, 0, 0, 0.4)'
-            : '0 2px 8px rgba(0, 0, 0, 0.3)',
+            ? '0 4px 14px rgba(44, 36, 22, 0.12)'
+            : '0 2px 8px rgba(44, 36, 22, 0.08)',
           cursor: pending ? 'wait' : 'pointer',
           transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
           transform: isHovered && !pending ? 'scale(1.08)' : 'scale(1)',
-          color: isSaved ? '#fb7185' : '#94a3b8',
+          color: isSaved ? '#e11d48' : '#475569',
           padding: 0,
           outline: 'none',
           ...style,
         }}
       >
         {pending ? (
-          <Loader2 size={iconSize} className="animate-spin" style={{ color: '#fb7185' }} />
+          <Loader2 size={iconSize} className="animate-spin" style={{ color: '#e11d48' }} />
         ) : (
           <Heart
             size={iconSize}
-            fill={isSaved ? '#fb7185' : 'none'}
-            stroke={isSaved ? '#fb7185' : isHovered ? '#fb7185' : '#94a3b8'}
+            fill={isSaved ? '#e11d48' : 'none'}
+            stroke={isSaved ? '#e11d48' : isHovered ? '#e11d48' : '#475569'}
             strokeWidth={isSaved ? 2 : 2.2}
             style={{
               transition: 'transform 0.2s ease, fill 0.2s ease, stroke 0.2s ease',
@@ -126,11 +126,11 @@ export const WishlistButton = ({
         alignItems: 'center',
         justifyContent: 'center',
         gap: '0.5rem',
-        backgroundColor: isSaved ? 'rgba(225, 29, 72, 0.2)' : isHovered ? 'rgba(30, 41, 59, 0.8)' : 'rgba(15, 23, 42, 0.65)',
+        backgroundColor: isSaved ? '#fee2e2' : isHovered ? 'rgba(255, 255, 255, 0.98)' : 'rgba(255, 255, 255, 0.88)',
         backdropFilter: 'blur(14px)',
         WebkitBackdropFilter: 'blur(14px)',
-        color: isSaved ? '#fb7185' : 'var(--text-primary)',
-        borderColor: isSaved ? 'rgba(244, 63, 94, 0.4)' : isHovered ? 'rgba(255, 255, 255, 0.25)' : 'var(--border-subtle)',
+        color: isSaved ? '#e11d48' : 'var(--text-primary)',
+        borderColor: isSaved ? '#fca5a5' : isHovered ? 'rgba(176, 155, 126, 0.85)' : 'var(--border-subtle)',
         borderWidth: '1px',
         borderStyle: 'solid',
         borderRadius: 'var(--radius-md, 8px)',
@@ -139,7 +139,7 @@ export const WishlistButton = ({
         padding: size === 'sm' ? '0.4rem 0.75rem' : size === 'lg' ? '0.75rem 1.5rem' : '0.6rem 1.15rem',
         transition: 'all 0.2s ease',
         cursor: pending ? 'wait' : 'pointer',
-        boxShadow: isHovered ? '0 4px 14px rgba(0, 0, 0, 0.3)' : 'none',
+        boxShadow: isHovered ? '0 4px 14px rgba(44, 36, 22, 0.1)' : 'none',
         ...style,
       }}
     >
