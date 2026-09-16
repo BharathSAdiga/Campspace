@@ -10,9 +10,10 @@ connectDB();
 // Start HTTP server
 const server = app.listen(PORT, () => {
   console.log(`=========================================`);
-  console.log(`🚀 CampusConnect Server running on port ${PORT}`);
-  console.log(`🌐 Health check: http://localhost:${PORT}/api/v1/health`);
-  console.log(`🔐 Auth API: http://localhost:${PORT}/api/v1/auth`);
+  console.log(`  CampusConnect Server`);
+  console.log(`  Port:    ${PORT}`);
+  console.log(`  Health:  http://localhost:${PORT}/api/health`);
+  console.log(`  Env:     ${process.env.NODE_ENV || 'development'}`);
   console.log(`=========================================`);
 });
 
