@@ -1,10 +1,30 @@
 import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { GraduationCap, Menu, X, User } from 'lucide-react';
-import { Button } from './Button';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { GraduationCap, Menu, X, User, LogOut, Shield } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+import { Badge } from './Badge';
 
 export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    setMobileMenuOpen(false);
+    navigate('/');
+  };
+
+  const getRoleBadgeVariant = (role) => {
+    switch (role) {
+      case 'admin':
+        return 'warning';
+      case 'organizer':
+        return 'primary';
+      default:
+        return 'default';
+    }
+  };
 
   return (
     <header className="navbar">
@@ -43,12 +63,68 @@ export const Navbar = () => {
 
         {/* Auth Actions / User Area */}
         <div className="nav-actions">
-          <Link to="/login" className="btn btn-ghost btn-sm">
-            Sign In
-          </Link>
-          <Link to="/register" className="btn btn-primary btn-sm">
-            Get Started
-          </Link>
+          {isAuthenticated ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <Link
+                to="/dashboard"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  textDecoration: 'none',
+                  color: 'inherit',
+                  padding: '0.25rem 0.5rem',
+                  borderRadius: 'var(--radius-md)',
+                  transition: 'background-color 0.15s',
+                }}
+                className="user-profile-chip"
+              >
+                <div
+                  style={{
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: '50%',
+                    backgroundColor: 'var(--primary-100)',
+                    color: 'var(--primary-700)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontWeight: '600',
+                    fontSize: '0.8125rem',
+                  }}
+                >
+                  {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left', lineHeight: 1.2 }}>
+                  <span style={{ fontSize: '0.8125rem', fontWeight: '600', color: 'var(--text-primary)' }}>
+                    {user?.name?.split(' ')[0] || 'Account'}
+                  </span>
+                  <Badge variant={getRoleBadgeVariant(user?.role)} size="sm">
+                    {user?.role || 'student'}
+                  </Badge>
+                </div>
+              </Link>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="btn btn-ghost btn-sm"
+                title="Sign out"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}
+              >
+                <LogOut size={16} />
+                <span className="hidden-sm">Sign Out</span>
+              </button>
+            </div>
+          ) : (
+            <>
+              <Link to="/login" className="btn btn-ghost btn-sm">
+                Sign In
+              </Link>
+              <Link to="/register" className="btn btn-primary btn-sm">
+                Get Started
+              </Link>
+            </>
+          )}
 
           {/* Mobile Hamburger Toggle */}
           <button
@@ -100,12 +176,43 @@ export const Navbar = () => {
             Clubs
           </Link>
           <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: '1rem', marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            <Link to="/login" className="btn btn-secondary btn-block" onClick={() => setMobileMenuOpen(false)}>
-              Sign In
-            </Link>
-            <Link to="/register" className="btn btn-primary btn-block" onClick={() => setMobileMenuOpen(false)}>
-              Get Started
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <div style={{ padding: '0.5rem 0', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <div
+                    style={{
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '50%',
+                      backgroundColor: 'var(--primary-100)',
+                      color: 'var(--primary-700)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontWeight: '700',
+                    }}
+                  >
+                    {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                  </div>
+                  <div>
+                    <div style={{ fontWeight: '600' }}>{user?.name}</div>
+                    <div style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>{user?.email}</div>
+                  </div>
+                </div>
+                <button type="button" className="btn btn-secondary btn-block" onClick={handleLogout}>
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="btn btn-secondary btn-block" onClick={() => setMobileMenuOpen(false)}>
+                  Sign In
+                </Link>
+                <Link to="/register" className="btn btn-primary btn-block" onClick={() => setMobileMenuOpen(false)}>
+                  Get Started
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}

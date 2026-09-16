@@ -42,6 +42,10 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Mount authentication routes
+const authRoutes = require('./routes/auth.routes');
+app.use('/api/auth', authRoutes);
+
 // Mount feature API routes
 app.use('/api/v1', apiRoutes);
 

@@ -5,6 +5,8 @@ const config = {
   nodeEnv: process.env.NODE_ENV || 'development',
   mongodbUri: process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/campspace',
   clientUrl: process.env.CLIENT_URL || 'http://localhost:5173',
+  jwtSecret: process.env.JWT_SECRET || 'campspace_jwt_secret_dev_key_2024_secure',
+  jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
 };
 
 module.exports = config;

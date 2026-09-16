@@ -1,6 +1,6 @@
-/**
- * Mongoose Models Registry
- * Central export point for all database schemas.
- */
+const { User, USER_ROLES } = require('./User');
 
-module.exports = {};
+module.exports = {
+  User,
+  USER_ROLES,
+};

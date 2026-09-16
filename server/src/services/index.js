@@ -1,6 +1,5 @@
-/**
- * Services Registry
- * Business logic layer decoupling database queries from HTTP controllers.
- */
+const authService = require('./auth.service');
 
-module.exports = {};
+module.exports = {
+  authService,
+};

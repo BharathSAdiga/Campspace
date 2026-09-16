@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { MainLayout } from '../layouts/MainLayout';
+import { ProtectedRoute } from '../components/common';
 import {
   LandingPage,
   NotFoundPage,
@@ -44,8 +45,15 @@ export const AppRoutes = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
-        {/* Shared: Dashboard */}
-        <Route path="/dashboard" element={<DashboardPage />} />
+        {/* Shared: Dashboard (Protected) */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Developer 1: Marketplace */}
         <Route path="/marketplace" element={<MarketplaceListPage />} />

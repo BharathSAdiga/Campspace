@@ -1,6 +1,6 @@
-/**
- * Validators Registry
- * Input validation and sanitization schemas for route endpoints.
- */
+const { validateRegisterInput, validateLoginInput } = require('./auth.validator');
 
-module.exports = {};
+module.exports = {
+  validateRegisterInput,
+  validateLoginInput,
+};

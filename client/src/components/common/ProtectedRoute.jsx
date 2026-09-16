@@ -1,5 +1,4 @@
-import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Link, Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Spinner } from './Spinner';
 import { ShieldAlert } from 'lucide-react';
@@ -25,9 +24,9 @@ export const ProtectedRoute = ({ children, allowedRoles = [] }) => {
           <p style={{ marginTop: '0.5rem', marginBottom: '1.5rem' }}>
             Your account role (<strong>{user?.role}</strong>) does not have permission to view this page.
           </p>
-          <a href="/dashboard" className="btn btn-primary">
+          <Link to="/dashboard" className="btn btn-primary">
             Return to Dashboard
-          </a>
+          </Link>
         </div>
       </div>
     );

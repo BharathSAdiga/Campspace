@@ -1,6 +1,5 @@
-/**
- * Controllers Registry
- * Request handlers mapping HTTP verbs to business services.
- */
+const authController = require('./auth.controller');
 
-module.exports = {};
+module.exports = {
+  authController,
+};
