@@ -1,15 +1,8 @@
 import React from 'react';
 import { PlaceholderPage } from '../../components/common/PlaceholderPage';
+import { MarketplaceListPage } from './MarketplaceListPage';
 
-export const MarketplaceListPage = () => (
-  <PlaceholderPage
-    title="Campus Marketplace"
-    description="Browse student listings, textbooks, dorm supplies, and campus goods."
-    module="Marketplace"
-    owner="Developer 1"
-    routePath="/marketplace"
-  />
-);
+export { MarketplaceListPage };
 
 export const MarketplaceDetailPage = () => (
   <PlaceholderPage
