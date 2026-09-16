@@ -42,6 +42,12 @@ export const Navbar = () => {
           <NavLink to="/" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} end>
             Home
           </NavLink>
+          <NavLink
+            to="/marketplace"
+            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+          >
+            Marketplace
+          </NavLink>
           {isAuthenticated && (
             <NavLink
               to="/dashboard"
@@ -128,6 +134,13 @@ export const Navbar = () => {
             onClick={() => setMobileMenuOpen(false)}
           >
             Home
+          </Link>
+          <Link
+            to="/marketplace"
+            className="nav-link"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Marketplace
           </Link>
           {isAuthenticated ? (
             <>

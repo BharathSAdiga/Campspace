@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { authService } from '../services/auth.service';
 import { Alert } from '../components/common/Alert';
@@ -16,6 +17,7 @@ import {
   Clock,
   Sparkles,
   Phone,
+  ShoppingBag,
 } from 'lucide-react';
 
 export const DashboardPage = () => {
@@ -287,6 +289,28 @@ export const DashboardPage = () => {
                       <div style={{ fontSize: '0.8125rem', color: 'var(--slate-400)' }}>Student Account</div>
                     </div>
                   </div>
+                </div>
+
+                <div className="card">
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                      <ShoppingBag size={20} color="var(--primary-400)" />
+                      <h3 style={{ fontSize: '1.2rem' }}>Campus Marketplace</h3>
+                    </div>
+                    <Link to="/marketplace" className="btn btn-outline btn-sm">
+                      Browse All
+                    </Link>
+                  </div>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--slate-400)', marginBottom: '1.25rem' }}>
+                    Find affordable used textbooks, electronics, dorm essentials, or post your own items.
+                  </p>
+                  <Link
+                    to="/marketplace"
+                    className="btn btn-primary btn-block"
+                    style={{ textAlign: 'center' }}
+                  >
+                    Open Marketplace
+                  </Link>
                 </div>
 
                 <div className="card">
