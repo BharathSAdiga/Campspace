@@ -186,6 +186,26 @@ const updateStatus = async (req, res, next) => {
   }
 };
 
+/**
+ * @desc    Get listings created by authenticated user
+ * @route   GET /api/products/my-listings
+ * @access  Private (Authenticated)
+ */
+const getMyListings = async (req, res, next) => {
+  try {
+    const userId = req.user.id || req.user._id;
+    const products = await productService.getMyProducts(userId, req.query);
+
+    res.status(200).json({
+      success: true,
+      count: products.length,
+      data: products,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   create,
   getAll,
@@ -193,4 +213,5 @@ module.exports = {
   update,
   remove,
   updateStatus,
+  getMyListings,
 };

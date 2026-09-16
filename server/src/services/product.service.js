@@ -232,6 +232,32 @@ const updateProductStatus = async (id, status, user) => {
   return await Product.findById(product._id).populate('seller', 'name email role');
 };
 
+/**
+ * Get products created by the authenticated user
+ * @param {String} userId - Authenticated user ID
+ * @param {Object} query - Optional query params
+ * @returns {Promise<Array>} List of user products
+ */
+const getMyProducts = async (userId, query = {}) => {
+  const filter = { seller: userId };
+  if (query.status && query.status.toUpperCase() !== 'ALL') {
+    filter.status = query.status.toUpperCase();
+  }
+  const sort = query.sort === 'oldest' ? { createdAt: 1 } : { createdAt: -1 };
+
+  const products = await Product.find(filter)
+    .sort(sort)
+    .populate('seller', 'name email role')
+    .lean();
+
+  return products.map((p) => {
+    p.id = p._id;
+    delete p._id;
+    delete p.__v;
+    return p;
+  });
+};
+
 module.exports = {
   createProduct,
   getProducts,
@@ -239,4 +265,5 @@ module.exports = {
   updateProduct,
   deleteProduct,
   updateProductStatus,
+  getMyProducts,
 };

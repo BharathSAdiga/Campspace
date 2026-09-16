@@ -7,6 +7,7 @@ const {
   update,
   remove,
   updateStatus,
+  getMyListings,
 } = require('../controllers/product.controller');
 const { authenticate } = require('../middleware/auth.middleware');
 
@@ -14,6 +15,12 @@ const { authenticate } = require('../middleware/auth.middleware');
  * Public Routes
  */
 router.get('/', getAll);
+
+/**
+ * Protected User Listings (MUST be placed before /:id)
+ */
+router.get('/my-listings', authenticate, getMyListings);
+
 router.get('/:id', getById);
 
 /**

@@ -3,28 +3,16 @@ import { PlaceholderPage } from '../../components/common/PlaceholderPage';
 import { MarketplaceListPage } from './MarketplaceListPage';
 import { MarketplaceDetailPage } from './MarketplaceDetailPage';
 import { MarketplaceCreatePage } from './MarketplaceCreatePage';
+import { MarketplaceEditPage } from './MarketplaceEditPage';
+import { MarketplaceMyListingsPage } from './MarketplaceMyListingsPage';
 
-export { MarketplaceListPage, MarketplaceDetailPage, MarketplaceCreatePage };
-
-export const MarketplaceEditPage = () => (
-  <PlaceholderPage
-    title="Edit Listing"
-    description="Update pricing, condition, details, or availability status of your listing."
-    module="Marketplace"
-    owner="Developer 1"
-    routePath="/marketplace/:id/edit"
-  />
-);
-
-export const MarketplaceMyListingsPage = () => (
-  <PlaceholderPage
-    title="My Listings"
-    description="Manage your active, reserved, and sold campus marketplace postings."
-    module="Marketplace"
-    owner="Developer 1"
-    routePath="/marketplace/my-listings"
-  />
-);
+export {
+  MarketplaceListPage,
+  MarketplaceDetailPage,
+  MarketplaceCreatePage,
+  MarketplaceEditPage,
+  MarketplaceMyListingsPage,
+};
 
 export const MarketplaceWishlistPage = () => (
   <PlaceholderPage
