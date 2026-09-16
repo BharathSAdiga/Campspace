@@ -57,7 +57,14 @@ export const AppRoutes = () => {
 
         {/* Developer 1: Marketplace */}
         <Route path="/marketplace" element={<MarketplaceListPage />} />
-        <Route path="/marketplace/create" element={<MarketplaceCreatePage />} />
+        <Route
+          path="/marketplace/create"
+          element={
+            <ProtectedRoute>
+              <MarketplaceCreatePage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/marketplace/my-listings" element={<MarketplaceMyListingsPage />} />
         <Route path="/marketplace/wishlist" element={<MarketplaceWishlistPage />} />
         <Route path="/marketplace/:id/edit" element={<MarketplaceEditPage />} />

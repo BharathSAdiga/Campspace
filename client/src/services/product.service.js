@@ -19,6 +19,16 @@ export const productService = {
     const response = await api.get(`/api/products/${id}`);
     return response.data;
   },
+
+  /**
+   * Create a new marketplace product listing
+   * @param {Object} productData
+   * @returns {Promise<Object>} Created product data
+   */
+  async createProduct(productData) {
+    const response = await api.post('/api/products', productData);
+    return response.data;
+  },
 };
 
 export default productService;

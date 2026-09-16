@@ -2,18 +2,9 @@ import React from 'react';
 import { PlaceholderPage } from '../../components/common/PlaceholderPage';
 import { MarketplaceListPage } from './MarketplaceListPage';
 import { MarketplaceDetailPage } from './MarketplaceDetailPage';
+import { MarketplaceCreatePage } from './MarketplaceCreatePage';
 
-export { MarketplaceListPage, MarketplaceDetailPage };
-
-export const MarketplaceCreatePage = () => (
-  <PlaceholderPage
-    title="Post New Listing"
-    description="Publish an item or textbook for sale to verified campus peers."
-    module="Marketplace"
-    owner="Developer 1"
-    routePath="/marketplace/create"
-  />
-);
+export { MarketplaceListPage, MarketplaceDetailPage, MarketplaceCreatePage };
 
 export const MarketplaceEditPage = () => (
   <PlaceholderPage
