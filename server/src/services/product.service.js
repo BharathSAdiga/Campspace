@@ -129,7 +129,7 @@ const getProducts = async (query = {}) => {
  * @returns {Promise<Object>}
  */
 const getProductById = async (id) => {
-  const product = await Product.findById(id).populate('seller', 'name email role');
+  const product = await Product.findById(id).populate('seller', 'name email role createdAt');
   if (!product) {
     const error = new Error('Product not found');
     error.statusCode = 404;
