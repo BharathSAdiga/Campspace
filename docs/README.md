@@ -1,7 +1,17 @@
-# CampusConnect Documentation
+# Campspace Documentation
 
-This directory contains project documentation.
+This directory contains technical documentation and architecture guides for the Campspace platform.
 
-## Contents
+## Module Ownership
 
-Documentation will be added here as features are implemented.
+- **Developer 1**:
+  - Marketplace
+  - Events
+- **Developer 2**:
+  - Resource Allocation / Booking
+  - Clubs
+- **Shared**:
+  - Authentication
+  - Shared UI & Layouts
+  - Dashboard
+  - Integration & Deployment

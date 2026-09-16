@@ -1,66 +1,39 @@
-/**
- * Central API Client for CampusConnect
- */
-
-const API_BASE = '/api/v1';
+import axios from 'axios';
 
 /**
- * Get stored JWT authentication token
+ * Axios HTTP client configured for Campspace API
  */
-export const getStoredToken = () => {
-  return localStorage.getItem('campusconnect_token');
-};
-
-/**
- * Save JWT authentication token
- */
-export const setStoredToken = (token) => {
-  if (token) {
-    localStorage.setItem('campusconnect_token', token);
-  } else {
-    localStorage.removeItem('campusconnect_token');
-  }
-};
-
-/**
- * Generic API Fetcher with standardized error handling and authorization header
- */
-export const apiFetch = async (endpoint, options = {}) => {
-  const token = getStoredToken();
-
-  const headers = {
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || '',
+  headers: {
     'Content-Type': 'application/json',
-    ...(token && { Authorization: `Bearer ${token}` }),
-    ...options.headers,
-  };
+  },
+  timeout: 10000,
+});
 
-  const url = endpoint.startsWith('http') ? endpoint : `${API_BASE}${endpoint}`;
-
-  try {
-    const response = await fetch(url, {
-      ...options,
-      headers,
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      const errorMessage = data.message || `Request failed with status ${response.status}`;
-      const error = new Error(errorMessage);
-      error.status = response.status;
-      error.data = data;
-      error.errors = data.errors;
-      throw error;
+// Request interceptor for attaching auth token when available
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('campspace_token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
-    return data;
-  } catch (error) {
-    // Rethrow standard structured error
-    if (!error.status && error.message === 'Failed to fetch') {
-      const networkError = new Error('Cannot connect to CampusConnect server. Please check your connection.');
-      networkError.status = 503;
-      throw networkError;
-    }
-    throw error;
+// Response interceptor for standardized error formatting
+api.interceptors.response.use(
+  (response) => response.data,
+  (error) => {
+    const customError = {
+      message: error.response?.data?.message || error.message || 'An unexpected error occurred',
+      status: error.response?.status,
+      data: error.response?.data,
+    };
+    return Promise.reject(customError);
   }
-};
+);
+
+export default api;

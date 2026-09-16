@@ -1,5 +1,5 @@
 import React from 'react';
-import { GraduationCap, Heart } from 'lucide-react';
+import { GraduationCap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const Footer = () => {
@@ -14,50 +14,50 @@ export const Footer = () => {
                 <GraduationCap size={20} />
               </div>
               <span>
-                Campus<span className="brand-accent">Connect</span>
+                Camp<span className="brand-accent">space</span>
               </span>
             </div>
             <p style={{ fontSize: '0.875rem', lineHeight: 1.6, maxWidth: '320px' }}>
-              The unified digital platform empowering students, event organizers, and campus administrators to collaborate effortlessly.
+              The unified digital platform empowering students, organizers, and campus communities.
             </p>
           </div>
 
-          {/* Quick Navigation */}
+          {/* Navigation */}
           <div className="footer-col">
-            <h5>Platform</h5>
+            <h5>Navigation</h5>
             <ul className="footer-links">
               <li><Link to="/" className="footer-link">Home</Link></li>
-              <li><Link to="/login" className="footer-link">Sign In</Link></li>
-              <li><Link to="/register" className="footer-link">Register</Link></li>
+              <li><Link to="/dashboard" className="footer-link">Dashboard</Link></li>
+              <li><Link to="/auth" className="footer-link">Sign In</Link></li>
             </ul>
           </div>
 
-          {/* Roles */}
+          {/* Modules */}
           <div className="footer-col">
-            <h5>Roles</h5>
+            <h5>Modules</h5>
             <ul className="footer-links">
-              <li><span className="footer-link">Students</span></li>
-              <li><span className="footer-link">Event Organizers</span></li>
-              <li><span className="footer-link">Campus Administrators</span></li>
+              <li><Link to="/marketplace" className="footer-link">Marketplace</Link></li>
+              <li><Link to="/events" className="footer-link">Events</Link></li>
+              <li><Link to="/resources" className="footer-link">Resources</Link></li>
+              <li><Link to="/clubs" className="footer-link">Clubs</Link></li>
             </ul>
           </div>
 
-          {/* Security & Access */}
+          {/* Architecture */}
           <div className="footer-col">
-            <h5>Security</h5>
+            <h5>Stack</h5>
             <ul className="footer-links">
-              <li><span className="footer-link">JWT Protected</span></li>
-              <li><span className="footer-link">Role-Based Access</span></li>
-              <li><span className="footer-link">Encrypted Credentials</span></li>
+              <li><span className="footer-link">React + Vite</span></li>
+              <li><span className="footer-link">Express.js</span></li>
+              <li><span className="footer-link">MongoDB / Mongoose</span></li>
+              <li><span className="footer-link">Axios</span></li>
             </ul>
           </div>
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} CampusConnect. All rights reserved.</p>
-          <p style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-            Built for modern digital campus communities.
-          </p>
+          <p>&copy; {new Date().getFullYear()} Campspace. All rights reserved.</p>
+          <p>Built for modern digital campus communities.</p>
         </div>
       </div>
     </footer>

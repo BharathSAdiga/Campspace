@@ -1,8 +1,8 @@
-require('dotenv').config();
 const app = require('./app');
+const config = require('./config/env');
 const connectDB = require('./config/db');
 
-const PORT = process.env.PORT || 5000;
+const PORT = config.port;
 
 // Initialize database connection
 connectDB();
@@ -10,10 +10,10 @@ connectDB();
 // Start HTTP server
 const server = app.listen(PORT, () => {
   console.log(`=========================================`);
-  console.log(`  CampusConnect Server`);
+  console.log(`  Campspace Server`);
   console.log(`  Port:    ${PORT}`);
   console.log(`  Health:  http://localhost:${PORT}/api/health`);
-  console.log(`  Env:     ${process.env.NODE_ENV || 'development'}`);
+  console.log(`  Env:     ${config.nodeEnv}`);
   console.log(`=========================================`);
 });
 

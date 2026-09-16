@@ -1,28 +1,9 @@
 import React, { useState } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import { GraduationCap, LogOut, Menu, X, LayoutDashboard, User, Shield } from 'lucide-react';
+import { Link, NavLink } from 'react-router-dom';
+import { GraduationCap, Menu, X } from 'lucide-react';
 
 export const Navbar = () => {
-  const { user, isAuthenticated, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
-
-  const getRoleBadgeClass = (role) => {
-    switch (role) {
-      case 'organizer':
-        return 'badge-organizer';
-      case 'admin':
-        return 'badge-admin';
-      default:
-        return 'badge-student';
-    }
-  };
 
   return (
     <header className="navbar">
@@ -33,7 +14,7 @@ export const Navbar = () => {
             <GraduationCap size={22} />
           </div>
           <span>
-            Campus<span className="brand-accent">Connect</span>
+            Camp<span className="brand-accent">space</span>
           </span>
         </Link>
 
@@ -42,61 +23,28 @@ export const Navbar = () => {
           <NavLink to="/" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} end>
             Home
           </NavLink>
-          <NavLink
-            to="/marketplace"
-            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-          >
+          <NavLink to="/dashboard" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+            Dashboard
+          </NavLink>
+          <NavLink to="/marketplace" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
             Marketplace
           </NavLink>
-          {isAuthenticated && (
-            <NavLink
-              to="/dashboard"
-              className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-            >
-              Dashboard
-            </NavLink>
-          )}
+          <NavLink to="/events" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+            Events
+          </NavLink>
+          <NavLink to="/resources" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+            Resources
+          </NavLink>
+          <NavLink to="/clubs" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+            Clubs
+          </NavLink>
         </nav>
 
-        {/* Auth Actions / Profile */}
+        {/* Auth Action Foundation */}
         <div className="nav-actions">
-          {isAuthenticated ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-              <div className="user-profile-menu">
-                <div className="user-avatar-badge">
-                  {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                  <span style={{ fontSize: '0.875rem', fontWeight: 600, lineHeight: 1.2 }}>
-                    {user?.name}
-                  </span>
-                  <span className={`badge ${getRoleBadgeClass(user?.role)}`} style={{ padding: '0.1rem 0.4rem', fontSize: '0.65rem' }}>
-                    {user?.role}
-                  </span>
-                </div>
-              </div>
-              <button
-                onClick={handleLogout}
-                className="btn btn-secondary btn-sm"
-                title="Log Out"
-                aria-label="Log Out"
-              >
-                <LogOut size={16} />
-                <span style={{ display: 'none', '@media(min-width: 640px)': { display: 'inline' } }}>
-                  Logout
-                </span>
-              </button>
-            </div>
-          ) : (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <Link to="/login" className="btn btn-secondary btn-sm">
-                Sign In
-              </Link>
-              <Link to="/register" className="btn btn-primary btn-sm">
-                Get Started
-              </Link>
-            </div>
-          )}
+          <Link to="/auth" className="btn btn-primary btn-sm">
+            Sign In
+          </Link>
 
           {/* Mobile Hamburger Toggle */}
           <button
@@ -128,58 +76,27 @@ export const Navbar = () => {
             zIndex: 999,
           }}
         >
-          <Link
-            to="/"
-            className="nav-link"
-            onClick={() => setMobileMenuOpen(false)}
-          >
+          <Link to="/" className="nav-link" onClick={() => setMobileMenuOpen(false)}>
             Home
           </Link>
-          <Link
-            to="/marketplace"
-            className="nav-link"
-            onClick={() => setMobileMenuOpen(false)}
-          >
+          <Link to="/dashboard" className="nav-link" onClick={() => setMobileMenuOpen(false)}>
+            Dashboard
+          </Link>
+          <Link to="/marketplace" className="nav-link" onClick={() => setMobileMenuOpen(false)}>
             Marketplace
           </Link>
-          {isAuthenticated ? (
-            <>
-              <Link
-                to="/dashboard"
-                className="nav-link"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Dashboard
-              </Link>
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  handleLogout();
-                }}
-                className="btn btn-danger btn-block"
-                style={{ marginTop: '0.5rem' }}
-              >
-                <LogOut size={16} /> Logout ({user?.name})
-              </button>
-            </>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.5rem' }}>
-              <Link
-                to="/login"
-                className="btn btn-secondary btn-block"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Sign In
-              </Link>
-              <Link
-                to="/register"
-                className="btn btn-primary btn-block"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Create Account
-              </Link>
-            </div>
-          )}
+          <Link to="/events" className="nav-link" onClick={() => setMobileMenuOpen(false)}>
+            Events
+          </Link>
+          <Link to="/resources" className="nav-link" onClick={() => setMobileMenuOpen(false)}>
+            Resources
+          </Link>
+          <Link to="/clubs" className="nav-link" onClick={() => setMobileMenuOpen(false)}>
+            Clubs
+          </Link>
+          <Link to="/auth" className="btn btn-primary btn-block" onClick={() => setMobileMenuOpen(false)}>
+            Sign In
+          </Link>
         </div>
       )}
     </header>

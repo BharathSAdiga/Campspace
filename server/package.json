@@ -1,7 +1,7 @@
 {
-  "name": "campusconnect-server",
+  "name": "campspace-server",
   "version": "1.0.0",
-  "description": "Backend API for CampusConnect unified digital campus platform",
+  "description": "Backend API for Campspace unified digital campus platform",
   "main": "src/server.js",
   "type": "commonjs",
   "scripts": {

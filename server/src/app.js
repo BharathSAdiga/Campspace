@@ -1,14 +1,14 @@
 const express = require('express');
 const cors = require('cors');
-const authRoutes = require('./routes/auth.routes');
-const listingRoutes = require('./routes/listing.routes');
+const config = require('./config/env');
+const apiRoutes = require('./routes');
 const { errorHandler, notFoundHandler } = require('./middleware/error.middleware');
 
 const app = express();
 
 // CORS configuration
 const allowedOrigins = [
-  process.env.CLIENT_URL || 'http://localhost:5173',
+  config.clientUrl,
   'http://localhost:5173',
   'http://127.0.0.1:5173',
 ];
@@ -16,35 +16,36 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (curl, Postman, mobile)
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin || allowedOrigins.includes(origin) || config.nodeEnv === 'development') {
         return callback(null, true);
       }
-      return callback(new Error(`Origin ${origin} not allowed by CORS`));
+      return callback(new Error(`Origin ${origin} not permitted by CORS`));
     },
     credentials: true,
   })
 );
 
-// Body parsing
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+// JSON and URL-encoded body parsing
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Health check
+/**
+ * Health Check Endpoint
+ * GET /api/health
+ */
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     success: true,
-    message: 'CampusConnect API is running',
+    message: 'Campspace API is healthy and running',
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development',
+    environment: config.nodeEnv,
   });
 });
 
-// API routes
-app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/marketplace', listingRoutes);
+// Mount feature API routes
+app.use('/api/v1', apiRoutes);
 
-// 404 handler
+// Centralized 404 handler
 app.use(notFoundHandler);
 
 // Centralized error handler
