@@ -16,40 +16,53 @@ A unified digital campus platform for students, event organizers, and administra
 ## Project Structure
 
 ```
-CampusConnect/
-├── client/                     # React frontend
-│   ├── public/                 # Static assets
-│   ├── src/
-│   │   ├── components/         # Reusable UI components
-│   │   │   └── common/         # Shared components (Navbar, Footer, Alert, etc.)
-│   │   ├── context/            # React context providers
-│   │   ├── hooks/              # Custom React hooks
-│   │   ├── layouts/            # Page layout wrappers
-│   │   ├── pages/              # Route-level page components
-│   │   ├── services/           # API communication layer
-│   │   ├── styles/             # Global CSS and design tokens
-│   │   ├── utils/              # Frontend utility functions
-│   │   ├── App.jsx             # Root application component
-│   │   └── main.jsx            # Application entry point
-│   ├── index.html
-│   ├── vite.config.js
-│   └── package.json
-├── server/                     # Express backend
-│   ├── src/
-│   │   ├── config/             # Database and app configuration
-│   │   ├── controllers/        # HTTP request handlers
-│   │   ├── middleware/         # Express middleware (auth, error handling)
-│   │   ├── models/             # Mongoose schemas and models
-│   │   ├── routes/             # Express route definitions
-│   │   ├── services/           # Business logic layer
-│   │   ├── utils/              # Server utility functions
-│   │   ├── validators/         # Request validation middleware
-│   │   ├── app.js              # Express app configuration
-│   │   └── server.js           # Server entry point
-│   ├── .env.example
-│   └── package.json
-├── docs/                       # Project documentation
-├── .gitignore
+CampSpace/
+│
+├── client/
+│   └── src/
+│       ├── components/
+│       ├── pages/
+│       │   ├── marketplace/
+│       │   ├── events/
+│       │   ├── resources/
+│       │   ├── clubs/
+│       │   └── auth/
+│       │
+│       ├── context/
+│       ├── services/
+│       └── App.jsx
+│
+├── server/
+│   ├── models/
+│   │   ├── User.js
+│   │   ├── Product.js
+│   │   ├── Event.js
+│   │   ├── EventRegistration.js
+│   │   ├── Resource.js
+│   │   ├── Booking.js
+│   │   ├── Club.js
+│   │   └── ClubMember.js
+│   │
+│   ├── controllers/
+│   │   ├── productController.js
+│   │   ├── eventController.js
+│   │   ├── resourceController.js
+│   │   ├── bookingController.js
+│   │   └── clubController.js
+│   │
+│   ├── routes/
+│   │   ├── productRoutes.js
+│   │   ├── eventRoutes.js
+│   │   ├── resourceRoutes.js
+│   │   ├── bookingRoutes.js
+│   │   └── clubRoutes.js
+│   │
+│   ├── middleware/
+│   │   ├── authMiddleware.js
+│   │   └── errorMiddleware.js
+│   │
+│   └── server.js
+│
 └── README.md
 ```
 
