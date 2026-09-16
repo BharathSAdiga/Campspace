@@ -5,6 +5,7 @@ const {
   PRODUCT_CONDITIONS,
   PRODUCT_STATUS,
 } = require('./Product');
+const { Wishlist } = require('./Wishlist');
 
 module.exports = {
   User,
@@ -13,4 +14,5 @@ module.exports = {
   PRODUCT_CATEGORIES,
   PRODUCT_CONDITIONS,
   PRODUCT_STATUS,
+  Wishlist,
 };

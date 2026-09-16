@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { GraduationCap, Menu, X, User, LogOut, Shield } from 'lucide-react';
+import { GraduationCap, Menu, X, User, LogOut, Shield, Heart } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useWishlist } from '../../context/WishlistContext';
 import { Badge } from './Badge';
 
 export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
+  const { wishlistCount } = useWishlist();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -65,6 +67,45 @@ export const Navbar = () => {
         <div className="nav-actions">
           {isAuthenticated ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              {/* Wishlist Link */}
+              <Link
+                to="/marketplace/wishlist"
+                className="btn btn-ghost btn-sm"
+                title="Saved Wishlist"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.35rem',
+                  position: 'relative',
+                  padding: '0.35rem 0.6rem',
+                }}
+              >
+                <Heart
+                  size={17}
+                  color="#e11d48"
+                  fill={wishlistCount > 0 ? '#e11d48' : 'none'}
+                />
+                <span className="hidden-sm" style={{ fontSize: '0.8125rem', fontWeight: '500' }}>
+                  Wishlist
+                </span>
+                {wishlistCount > 0 && (
+                  <span
+                    style={{
+                      backgroundColor: '#e11d48',
+                      color: '#ffffff',
+                      borderRadius: '9999px',
+                      fontSize: '0.65rem',
+                      fontWeight: '700',
+                      padding: '0.1rem 0.4rem',
+                      minWidth: '18px',
+                      textAlign: 'center',
+                    }}
+                  >
+                    {wishlistCount}
+                  </span>
+                )}
+              </Link>
+
               <Link
                 to="/dashboard"
                 style={{
@@ -165,6 +206,9 @@ export const Navbar = () => {
           </Link>
           <Link to="/marketplace" className="nav-link" onClick={() => setMobileMenuOpen(false)}>
             Marketplace
+          </Link>
+          <Link to="/marketplace/wishlist" className="nav-link" onClick={() => setMobileMenuOpen(false)}>
+            Saved Wishlist {wishlistCount > 0 ? `(${wishlistCount})` : ''}
           </Link>
           <Link to="/events" className="nav-link" onClick={() => setMobileMenuOpen(false)}>
             Events

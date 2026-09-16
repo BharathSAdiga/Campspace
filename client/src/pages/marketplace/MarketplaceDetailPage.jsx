@@ -23,6 +23,7 @@ import { Button } from '../../components/common/Button';
 import { Spinner } from '../../components/common/Spinner';
 import { ErrorState } from '../../components/common/ErrorState';
 import { EmptyState } from '../../components/common/EmptyState';
+import { WishlistButton } from '../../components/marketplace/WishlistButton';
 
 export const MarketplaceDetailPage = () => {
   const { id } = useParams();
@@ -267,15 +268,27 @@ export const MarketplaceDetailPage = () => {
                 </div>
               )}
 
-              {/* Status Badge in Photo */}
-              <div style={{ position: 'absolute', top: '1rem', right: '1rem' }}>
-                <Badge variant={getStatusBadgeVariant(product.status)} size="md">
-                  {product.status}
-                </Badge>
+              {/* Floating Wishlist Button */}
+              <div style={{ position: 'absolute', top: '1rem', right: '1rem', zIndex: 10 }}>
+                <WishlistButton
+                  productId={product.id || product._id}
+                  product={product}
+                  variant="icon"
+                  size="md"
+                />
               </div>
 
+              {/* Status Badge in Photo */}
+              {product.status && (
+                <div style={{ position: 'absolute', bottom: '1rem', right: '1rem', zIndex: 5 }}>
+                  <Badge variant={getStatusBadgeVariant(product.status)} size="md">
+                    {product.status}
+                  </Badge>
+                </div>
+              )}
+
               {/* Category Pill in Photo */}
-              <div style={{ position: 'absolute', top: '1rem', left: '1rem' }}>
+              <div style={{ position: 'absolute', top: '1rem', left: '1rem', zIndex: 5 }}>
                 <span
                   style={{
                     backgroundColor: 'rgba(255, 255, 255, 0.94)',
@@ -554,6 +567,15 @@ export const MarketplaceDetailPage = () => {
                       )}
                     </button>
                   )}
+
+                  {/* Save to Wishlist Full Action Button */}
+                  <WishlistButton
+                    productId={product.id || product._id}
+                    product={product}
+                    variant="button"
+                    size="md"
+                    style={{ width: '100%' }}
+                  />
                 </div>
               </div>
             )}

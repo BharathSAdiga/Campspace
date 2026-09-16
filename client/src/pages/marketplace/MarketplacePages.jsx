@@ -6,20 +6,13 @@ import { MarketplaceCreatePage } from './MarketplaceCreatePage';
 import { MarketplaceEditPage } from './MarketplaceEditPage';
 import { MarketplaceMyListingsPage } from './MarketplaceMyListingsPage';
 
+import { MarketplaceWishlistPage } from './MarketplaceWishlistPage';
+
 export {
   MarketplaceListPage,
   MarketplaceDetailPage,
   MarketplaceCreatePage,
   MarketplaceEditPage,
   MarketplaceMyListingsPage,
+  MarketplaceWishlistPage,
 };
-
-export const MarketplaceWishlistPage = () => (
-  <PlaceholderPage
-    title="Saved Wishlist"
-    description="Track saved items and price alerts across the campus marketplace."
-    module="Marketplace"
-    owner="Developer 1"
-    routePath="/marketplace/wishlist"
-  />
-);

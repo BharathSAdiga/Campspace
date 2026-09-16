@@ -20,6 +20,7 @@ import {
   Dumbbell,
   Home,
   Package,
+  Heart,
 } from 'lucide-react';
 import productService from '../../services/product.service';
 import { ProductCard } from '../../components/marketplace/ProductCard';
@@ -249,7 +250,16 @@ export const MarketplaceListPage = () => {
               </p>
             </div>
 
-            <div>
+            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
+              <Link
+                to="/marketplace/wishlist"
+                className="btn btn-secondary"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem' }}
+                title="View your saved items"
+              >
+                <Heart size={16} fill="#e11d48" color="#e11d48" />
+                <span>Saved Wishlist</span>
+              </Link>
               <Link to="/marketplace/create" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
                 <Plus size={18} />
                 <span>Create Listing</span>

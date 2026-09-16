@@ -8,6 +8,16 @@ export const EmptyState = ({
   action = null,
   className = '',
 }) => {
+  const renderIcon = () => {
+    if (!icon) return <Inbox size={28} />;
+    if (React.isValidElement(icon)) return icon;
+    if (typeof icon === 'function' || (typeof icon === 'object' && icon !== null)) {
+      const IconComponent = icon;
+      return <IconComponent size={28} />;
+    }
+    return icon;
+  };
+
   return (
     <div
       className={`card ${className}`.trim()}
@@ -34,7 +44,7 @@ export const EmptyState = ({
           marginBottom: '1rem',
         }}
       >
-        {icon || <Inbox size={28} />}
+        {renderIcon()}
       </div>
       <h3 style={{ fontSize: '1.2rem', marginBottom: '0.4rem', color: 'var(--text-primary)' }}>
         {title}

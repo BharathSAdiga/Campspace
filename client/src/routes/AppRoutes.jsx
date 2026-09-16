@@ -73,7 +73,14 @@ export const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="/marketplace/wishlist" element={<MarketplaceWishlistPage />} />
+        <Route
+          path="/marketplace/wishlist"
+          element={
+            <ProtectedRoute>
+              <MarketplaceWishlistPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/marketplace/:id/edit"
           element={

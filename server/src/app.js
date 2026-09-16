@@ -45,8 +45,10 @@ app.get('/api/health', (req, res) => {
 // Mount authentication & feature direct routes
 const authRoutes = require('./routes/auth.routes');
 const productRoutes = require('./routes/product.routes');
+const wishlistRoutes = require('./routes/wishlist.routes');
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/wishlist', wishlistRoutes);
 
 // Mount feature API routes
 app.use('/api/v1', apiRoutes);

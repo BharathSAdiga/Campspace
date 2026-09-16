@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Tag, User, Image as ImageIcon } from 'lucide-react';
 import { Badge } from '../common/Badge';
+import { WishlistButton } from './WishlistButton';
 
 export const ProductCard = ({ product }) => {
   if (!product) return null;
@@ -125,15 +126,8 @@ export const ProductCard = ({ product }) => {
           </div>
         )}
 
-        {/* Status Badge (Top-Right) */}
-        <div style={{ position: 'absolute', top: '0.75rem', right: '0.75rem' }}>
-          <Badge variant={getStatusBadgeVariant(status)} size="sm">
-            {status}
-          </Badge>
-        </div>
-
         {/* Category Pill (Top-Left) */}
-        <div style={{ position: 'absolute', top: '0.75rem', left: '0.75rem' }}>
+        <div style={{ position: 'absolute', top: '0.75rem', left: '0.75rem', zIndex: 5 }}>
           <span
             style={{
               backgroundColor: 'rgba(255, 255, 255, 0.92)',
@@ -149,6 +143,25 @@ export const ProductCard = ({ product }) => {
             {category}
           </span>
         </div>
+
+        {/* Wishlist Button (Top-Right) */}
+        <div style={{ position: 'absolute', top: '0.65rem', right: '0.65rem', zIndex: 10 }}>
+          <WishlistButton
+            productId={productId}
+            product={product}
+            variant="icon"
+            size="sm"
+          />
+        </div>
+
+        {/* Status Badge (Bottom-Right if not active or if specified) */}
+        {status && (
+          <div style={{ position: 'absolute', bottom: '0.65rem', right: '0.65rem', zIndex: 5 }}>
+            <Badge variant={getStatusBadgeVariant(status)} size="sm">
+              {status}
+            </Badge>
+          </div>
+        )}
       </div>
 
       {/* Card Body */}
