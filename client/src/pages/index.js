@@ -1,8 +1,8 @@
-export { AuthPage } from './auth';
-export { DashboardPage } from './dashboard';
-export { MarketplacePage } from './marketplace';
-export { EventsPage } from './events';
-export { ResourcesPage } from './resources';
-export { ClubsPage } from './clubs';
+export * from './auth';
+export * from './dashboard';
+export * from './marketplace';
+export * from './events';
+export * from './resources';
+export * from './clubs';
 export { LandingPage } from './LandingPage';
 export { NotFoundPage } from './NotFoundPage';

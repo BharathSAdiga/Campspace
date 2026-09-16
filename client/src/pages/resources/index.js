@@ -1,1 +1,6 @@
-export { ResourcesPage } from './ResourcesPage';
+export {
+  ResourcesListPage,
+  ResourcesDetailPage,
+  ResourcesCreatePage,
+  ResourcesMyBookingsPage,
+} from './ResourcesPages';

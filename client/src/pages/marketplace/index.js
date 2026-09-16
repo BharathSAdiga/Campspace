@@ -1,1 +1,8 @@
-export { MarketplacePage } from './MarketplacePage';
+export {
+  MarketplaceListPage,
+  MarketplaceDetailPage,
+  MarketplaceCreatePage,
+  MarketplaceEditPage,
+  MarketplaceMyListingsPage,
+  MarketplaceWishlistPage,
+} from './MarketplacePages';
