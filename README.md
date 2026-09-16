@@ -1,4 +1,4 @@
-# CampusConnect
+# CampSpace
 
 A unified digital campus platform for students, event organizers, and administrators. Built with the MERN stack.
 
