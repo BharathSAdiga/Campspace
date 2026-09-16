@@ -42,11 +42,14 @@ export const LandingPage = () => {
           </p>
 
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-            <Link to="/dashboard" className="btn btn-primary btn-lg">
-              Explore Dashboard <ArrowRight size={18} />
+            <Link to="/folio" className="btn btn-primary btn-lg" style={{ background: 'linear-gradient(135deg, #000 0%, #333 100%)' }}>
+              View "Folio" Showcase <ArrowRight size={18} />
             </Link>
-            <Link to="/marketplace" className="btn btn-secondary btn-lg">
-              Browse Marketplace
+            <Link to="/dashboard" className="btn btn-secondary btn-lg">
+              Explore Dashboard
+            </Link>
+            <Link to="/marketplace" className="btn btn-outline btn-lg">
+              Marketplace
             </Link>
           </div>
         </div>

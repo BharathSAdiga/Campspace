@@ -27,11 +27,15 @@ import {
   ClubsCreatePage,
   ClubsEditPage,
   ClubsMyClubsPage,
+  FolioLandingPage,
 } from '../pages';
 
 export const AppRoutes = () => {
   return (
     <Routes>
+      {/* Standalone Folio Landing Page */}
+      <Route path="/folio" element={<FolioLandingPage />} />
+
       <Route element={<MainLayout />}>
         {/* Core & Overview */}
         <Route path="/" element={<LandingPage />} />

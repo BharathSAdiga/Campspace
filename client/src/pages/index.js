@@ -6,3 +6,4 @@ export * from './resources';
 export * from './clubs';
 export { LandingPage } from './LandingPage';
 export { NotFoundPage } from './NotFoundPage';
+export { FolioLandingPage } from './FolioLandingPage';
