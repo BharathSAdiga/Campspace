@@ -1,7 +1,8 @@
+export { EventsListPage } from './EventsListPage';
 export {
-  EventsListPage,
   EventsDetailPage,
   EventsCreatePage,
   EventsEditPage,
   EventsMyEventsPage,
 } from './EventsPages';
+
