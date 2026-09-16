@@ -291,14 +291,16 @@ export const MarketplaceDetailPage = () => {
               <div style={{ position: 'absolute', top: '1rem', left: '1rem', zIndex: 5 }}>
                 <span
                   style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.94)',
-                    backdropFilter: 'blur(6px)',
+                    backgroundColor: 'rgba(15, 23, 42, 0.75)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
                     padding: '0.25rem 0.75rem',
                     borderRadius: '9999px',
                     fontSize: '0.8125rem',
                     fontWeight: '700',
-                    color: 'var(--text-primary)',
-                    boxShadow: '0 1px 4px rgba(0,0,0,0.12)',
+                    color: '#f8fafc',
+                    boxShadow: '0 4px 14px rgba(0,0,0,0.35)',
                   }}
                 >
                   {product.category}
@@ -329,8 +331,9 @@ export const MarketplaceDetailPage = () => {
                       overflow: 'hidden',
                       border:
                         activeImageIndex === idx
-                          ? '2px solid var(--primary-600)'
+                          ? '2px solid #3b82f6'
                           : '1px solid var(--border-subtle)',
+                      boxShadow: activeImageIndex === idx ? '0 0 12px rgba(59, 130, 246, 0.5)' : 'none',
                       padding: 0,
                       cursor: 'pointer',
                       flexShrink: 0,
@@ -353,8 +356,7 @@ export const MarketplaceDetailPage = () => {
             style={{
               marginTop: '1.5rem',
               padding: '1.25rem',
-              backgroundColor: 'var(--bg-card)',
-              border: '1px solid var(--border-subtle)',
+              border: '1px solid var(--liquid-glass-border)',
             }}
           >
             <div
@@ -364,7 +366,7 @@ export const MarketplaceDetailPage = () => {
                 gap: '0.5rem',
                 fontSize: '0.875rem',
                 fontWeight: '700',
-                color: 'var(--primary-700)',
+                color: '#60a5fa',
                 marginBottom: '0.5rem',
               }}
             >
@@ -392,7 +394,7 @@ export const MarketplaceDetailPage = () => {
           {/* Header Info */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
-              <span style={{ fontSize: '2.25rem', fontWeight: '800', color: 'var(--primary-700)' }}>
+              <span style={{ fontSize: '2.25rem', fontWeight: '800', color: '#60a5fa', textShadow: '0 0 20px rgba(59, 130, 246, 0.25)' }}>
                 ${typeof product.price === 'number' ? product.price.toFixed(product.price % 1 === 0 ? 0 : 2) : product.price}
               </span>
               <Badge variant={getConditionBadgeVariant(product.condition)} size="md">
@@ -429,7 +431,7 @@ export const MarketplaceDetailPage = () => {
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                <Tag size={16} color="var(--primary-600)" />
+                <Tag size={16} color="#60a5fa" />
                 <span>Category: <strong>{product.category}</strong></span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>

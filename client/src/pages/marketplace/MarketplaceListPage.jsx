@@ -207,9 +207,12 @@ export const MarketplaceListPage = () => {
       {/* 1. Header Section */}
       <section
         style={{
-          backgroundColor: 'var(--bg-card)',
+          background: 'linear-gradient(180deg, rgba(15, 23, 42, 0.75) 0%, rgba(8, 12, 20, 0.9) 100%)',
+          backdropFilter: 'var(--liquid-glass-blur)',
+          WebkitBackdropFilter: 'var(--liquid-glass-blur)',
           borderBottom: '1px solid var(--border-subtle)',
           padding: '2.5rem 0',
+          position: 'relative',
         }}
       >
         <div className="container">
@@ -231,9 +234,10 @@ export const MarketplaceListPage = () => {
                     gap: '0.35rem',
                     fontSize: '0.75rem',
                     fontWeight: '700',
-                    color: 'var(--primary-700)',
-                    backgroundColor: 'var(--primary-50)',
-                    padding: '0.2rem 0.6rem',
+                    color: '#93c5fd',
+                    backgroundColor: 'rgba(59, 130, 246, 0.15)',
+                    border: '1px solid rgba(96, 165, 250, 0.3)',
+                    padding: '0.2rem 0.65rem',
                     borderRadius: '9999px',
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em',
@@ -257,7 +261,7 @@ export const MarketplaceListPage = () => {
                 style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem' }}
                 title="View your saved items"
               >
-                <Heart size={16} fill="#e11d48" color="#e11d48" />
+                <Heart size={16} fill="#fb7185" color="#fb7185" />
                 <span>Saved Wishlist</span>
               </Link>
               <Link to="/marketplace/create" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -344,19 +348,22 @@ export const MarketplaceListPage = () => {
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '0.45rem',
-                    padding: '0.45rem 0.9rem',
+                    padding: '0.45rem 0.95rem',
                     borderRadius: '9999px',
                     fontSize: '0.8125rem',
                     fontWeight: isSelected ? '700' : '500',
-                    border: isSelected ? '1px solid var(--primary-600)' : '1px solid var(--border-subtle)',
-                    backgroundColor: isSelected ? 'var(--primary-50)' : 'var(--bg-surface)',
-                    color: isSelected ? 'var(--primary-700)' : 'var(--text-secondary)',
+                    border: isSelected ? '1px solid rgba(96, 165, 250, 0.5)' : '1px solid var(--border-subtle)',
+                    backgroundColor: isSelected ? 'rgba(59, 130, 246, 0.22)' : 'rgba(15, 23, 42, 0.6)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    color: isSelected ? '#93c5fd' : 'var(--text-secondary)',
+                    boxShadow: isSelected ? '0 0 16px -2px rgba(59, 130, 246, 0.35)' : 'none',
                     cursor: 'pointer',
                     whiteSpace: 'nowrap',
                     transition: 'all 0.15s ease',
                   }}
                 >
-                  <Icon size={14} color={isSelected ? 'var(--primary-600)' : 'currentColor'} />
+                  <Icon size={14} color={isSelected ? '#60a5fa' : 'currentColor'} />
                   <span>{cat.label}</span>
                 </button>
               );

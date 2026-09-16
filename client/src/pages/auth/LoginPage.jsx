@@ -77,26 +77,40 @@ export const LoginPage = () => {
   };
 
   return (
-    <div className="auth-page-container" style={{ minHeight: 'calc(100vh - var(--header-height))', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1rem' }}>
-      <div className="card" style={{ width: '100%', maxWidth: '440px', padding: '2.5rem 2rem', boxShadow: 'var(--shadow-md)' }}>
+    <div className="auth-page-container" style={{ minHeight: 'calc(100vh - var(--header-height))', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1rem', position: 'relative' }}>
+      <div
+        className="card"
+        style={{
+          width: '100%',
+          maxWidth: '440px',
+          padding: '2.5rem 2rem',
+          background: 'linear-gradient(180deg, rgba(20, 29, 48, 0.75) 0%, rgba(15, 23, 42, 0.88) 100%)',
+          backdropFilter: 'var(--liquid-glass-blur)',
+          WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+          border: '1px solid var(--liquid-glass-border)',
+          boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 40px -10px rgba(59, 130, 246, 0.18), var(--liquid-glass-highlight)',
+        }}
+      >
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <div
             style={{
-              width: '48px',
-              height: '48px',
-              borderRadius: '12px',
-              background: 'var(--primary-50)',
-              color: 'var(--primary-600)',
+              width: '52px',
+              height: '52px',
+              borderRadius: '14px',
+              background: 'rgba(59, 130, 246, 0.15)',
+              border: '1px solid rgba(96, 165, 250, 0.35)',
+              color: '#60a5fa',
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
               marginBottom: '1rem',
+              boxShadow: '0 0 24px -4px rgba(59, 130, 246, 0.35)',
             }}
           >
-            <GraduationCap size={26} />
+            <GraduationCap size={28} />
           </div>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '0.35rem' }}>Welcome Back</h1>
+          <h1 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '0.35rem', letterSpacing: '-0.02em' }}>Welcome Back</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
             Sign in to access your Campspace dashboard and campus tools.
           </p>
@@ -219,7 +233,7 @@ export const LoginPage = () => {
         {/* Footer Link */}
         <div style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
           Don't have an account?{' '}
-          <Link to="/register" style={{ color: 'var(--primary-600)', fontWeight: '600' }}>
+          <Link to="/register" style={{ color: '#60a5fa', fontWeight: '600' }}>
             Sign up
           </Link>
         </div>

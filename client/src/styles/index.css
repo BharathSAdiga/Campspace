@@ -590,6 +590,41 @@ p { color: var(--text-secondary); }
   box-shadow: 0 20px 40px -8px rgba(37, 99, 235, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.3);
 }
 
+/* Product Card Spotlight & Liquid Elevation */
+.product-card {
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, rgba(20, 29, 48, 0.65) 0%, rgba(15, 23, 42, 0.75) 100%);
+  backdrop-filter: var(--liquid-glass-blur);
+  -webkit-backdrop-filter: var(--liquid-glass-blur);
+  border: 1px solid var(--liquid-glass-border);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.16);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  position: relative;
+}
+
+.product-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(96, 165, 250, 0.45);
+  box-shadow: 0 20px 45px -10px rgba(37, 99, 235, 0.3), 0 0 20px -5px rgba(59, 130, 246, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.product-card:hover img {
+  transform: scale(1.04);
+}
+
 /* Floating Frosted Glass Shelf (Inspired by Material Kit 2 hero stat cards) */
 .glass-shelf {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.85) 100%);
@@ -694,14 +729,15 @@ p { color: var(--text-secondary); }
 }
 
 /* ==========================================================================
-   Modal Component
+   Modal Component - Liquid Frosted Glass
    ========================================================================== */
 
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background-color: rgba(6, 9, 15, 0.75);
-  backdrop-filter: blur(4px);
+  background-color: rgba(6, 9, 15, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -710,14 +746,16 @@ p { color: var(--text-secondary); }
 }
 
 .modal-dialog {
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
+  background: linear-gradient(180deg, rgba(20, 29, 48, 0.85) 0%, rgba(15, 23, 42, 0.92) 100%);
+  backdrop-filter: var(--liquid-glass-blur);
+  -webkit-backdrop-filter: var(--liquid-glass-blur);
+  border: 1px solid var(--liquid-glass-border);
+  border-radius: var(--radius-lg);
   width: 100%;
   max-width: 540px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.7), var(--liquid-glass-highlight);
   padding: 1.75rem;
   position: relative;
 }
@@ -807,5 +845,20 @@ p { color: var(--text-secondary); }
 @media (max-width: 640px) {
   .grid-2, .grid-3, .grid-4 {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   Accessibility: Reduced Motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .liquid-orb {
+    animation: none !important;
   }
 }

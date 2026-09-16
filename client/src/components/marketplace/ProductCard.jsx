@@ -64,19 +64,9 @@ export const ProductCard = ({ product }) => {
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
+        padding: 0,
         overflow: 'hidden',
-        transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
         position: 'relative',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = 'translateY(-3px)';
-        e.currentTarget.style.boxShadow = 'var(--shadow-md)';
-        e.currentTarget.style.borderColor = 'var(--primary-300)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = 'none';
-        e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
-        e.currentTarget.style.borderColor = 'var(--border-subtle)';
       }}
     >
       {/* Image Container */}
@@ -85,7 +75,7 @@ export const ProductCard = ({ product }) => {
           position: 'relative',
           width: '100%',
           paddingTop: '65%', // 16:10 aspect ratio
-          backgroundColor: 'var(--bg-card-subtle)',
+          backgroundColor: 'rgba(10, 15, 28, 0.65)',
           overflow: 'hidden',
           borderBottom: '1px solid var(--border-subtle)',
         }}
@@ -102,7 +92,7 @@ export const ProductCard = ({ product }) => {
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              transition: 'transform 0.3s ease',
+              transition: 'transform 0.35s ease',
             }}
           />
         ) : (
@@ -130,14 +120,16 @@ export const ProductCard = ({ product }) => {
         <div style={{ position: 'absolute', top: '0.75rem', left: '0.75rem', zIndex: 5 }}>
           <span
             style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.92)',
-              backdropFilter: 'blur(4px)',
-              padding: '0.2rem 0.6rem',
+              backgroundColor: 'rgba(15, 23, 42, 0.72)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              padding: '0.22rem 0.65rem',
               borderRadius: '9999px',
               fontSize: '0.75rem',
               fontWeight: '600',
-              color: 'var(--text-primary)',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+              color: '#f8fafc',
+              border: '1px solid rgba(255, 255, 255, 0.18)',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.35)',
             }}
           >
             {category}
@@ -169,7 +161,7 @@ export const ProductCard = ({ product }) => {
         <div>
           {/* Price & Condition */}
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-            <span style={{ fontSize: '1.35rem', fontWeight: '800', color: 'var(--primary-700)' }}>
+            <span style={{ fontSize: '1.35rem', fontWeight: '800', color: 'var(--primary-400)', textShadow: '0 0 16px rgba(59, 130, 246, 0.25)' }}>
               ${typeof price === 'number' ? price.toFixed(price % 1 === 0 ? 0 : 2) : price}
             </span>
             <Badge variant={getConditionBadgeVariant(condition)} size="sm">
@@ -211,21 +203,22 @@ export const ProductCard = ({ product }) => {
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
               <div
                 style={{
-                  width: '18px',
-                  height: '18px',
+                  width: '20px',
+                  height: '20px',
                   borderRadius: '50%',
-                  backgroundColor: 'var(--primary-100)',
-                  color: 'var(--primary-700)',
+                  backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                  color: '#93c5fd',
+                  border: '1px solid rgba(96, 165, 250, 0.3)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: '0.625rem',
+                  fontSize: '0.65rem',
                   fontWeight: '700',
                 }}
               >
                 {seller?.name ? seller.name.charAt(0).toUpperCase() : 'U'}
               </div>
-              <span>{seller?.name || 'Verified Student'}</span>
+              <span style={{ color: 'var(--slate-300)' }}>{seller?.name || 'Verified Student'}</span>
             </div>
             {createdAt && (
               <span>{new Date(createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>

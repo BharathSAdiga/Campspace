@@ -209,11 +209,13 @@ export const MarketplaceCreatePage = () => {
               gap: '0.35rem',
               fontSize: '0.75rem',
               fontWeight: '700',
-              color: 'var(--primary-700)',
-              backgroundColor: 'var(--primary-50)',
-              padding: '0.2rem 0.6rem',
+              color: '#93c5fd',
+              backgroundColor: 'rgba(59, 130, 246, 0.15)',
+              border: '1px solid rgba(96, 165, 250, 0.3)',
+              padding: '0.2rem 0.65rem',
               borderRadius: '9999px',
               textTransform: 'uppercase',
+              letterSpacing: '0.05em',
             }}
           >
             <Sparkles size={12} /> Peer Marketplace
