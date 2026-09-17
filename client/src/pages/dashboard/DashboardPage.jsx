@@ -176,9 +176,16 @@ export const DashboardPage = () => {
               Discover workshops, hackathons, and cultural campus events.
             </p>
           </div>
-          <Link to="/events" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.8125rem', fontWeight: '600', marginTop: '1rem', color: 'var(--accent-teal)' }}>
-            Explore Events <ArrowRight size={14} />
-          </Link>
+          <div style={{ display: 'flex', gap: '0.85rem', marginTop: '1rem', flexWrap: 'wrap' }}>
+            <Link to="/events" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.8125rem', fontWeight: '600', color: 'var(--accent-teal)' }}>
+              Explore Events <ArrowRight size={14} />
+            </Link>
+            {(user?.role === 'organizer' || user?.role === 'admin') && (
+              <Link to="/events/my-events" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.8125rem', fontWeight: '600', color: 'var(--primary-600)' }}>
+                My Events <ArrowRight size={14} />
+              </Link>
+            )}
+          </div>
         </div>
 
         {/* Resources */}

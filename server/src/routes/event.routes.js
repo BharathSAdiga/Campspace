@@ -21,6 +21,10 @@ const optionalAuthenticate = (req, res, next) => {
  */
 // Public / discovery endpoints
 router.get('/', eventController.getAll);
+
+// Organizer / Admin endpoints (MUST be placed before /:id to prevent route shadowing)
+router.get('/my-events', authenticate, authorize('organizer', 'admin'), eventController.getMyEvents);
+
 router.get('/:id', optionalAuthenticate, eventController.getById);
 
 // Organizer / Admin event management endpoints

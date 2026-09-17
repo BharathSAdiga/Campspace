@@ -236,6 +236,26 @@ const getRegistrations = async (req, res, next) => {
   }
 };
 
+/**
+ * @desc    Get events owned by authenticated organizer
+ * @route   GET /api/events/my-events
+ * @access  Private (Organizer owner or Admin)
+ */
+const getMyEvents = async (req, res, next) => {
+  try {
+    const organizerId = req.user.id || req.user._id;
+    const events = await eventService.getMyEvents(organizerId, req.query);
+
+    res.status(200).json({
+      success: true,
+      count: events.length,
+      data: events,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   create,
   getAll,
@@ -245,4 +265,5 @@ module.exports = {
   register,
   cancelRegistration,
   getRegistrations,
+  getMyEvents,
 };

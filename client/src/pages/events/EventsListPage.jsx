@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import {
   Calendar,
   Search,
@@ -19,7 +19,9 @@ import {
   ChevronRight,
   RefreshCw,
   X,
+  Plus,
 } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 import { eventService } from '../../services/event.service';
 import { EventCard } from '../../components/events/EventCard';
 import { Button } from '../../components/common/Button';
@@ -56,6 +58,7 @@ const SORT_OPTIONS = [
 
 export const EventsListPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { user } = useAuth();
 
   // Filter state synced with URL search params
   const [search, setSearch] = useState(searchParams.get('search') || '');
@@ -137,14 +140,14 @@ export const EventsListPage = () => {
         setPagination({
           page: response.pagination.page || page,
           limit: response.pagination.limit || 12,
-          total: response.total || response.count || 0,
+          total: response.total ?? response.count ?? 0,
           totalPages: response.pagination.pages || response.pagination.totalPages || 1,
           hasNextPage: !!(response.pagination.hasNext || response.pagination.hasNextPage),
           hasPrevPage: !!(response.pagination.hasPrev || response.pagination.hasPrevPage),
         });
       }
     } catch (err) {
-      setError(err.message || 'Failed to fetch campus events. Please try again.');
+      setError(err.message || 'Failed to fetch campus events. Please verify backend connectivity.');
     } finally {
       setIsLoading(false);
     }
@@ -193,21 +196,21 @@ export const EventsListPage = () => {
     if (newPage < 1 || (pagination.totalPages && newPage > pagination.totalPages)) return;
     setPage(newPage);
     updateUrl({ page: newPage });
-    window.scrollTo({ top: 260, behavior: 'smooth' });
+    window.scrollTo({ top: 240, behavior: 'smooth' });
   };
 
   const isFiltered = search.trim() !== '' || category !== 'ALL' || datePreset !== 'ALL' || sort !== 'soonest';
 
   return (
-    <div className="events-page" style={{ paddingBottom: '4rem' }}>
+    <div className="events-page page-wrapper" style={{ paddingBottom: '5rem' }}>
       {/* 1. Header Section */}
       <section
         style={{
-          background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(243, 239, 230, 0.75) 100%)',
-          backdropFilter: 'var(--liquid-glass-blur)',
-          WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+          background: 'var(--card-bg)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
           borderBottom: '1px solid var(--border-subtle)',
-          padding: '2.5rem 0',
+          padding: '2.5rem 0 2rem 0',
           position: 'relative',
         }}
       >
@@ -228,21 +231,22 @@ export const EventsListPage = () => {
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '0.35rem',
-                    fontSize: '0.75rem',
+                    fontSize: '0.74rem',
                     fontWeight: '700',
-                    color: '#0F172A',
-                    backgroundColor: '#E8E0D2',
-                    border: '1px solid rgba(216, 204, 184, 0.9)',
-                    padding: '0.2rem 0.65rem',
+                    color: 'var(--text-primary)',
+                    backgroundColor: 'var(--border-subtle)',
+                    border: '1px solid var(--border-hover)',
+                    padding: '0.25rem 0.75rem',
                     borderRadius: '9999px',
                     textTransform: 'uppercase',
-                    letterSpacing: '0.05em',
+                    letterSpacing: '0.08em',
+                    fontFamily: 'var(--font-mono)',
                   }}
                 >
-                  <Sparkles size={12} color="#0F172A" /> Campus Life & Activities
+                  <Sparkles size={12} color="currentColor" /> Campus Life & Activities
                 </span>
               </div>
-              <h1 style={{ fontSize: '2rem', fontWeight: '800', margin: 0, color: 'var(--text-primary)' }}>
+              <h1 style={{ fontSize: '2.2rem', fontWeight: '800', margin: 0, color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
                 Campus Events & Workshops
               </h1>
               <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginTop: '0.4rem', margin: 0 }}>
@@ -250,8 +254,28 @@ export const EventsListPage = () => {
               </p>
             </div>
 
-            {/* Quick Refresh CTA */}
+            {/* Quick Actions CTA */}
             <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+              {(user?.role === 'organizer' || user?.role === 'admin') && (
+                <>
+                  <Link
+                    to="/events/my-events"
+                    className="btn btn-secondary btn-sm"
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
+                  >
+                    <Calendar size={14} />
+                    <span>My Events</span>
+                  </Link>
+                  <Link
+                    to="/events/create"
+                    className="btn btn-primary btn-sm"
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
+                  >
+                    <Plus size={14} />
+                    <span>Create Event</span>
+                  </Link>
+                </>
+              )}
               <button
                 type="button"
                 onClick={() => loadEvents()}
@@ -267,13 +291,13 @@ export const EventsListPage = () => {
 
           {/* Search Bar */}
           <div style={{ marginTop: '1.75rem', maxWidth: '720px' }}>
-            <form onSubmit={handleSearchSubmit} style={{ display: 'flex', gap: '0.5rem' }}>
+            <form onSubmit={handleSearchSubmit} style={{ display: 'flex', gap: '0.65rem' }}>
               <div style={{ position: 'relative', flex: 1 }}>
                 <Search
                   size={18}
                   style={{
                     position: 'absolute',
-                    left: '0.85rem',
+                    left: '0.95rem',
                     top: '50%',
                     transform: 'translateY(-50%)',
                     color: 'var(--text-muted)',
@@ -286,7 +310,7 @@ export const EventsListPage = () => {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="form-input"
-                  style={{ paddingLeft: '2.5rem', fontSize: '0.9375rem', height: '44px' }}
+                  style={{ paddingLeft: '2.6rem', fontSize: '0.9375rem', height: '44px' }}
                 />
                 {search && (
                   <button
@@ -298,7 +322,7 @@ export const EventsListPage = () => {
                     }}
                     style={{
                       position: 'absolute',
-                      right: '0.75rem',
+                      right: '0.85rem',
                       top: '50%',
                       transform: 'translateY(-50%)',
                       background: 'none',
@@ -313,9 +337,9 @@ export const EventsListPage = () => {
                   </button>
                 )}
               </div>
-              <Button type="submit" variant="secondary" style={{ height: '44px', padding: '0 1.25rem' }}>
+              <button type="submit" className="btn btn-primary" style={{ height: '44px', padding: '0 1.4rem' }}>
                 Search
-              </Button>
+              </button>
             </form>
           </div>
 
@@ -343,22 +367,20 @@ export const EventsListPage = () => {
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '0.45rem',
-                    padding: '0.45rem 0.95rem',
+                    padding: '0.45rem 1rem',
                     borderRadius: '9999px',
                     fontSize: '0.8125rem',
                     fontWeight: isSelected ? '700' : '500',
-                    border: isSelected ? '1px solid #0F172A' : '1px solid var(--border-subtle)',
-                    backgroundColor: isSelected ? '#0F172A' : 'rgba(255, 255, 255, 0.9)',
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    color: isSelected ? '#FFFFFF' : 'var(--text-secondary)',
-                    boxShadow: isSelected ? '0 4px 14px rgba(15, 23, 42, 0.2)' : 'none',
+                    border: isSelected ? '1px solid var(--text-primary)' : '1px solid var(--border-subtle)',
+                    backgroundColor: isSelected ? 'var(--btn-primary-bg)' : 'var(--bg-card)',
+                    color: isSelected ? 'var(--btn-primary-text)' : 'var(--text-secondary)',
+                    boxShadow: isSelected ? 'var(--shadow-sm)' : 'none',
                     cursor: 'pointer',
                     whiteSpace: 'nowrap',
-                    transition: 'all 0.15s ease',
+                    transition: 'all 0.2s ease',
                   }}
                 >
-                  <Icon size={14} color={isSelected ? '#FFFFFF' : 'currentColor'} />
+                  <Icon size={14} color={isSelected ? 'var(--btn-primary-text)' : 'currentColor'} />
                   <span>{cat.label}</span>
                 </button>
               );
@@ -368,11 +390,11 @@ export const EventsListPage = () => {
       </section>
 
       {/* 2. Filters & Sort Bar */}
-      <div className="container" style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
+      <div className="container" style={{ marginTop: '1.75rem', marginBottom: '1.75rem' }}>
         <div
           className="card"
           style={{
-            padding: '1rem 1.25rem',
+            padding: '1rem 1.35rem',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -382,12 +404,12 @@ export const EventsListPage = () => {
         >
           {/* Left: Date Presets & Filter Summary */}
           <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--text-muted)', fontSize: '0.8125rem', fontWeight: '600' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--text-muted)', fontSize: '0.8125rem', fontWeight: '600' }}>
               <Calendar size={15} />
               <span>Date:</span>
             </div>
 
-            <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
               {DATE_PRESETS.map((preset) => {
                 const isSelected = datePreset === preset.id;
                 return (
@@ -396,13 +418,13 @@ export const EventsListPage = () => {
                     type="button"
                     onClick={() => handleDatePresetSelect(preset.id)}
                     style={{
-                      padding: '0.3rem 0.75rem',
+                      padding: '0.35rem 0.85rem',
                       borderRadius: 'var(--radius-full)',
-                      fontSize: '0.775rem',
+                      fontSize: '0.785rem',
                       fontWeight: isSelected ? '700' : '500',
-                      border: isSelected ? '1px solid #0F172A' : '1px solid var(--border-subtle)',
-                      backgroundColor: isSelected ? '#0F172A' : 'rgba(255, 255, 255, 0.9)',
-                      color: isSelected ? '#FFFFFF' : 'var(--text-secondary)',
+                      border: isSelected ? '1px solid var(--text-primary)' : '1px solid var(--border-subtle)',
+                      backgroundColor: isSelected ? 'var(--btn-primary-bg)' : 'transparent',
+                      color: isSelected ? 'var(--btn-primary-text)' : 'var(--text-secondary)',
                       cursor: 'pointer',
                       transition: 'all 0.15s ease',
                     }}
@@ -418,27 +440,27 @@ export const EventsListPage = () => {
               <button
                 type="button"
                 onClick={handleClearFilters}
-                className="btn btn-ghost btn-sm"
-                style={{ fontSize: '0.775rem', color: '#f87171', padding: '0.2rem 0.5rem' }}
+                className="btn btn-outline btn-sm"
+                style={{ fontSize: '0.775rem', padding: '0.25rem 0.65rem' }}
               >
-                Reset All
+                Reset Filters
               </button>
             )}
           </div>
 
           {/* Right: Sort Dropdown & Event Count */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
             <span style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
               {!isLoading && `${pagination.total} ${pagination.total === 1 ? 'event' : 'events'}`}
             </span>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
               <ArrowUpDown size={14} style={{ color: 'var(--text-muted)' }} />
               <select
                 value={sort}
                 onChange={handleSortChange}
                 className="form-input"
-                style={{ padding: '0.4rem 0.75rem', fontSize: '0.8125rem', height: '36px', width: 'auto' }}
+                style={{ padding: '0.35rem 0.75rem', fontSize: '0.8125rem', height: '36px', width: 'auto' }}
                 aria-label="Sort events"
               >
                 {SORT_OPTIONS.map((opt) => (
@@ -456,20 +478,20 @@ export const EventsListPage = () => {
       <div className="container">
         {/* Error State */}
         {error && (
-          <div style={{ marginBottom: '1.5rem' }}>
+          <div style={{ marginBottom: '2rem' }}>
             <Alert type="error" message={error} />
-            <div style={{ textAlign: 'center', marginTop: '1rem' }}>
-              <Button variant="secondary" onClick={() => loadEvents()}>
+            <div style={{ textAlign: 'center', marginTop: '1.25rem' }}>
+              <button type="button" className="btn btn-secondary" onClick={() => loadEvents()}>
                 Try Again
-              </Button>
+              </button>
             </div>
           </div>
         )}
 
         {/* Loading State */}
         {isLoading && (
-          <div style={{ padding: '4rem 0', textAlign: 'center' }}>
-            <Spinner text="Finding upcoming campus events..." />
+          <div style={{ padding: '4.5rem 0', textAlign: 'center' }}>
+            <Spinner text="Discovering upcoming campus events..." />
           </div>
         )}
 
@@ -479,29 +501,28 @@ export const EventsListPage = () => {
             title="No Events Found"
             description={
               isFiltered
-                ? "No campus events matched your current filters. Try selecting 'Any Date', removing your search query, or switching categories."
+                ? "No campus events matched your current filters. Try selecting 'Any Date', clearing your search query, or switching categories."
                 : 'There are currently no active events scheduled on campus. Check back soon for upcoming hackathons, club sessions, and workshops.'
             }
             icon={<Calendar size={32} />}
             action={
               isFiltered ? (
-                <Button variant="primary" onClick={handleClearFilters}>
+                <button type="button" className="btn btn-primary" onClick={handleClearFilters}>
                   Clear All Filters
-                </Button>
+                </button>
               ) : null
             }
           />
         )}
 
-        {/* Success Grid */}
+        {/* Success Grid: Upcoming Events */}
         {!isLoading && !error && events.length > 0 && (
           <>
-            {/* Upcoming Events Heading */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '1.25rem' }}>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: '700', color: 'var(--text-primary)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '1.5rem' }}>
+              <h2 style={{ fontSize: '1.35rem', fontWeight: '700', color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
                 Upcoming Campus Events
               </h2>
-              <span style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
+              <span style={{ fontSize: '0.825rem', color: 'var(--text-muted)' }}>
                 Showing {events.length} of {pagination.total} listings
               </span>
             </div>
@@ -520,8 +541,8 @@ export const EventsListPage = () => {
                   justifyContent: 'center',
                   alignItems: 'center',
                   gap: '0.5rem',
-                  marginTop: '3rem',
-                  paddingTop: '1.5rem',
+                  marginTop: '3.5rem',
+                  paddingTop: '1.75rem',
                   borderTop: '1px solid var(--border-subtle)',
                 }}
               >
@@ -530,13 +551,13 @@ export const EventsListPage = () => {
                   onClick={() => handlePageChange(page - 1)}
                   disabled={!pagination.hasPrevPage}
                   className="btn btn-secondary btn-sm"
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', opacity: !pagination.hasPrevPage ? 0.5 : 1 }}
                 >
                   <ChevronLeft size={16} />
                   <span>Previous</span>
                 </button>
 
-                <div style={{ display: 'flex', gap: '0.25rem' }}>
+                <div style={{ display: 'flex', gap: '0.35rem' }}>
                   {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((p) => (
                     <button
                       key={p}
@@ -548,9 +569,9 @@ export const EventsListPage = () => {
                         borderRadius: 'var(--radius-md)',
                         fontSize: '0.875rem',
                         fontWeight: p === page ? '700' : '500',
-                        border: p === page ? '1px solid #0F172A' : '1px solid var(--border-subtle)',
-                        backgroundColor: p === page ? '#0F172A' : 'rgba(255, 255, 255, 0.9)',
-                        color: p === page ? '#FFFFFF' : 'var(--text-secondary)',
+                        border: p === page ? '1px solid var(--text-primary)' : '1px solid var(--border-subtle)',
+                        backgroundColor: p === page ? 'var(--btn-primary-bg)' : 'transparent',
+                        color: p === page ? 'var(--btn-primary-text)' : 'var(--text-secondary)',
                         cursor: 'pointer',
                         transition: 'all 0.15s ease',
                       }}
@@ -565,7 +586,7 @@ export const EventsListPage = () => {
                   onClick={() => handlePageChange(page + 1)}
                   disabled={!pagination.hasNextPage}
                   className="btn btn-secondary btn-sm"
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', opacity: !pagination.hasNextPage ? 0.5 : 1 }}
                 >
                   <span>Next</span>
                   <ChevronRight size={16} />

@@ -2,6 +2,16 @@ const { Event } = require('../models/Event');
 const { EventRegistration } = require('../models/EventRegistration');
 
 /**
+ * Escapes regex special characters to prevent ReDoS and regex syntax crashes
+ * @param {String} string
+ * @returns {String}
+ */
+const escapeRegex = (string) => {
+  if (typeof string !== 'string') return '';
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+};
+
+/**
  * Create a new event listing
  * @param {Object} eventData - Validated event attributes
  * @param {String} organizerId - Authenticated organizer ID
@@ -74,9 +84,9 @@ const getEvents = async (query = {}) => {
     }
   }
 
-  // Search filter across title, description, or location
+  // Search filter across title, description, or location safely
   if (search && search.trim()) {
-    const term = search.trim();
+    const term = escapeRegex(search.trim());
     filter.$or = [
       { title: { $regex: term, $options: 'i' } },
       { description: { $regex: term, $options: 'i' } },
@@ -206,6 +216,18 @@ const updateEvent = async (id, updateData, userId, userRole) => {
   // Never allow changing the original organizer via update
   delete updateData.organizer;
 
+  // Prevent reducing maximum capacity below current registrations
+  if (
+    updateData.maximumParticipants !== undefined &&
+    updateData.maximumParticipants < (event.currentParticipants || 0)
+  ) {
+    const error = new Error(
+      `Cannot reduce maximum capacity to ${updateData.maximumParticipants} because ${event.currentParticipants} attendees are already registered.`
+    );
+    error.statusCode = 400;
+    throw error;
+  }
+
   Object.assign(event, updateData);
   await event.save();
 
@@ -247,10 +269,45 @@ const deleteEvent = async (id, userId, userRole) => {
   return { success: true, message: 'Event and associated registrations deleted successfully' };
 };
 
+/**
+ * Fetch events owned by the authenticated organizer
+ * @param {String} organizerId - Authenticated organizer ID
+ * @param {Object} query - Optional status or sort query
+ * @returns {Promise<Array>} List of events owned by organizer
+ */
+const getMyEvents = async (organizerId, query = {}) => {
+  const filter = { organizer: organizerId };
+
+  if (query.status && query.status.toUpperCase() !== 'ALL') {
+    filter.status = query.status.toUpperCase();
+  }
+
+  let sortCriteria = { date: 1, startTime: 1 };
+  if (query.sort === 'newest') sortCriteria = { createdAt: -1 };
+  if (query.sort === 'oldest') sortCriteria = { createdAt: 1 };
+  if (query.sort === 'most_popular') sortCriteria = { currentParticipants: -1 };
+
+  const events = await Event.find(filter)
+    .sort(sortCriteria)
+    .populate('organizer', 'name email role')
+    .lean();
+
+  return events.map((e) => {
+    const item = { ...e, id: e._id.toString() };
+    delete item._id;
+    delete item.__v;
+    if (!item.banner && item.image) item.banner = item.image;
+    if (!item.image && item.banner) item.image = item.banner;
+    item.remainingSpots = Math.max(0, (item.maximumParticipants || 0) - (item.currentParticipants || 0));
+    return item;
+  });
+};
+
 module.exports = {
   createEvent,
   getEvents,
   getEventById,
   updateEvent,
   deleteEvent,
+  getMyEvents,
 };

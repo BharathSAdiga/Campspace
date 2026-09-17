@@ -30,6 +30,7 @@ api.interceptors.response.use(
     const customError = {
       message: error.response?.data?.message || error.message || 'An unexpected error occurred',
       status: error.response?.status,
+      errors: error.response?.data?.errors,
       data: error.response?.data,
     };
     return Promise.reject(customError);

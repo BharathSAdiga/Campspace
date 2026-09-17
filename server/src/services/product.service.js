@@ -1,6 +1,16 @@
 const { Product } = require('../models/Product');
 
 /**
+ * Escapes regex special characters to prevent ReDoS and regex syntax crashes
+ * @param {String} string
+ * @returns {String}
+ */
+const escapeRegex = (string) => {
+  if (typeof string !== 'string') return '';
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+};
+
+/**
  * Create a new marketplace product listing
  * @param {Object} productData - Validated product fields
  * @param {String} sellerId - Authenticated user ID
@@ -46,12 +56,12 @@ const getProducts = async (query = {}) => {
 
   // Category filter (case-insensitive)
   if (category && category !== 'All') {
-    filter.category = new RegExp(`^${category}$`, 'i');
+    filter.category = new RegExp(`^${escapeRegex(category)}$`, 'i');
   }
 
   // Condition filter (case-insensitive)
   if (condition && condition !== 'All') {
-    filter.condition = new RegExp(`^${condition}$`, 'i');
+    filter.condition = new RegExp(`^${escapeRegex(condition)}$`, 'i');
   }
 
   // Seller filter
@@ -70,9 +80,10 @@ const getProducts = async (query = {}) => {
     }
   }
 
-  // Search keyword in title or description
+  // Search keyword in title or description safely
   if (search && search.trim()) {
-    const searchRegex = new RegExp(search.trim(), 'i');
+    const escaped = escapeRegex(search.trim());
+    const searchRegex = new RegExp(escaped, 'i');
     filter.$or = [{ title: searchRegex }, { description: searchRegex }];
   }
 

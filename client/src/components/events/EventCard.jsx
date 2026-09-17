@@ -68,7 +68,7 @@ export const EventCard = ({ event }) => {
         </Badge>
       );
     }
-    return <Badge variant="success" size="sm">Open RSVP</Badge>;
+    return <Badge variant="default" size="sm">Open RSVP</Badge>;
   };
 
   return (
@@ -80,6 +80,8 @@ export const EventCard = ({ event }) => {
         color: 'inherit',
         height: '100%',
         padding: 0,
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
       {/* Event Banner Media */}
@@ -88,7 +90,7 @@ export const EventCard = ({ event }) => {
           position: 'relative',
           width: '100%',
           paddingTop: '52%', // 16:9 cinematic aspect ratio
-          backgroundColor: 'rgba(238, 233, 224, 0.5)',
+          backgroundColor: 'var(--bg-subtle)',
           overflow: 'hidden',
           borderBottom: '1px solid var(--border-subtle)',
         }}
@@ -109,7 +111,7 @@ export const EventCard = ({ event }) => {
             }}
           />
         ) : (
-          /* Sleek Ambient Fallback Pattern - Warm Beige & Sand */
+          /* Sleek Ambient Fallback Pattern - Matte Sand */
           <div
             style={{
               position: 'absolute',
@@ -117,23 +119,22 @@ export const EventCard = ({ event }) => {
               left: 0,
               width: '100%',
               height: '100%',
-              background: 'linear-gradient(135deg, #E8E0D2 0%, #D8CCB8 100%)',
+              background: 'var(--liquid-gradient-card)',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
               gap: '0.5rem',
-              color: 'var(--beige-900)',
             }}
           >
-            <Sparkles size={28} style={{ color: '#0F172A' }} />
-            <span style={{ fontSize: '0.75rem', fontWeight: '700', color: '#524331', letterSpacing: '0.05em' }}>
+            <Sparkles size={28} style={{ color: 'var(--text-primary)' }} />
+            <span style={{ fontSize: '0.75rem', fontWeight: '700', color: 'var(--text-secondary)', letterSpacing: '0.08em', fontFamily: 'var(--font-mono)' }}>
               CAMPUS EVENT
             </span>
           </div>
         )}
 
-        {/* Floating Date Capsule (Top-Left) - Frosted White with Beige accent */}
+        {/* Floating Date Capsule (Top-Left) */}
         <div
           style={{
             position: 'absolute',
@@ -147,42 +148,43 @@ export const EventCard = ({ event }) => {
             width: '46px',
             height: '48px',
             borderRadius: '10px',
-            backgroundColor: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
-            border: '1px solid rgba(216, 204, 184, 0.85)',
-            boxShadow: '0 4px 14px rgba(44, 36, 22, 0.1)',
+            backgroundColor: 'var(--card-bg)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            border: '1px solid var(--border-subtle)',
+            boxShadow: 'var(--shadow-sm)',
             lineHeight: 1.1,
           }}
         >
-          <span style={{ fontSize: '0.625rem', fontWeight: '800', color: '#8E785D', letterSpacing: '0.05em' }}>
+          <span style={{ fontSize: '0.625rem', fontWeight: '800', color: 'var(--text-muted)', letterSpacing: '0.05em' }}>
             {monthString}
           </span>
-          <span style={{ fontSize: '1.1rem', fontWeight: '800', color: '#0F172A' }}>
+          <span style={{ fontSize: '1.1rem', fontWeight: '800', color: 'var(--text-primary)' }}>
             {dayString}
           </span>
         </div>
 
-        {/* Category Badge (Top-Right) - Frosted White */}
+        {/* Category Badge (Top-Right) */}
         <div style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', zIndex: 5 }}>
           <span
             style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.92)',
-              backdropFilter: 'blur(10px)',
-              WebkitBackdropFilter: 'blur(10px)',
-              padding: '0.25rem 0.7rem',
+              backgroundColor: 'var(--card-bg)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              padding: '0.25rem 0.75rem',
               borderRadius: '9999px',
               fontSize: '0.75rem',
               fontWeight: '600',
-              color: '#0F172A',
-              border: '1px solid rgba(216, 204, 184, 0.85)',
-              boxShadow: '0 4px 12px rgba(44, 36, 22, 0.08)',
+              color: 'var(--text-primary)',
+              border: '1px solid var(--border-subtle)',
+              boxShadow: 'var(--shadow-sm)',
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.35rem',
+              fontFamily: 'var(--font-mono)',
             }}
           >
-            <Tag size={12} color="#0F172A" />
+            <Tag size={11} color="currentColor" />
             <span>{category}</span>
           </span>
         </div>
@@ -199,7 +201,7 @@ export const EventCard = ({ event }) => {
           {/* Event Title */}
           <h3
             style={{
-              fontSize: '1.05rem',
+              fontSize: '1.1rem',
               fontWeight: '700',
               lineHeight: 1.35,
               marginBottom: '0.6rem',
@@ -217,7 +219,7 @@ export const EventCard = ({ event }) => {
           {/* Date & Time Row */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', marginBottom: '0.75rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
-              <Calendar size={14} style={{ flexShrink: 0, color: 'var(--beige-600)' }} />
+              <Calendar size={14} style={{ flexShrink: 0, color: 'var(--text-primary)' }} />
               <span>{fullDateString}</span>
             </div>
 
@@ -250,9 +252,9 @@ export const EventCard = ({ event }) => {
                   width: '22px',
                   height: '22px',
                   borderRadius: '50%',
-                  backgroundColor: '#0F172A',
-                  color: '#FFFFFF',
-                  border: '1px solid #0F172A',
+                  backgroundColor: 'var(--btn-primary-bg)',
+                  color: 'var(--btn-primary-text)',
+                  border: '1px solid var(--border-subtle)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',

@@ -93,9 +93,30 @@ export const AppRoutes = () => {
 
         {/* Developer 1: Events */}
         <Route path="/events" element={<EventsListPage />} />
-        <Route path="/events/create" element={<EventsCreatePage />} />
-        <Route path="/events/my-events" element={<EventsMyEventsPage />} />
-        <Route path="/events/:id/edit" element={<EventsEditPage />} />
+        <Route
+          path="/events/create"
+          element={
+            <ProtectedRoute allowedRoles={['organizer', 'admin']}>
+              <EventsCreatePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/events/my-events"
+          element={
+            <ProtectedRoute allowedRoles={['organizer', 'admin']}>
+              <EventsMyEventsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/events/:id/edit"
+          element={
+            <ProtectedRoute allowedRoles={['organizer', 'admin']}>
+              <EventsEditPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/events/:id" element={<EventsDetailPage />} />
 
         {/* Developer 2: Resources Allocation */}

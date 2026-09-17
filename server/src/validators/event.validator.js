@@ -9,6 +9,28 @@ const { EVENT_CATEGORIES, EVENT_STATUS } = require('../models/Event');
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
 /**
+ * Parse time string (e.g. "14:30" or "2:30 PM") into minutes since midnight
+ * @param {String} timeStr
+ * @returns {Number|null}
+ */
+const parseTimeToMinutes = (timeStr) => {
+  if (!timeStr || typeof timeStr !== 'string') return null;
+  const trimmed = timeStr.trim();
+  const match = trimmed.match(/^(\d{1,2}):(\d{2})(?:\s*(AM|PM))?$/i);
+  if (!match) return null;
+
+  let hours = parseInt(match[1], 10);
+  const minutes = parseInt(match[2], 10);
+  const modifier = match[3] ? match[3].toUpperCase() : null;
+
+  if (modifier === 'PM' && hours < 12) hours += 12;
+  if (modifier === 'AM' && hours === 12) hours = 0;
+
+  if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59) return null;
+  return hours * 60 + minutes;
+};
+
+/**
  * Validate Event Creation Payload
  * @param {Object} data - req.body
  * @returns {Object} { isValid, errors, sanitized }
@@ -26,18 +48,18 @@ const validateCreateEventInput = (data) => {
   const image = typeof data.image === 'string' ? data.image.trim() : banner;
 
   const maxParticipants =
-    data.maximumParticipants !== undefined && data.maximumParticipants !== null
+    data.maximumParticipants !== undefined && data.maximumParticipants !== null && data.maximumParticipants !== ''
       ? Number(data.maximumParticipants)
       : NaN;
 
-  // Title validation
+  // Title validation (3-120 chars)
   if (!title) {
     errors.title = 'Event title is required';
   } else if (title.length < 3 || title.length > 120) {
     errors.title = 'Event title must be between 3 and 120 characters';
   }
 
-  // Description validation
+  // Description validation (10-5000 chars)
   if (!description) {
     errors.description = 'Event description is required';
   } else if (description.length < 10 || description.length > 5000) {
@@ -51,7 +73,7 @@ const validateCreateEventInput = (data) => {
     errors.category = `Invalid category. Allowed: ${EVENT_CATEGORIES.join(', ')}`;
   }
 
-  // Location validation
+  // Location validation (1-150 chars)
   if (!location) {
     errors.location = 'Event location is required';
   } else if (location.length > 150) {
@@ -68,12 +90,22 @@ const validateCreateEventInput = (data) => {
     }
   }
 
-  // Start & End Time validation
+  // Start Time validation
+  const startMin = parseTimeToMinutes(startTime);
   if (!startTime) {
-    errors.startTime = 'Start time is required (e.g. 14:00 or 2:00 PM)';
+    errors.startTime = 'Start time is required';
+  } else if (startMin === null) {
+    errors.startTime = 'Please provide a valid start time (e.g. 14:00 or 2:00 PM)';
   }
+
+  // End Time validation & Chronological order
+  const endMin = parseTimeToMinutes(endTime);
   if (!endTime) {
-    errors.endTime = 'End time is required (e.g. 16:00 or 4:00 PM)';
+    errors.endTime = 'End time is required';
+  } else if (endMin === null) {
+    errors.endTime = 'Please provide a valid end time (e.g. 16:00 or 4:00 PM)';
+  } else if (startMin !== null && endMin <= startMin) {
+    errors.endTime = 'End time must be after start time';
   }
 
   // Maximum participants validation
@@ -156,10 +188,16 @@ const validateUpdateEventInput = (data) => {
     }
   }
 
+  let startMin = null;
+  let endMin = null;
+
   if (data.startTime !== undefined) {
     const startTime = typeof data.startTime === 'string' ? data.startTime.trim() : '';
+    startMin = parseTimeToMinutes(startTime);
     if (!startTime) {
       errors.startTime = 'Start time cannot be empty';
+    } else if (startMin === null) {
+      errors.startTime = 'Please provide a valid start time';
     } else {
       sanitized.startTime = startTime;
     }
@@ -167,10 +205,20 @@ const validateUpdateEventInput = (data) => {
 
   if (data.endTime !== undefined) {
     const endTime = typeof data.endTime === 'string' ? data.endTime.trim() : '';
+    endMin = parseTimeToMinutes(endTime);
     if (!endTime) {
       errors.endTime = 'End time cannot be empty';
+    } else if (endMin === null) {
+      errors.endTime = 'Please provide a valid end time';
     } else {
       sanitized.endTime = endTime;
+    }
+  }
+
+  // Check end time after start time if both are provided
+  if (data.startTime !== undefined && data.endTime !== undefined) {
+    if (startMin !== null && endMin !== null && endMin <= startMin) {
+      errors.endTime = 'End time must be after start time';
     }
   }
 
@@ -206,6 +254,8 @@ const validateUpdateEventInput = (data) => {
 
 module.exports = {
   isValidObjectId,
+  parseTimeToMinutes,
   validateCreateEventInput,
   validateUpdateEventInput,
 };
+
