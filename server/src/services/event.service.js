@@ -1,5 +1,6 @@
 const { Event } = require('../models/Event');
 const { EventRegistration } = require('../models/EventRegistration');
+const { parseTimeToMinutes } = require('../validators/event.validator');
 
 /**
  * Escapes regex special characters to prevent ReDoS and regex syntax crashes
@@ -215,6 +216,19 @@ const updateEvent = async (id, updateData, userId, userRole) => {
 
   // Never allow changing the original organizer via update
   delete updateData.organizer;
+
+  // Prevent invalid chronology on partial time updates
+  const effectiveStartTime = updateData.startTime || event.startTime;
+  const effectiveEndTime = updateData.endTime || event.endTime;
+  if (effectiveStartTime && effectiveEndTime) {
+    const startMin = parseTimeToMinutes(effectiveStartTime);
+    const endMin = parseTimeToMinutes(effectiveEndTime);
+    if (startMin !== null && endMin !== null && endMin <= startMin) {
+      const error = new Error('End time must be after start time');
+      error.statusCode = 400;
+      throw error;
+    }
+  }
 
   // Prevent reducing maximum capacity below current registrations
   if (

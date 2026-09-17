@@ -46,6 +46,9 @@ const eventRegistrationSchema = new mongoose.Schema(
 // Compound unique index ensuring a user can register for an event only once
 eventRegistrationSchema.index({ event: 1, user: 1 }, { unique: true });
 
+// Compound index for counting active participants and fetching event rosters efficiently
+eventRegistrationSchema.index({ event: 1, status: 1 });
+
 const EventRegistration = mongoose.model('EventRegistration', eventRegistrationSchema);
 
 module.exports = {

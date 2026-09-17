@@ -29,14 +29,14 @@ router.get('/:id', optionalAuthenticate, eventController.getById);
 
 // Organizer / Admin event management endpoints
 router.post('/', authenticate, authorize('organizer', 'admin'), eventController.create);
-router.put('/:id', authenticate, eventController.update);
-router.delete('/:id', authenticate, eventController.remove);
+router.put('/:id', authenticate, authorize('organizer', 'admin'), eventController.update);
+router.delete('/:id', authenticate, authorize('organizer', 'admin'), eventController.remove);
 
 /**
  * Event Registration Endpoints
  */
 router.post('/:id/register', authenticate, eventController.register);
 router.delete('/:id/register', authenticate, eventController.cancelRegistration);
-router.get('/:id/registrations', authenticate, eventController.getRegistrations);
+router.get('/:id/registrations', authenticate, authorize('organizer', 'admin'), eventController.getRegistrations);
 
 module.exports = router;

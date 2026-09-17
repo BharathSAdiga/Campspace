@@ -20,7 +20,14 @@ export const LoginPage = () => {
   const [apiError, setApiError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const redirectPath = location.state?.from?.pathname || '/dashboard';
+  // Compute target redirect path: supports state object from ProtectedRoute, state string from buttons, or ?redirect= query param
+  const searchParams = new URLSearchParams(location.search);
+  const redirectQuery = searchParams.get('redirect');
+  const redirectFromState =
+    typeof location.state?.from === 'string'
+      ? location.state.from
+      : location.state?.from?.pathname;
+  const redirectPath = redirectFromState || redirectQuery || '/dashboard';
 
   const validate = () => {
     const errors = {};
