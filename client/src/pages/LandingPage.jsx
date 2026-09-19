@@ -9,21 +9,14 @@ import {
   ArrowRight,
   Shield,
   Zap,
-  Clock,
-  MapPin,
-  CheckCircle2,
   Lock,
-  Flame,
   ArrowUpRight,
-  Laptop,
-  Star,
-  Sparkles,
-  TrendingUp,
   Terminal,
   Activity,
+  Sparkles,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { ScrollProgressBar } from '../components/common';
+import { ScrollProgressBar, TiltCard } from '../components/common';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -187,34 +180,16 @@ export const LandingPage = () => {
     <div
       style={{
         minHeight: '100vh',
-        backgroundColor: 'var(--surface-0)',
+        backgroundColor: 'transparent',
         color: 'var(--text-primary)',
         position: 'relative',
         overflowX: 'hidden',
-        paddingTop: 'var(--header-height)',
       }}
     >
       <ScrollProgressBar />
 
-      {/* ── Monochromatic Ambient Light ────────────────────────────── */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '100%',
-          maxWidth: '1280px',
-          height: '500px',
-          background: 'radial-gradient(ellipse at 50% 10%, var(--border-subtle) 0%, transparent 70%)',
-          pointerEvents: 'none',
-          zIndex: 0,
-          opacity: 0.6,
-        }}
-      />
-
       {/* ── Hero Section (Editorial Split Composition) ─────────────── */}
-      <section style={{ position: 'relative', zIndex: 1, padding: 'clamp(2.5rem, 5vw, 4.5rem) 0 3rem' }}>
+      <section style={{ position: 'relative', zIndex: 1, padding: 'clamp(3rem, 6vw, 5.5rem) 0 3.5rem' }}>
         <div className="container">
           <div
             style={{
@@ -227,18 +202,18 @@ export const LandingPage = () => {
             {/* Left Column: Asymmetric Editorial Typography */}
             <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem' }}>
-                <span className="telemetry-tag">
-                  <span className="live-dot" />
-                  [01 // SYSTEM OVERVIEW]
+                <span className="liquid-glass-pill" style={{ padding: '0.3rem 0.75rem' }}>
+                  <span className="orange-dot" />
+                  <span>[01 // SYSTEM OVERVIEW]</span>
                 </span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-dim)' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--accent-orange)', fontWeight: 700 }}>
                   // OS V2.4
                 </span>
               </div>
 
               <h1
                 style={{
-                  fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
+                  fontSize: 'clamp(2.5rem, 5.5vw, 4.5rem)',
                   fontWeight: 850,
                   letterSpacing: '-0.04em',
                   lineHeight: 1.05,
@@ -247,27 +222,26 @@ export const LandingPage = () => {
                   textTransform: 'uppercase',
                 }}
               >
-                The Unified Campus Operating Platform.
+                The Unified Campus <span className="text-orange">Operating</span> Platform.
               </h1>
 
               <p
                 className="editorial-lead"
                 style={{
                   maxWidth: '560px',
-                  marginBottom: '2rem',
+                  marginBottom: '2.25rem',
                 }}
               >
-                Campspace consolidates campus life into one synchronized architectural system. Coordinate
-                flagship student hackathons with live RSVP tracking, buy & sell textbooks with verified peers at
-                zero platform fee, reserve compute facilities, and connect with chartered guilds.
+                Campspace consolidates student life into one synchronized, liquid glass interface. Coordinate
+                flagship student hackathons with live telemetry, trade textbooks directly at 0% fees, book GPU clusters, and charter student societies.
               </p>
 
               {/* Action Buttons */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '2.5rem' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.85rem', marginBottom: '2.5rem' }}>
                 <Link
                   to={isAuthenticated ? '/dashboard' : '/register'}
-                  className="btn btn-primary btn-lg"
-                  style={{ gap: '0.5rem', minWidth: '180px' }}
+                  className="btn btn-liquid-orange btn-lg"
+                  style={{ gap: '0.5rem', minWidth: '190px' }}
                 >
                   <Terminal size={16} />
                   <span>{isAuthenticated ? 'Enter Dashboard' : 'Initialize Session'}</span>
@@ -279,8 +253,8 @@ export const LandingPage = () => {
                   className="btn btn-secondary btn-lg"
                   style={{ gap: '0.5rem' }}
                 >
-                  <Calendar size={16} />
-                  <span>Explore Archive</span>
+                  <Calendar size={16} style={{ color: 'var(--accent-orange)' }} />
+                  <span>Explore Events</span>
                 </Link>
 
                 <Link
@@ -300,7 +274,7 @@ export const LandingPage = () => {
                   alignItems: 'center',
                   gap: '1.25rem',
                   paddingTop: '1.25rem',
-                  borderTop: '1px solid var(--border-subtle)',
+                  borderTop: '1px solid var(--liquid-glass-border)',
                   fontFamily: 'var(--font-mono)',
                   fontSize: '0.72rem',
                   color: 'var(--text-muted)',
@@ -309,138 +283,149 @@ export const LandingPage = () => {
               >
                 <span>AUTH: JWT BEARER</span>
                 <span>•</span>
-                <span>COMMERCE: 0% FEES</span>
+                <span>COMMERCE: <span style={{ color: 'var(--accent-orange)' }}>0% TAX</span></span>
                 <span>•</span>
                 <span>MODULES: 04 ACTIVE</span>
               </div>
             </motion.div>
 
-            {/* Right Column: Live Operational Telemetry Monitor */}
+            {/* Right Column: Live Operational Telemetry Monitor in TiltCard */}
             <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0.15}>
-              <div
-                className="arch-panel"
-                style={{
-                  padding: '1.75rem',
-                  boxShadow: 'var(--shadow-md)',
-                }}
-              >
-                {/* Console Header */}
+              <TiltCard glare={true} tiltIntensity={8}>
                 <div
+                  className="card liquid-glass-card"
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    paddingBottom: '1rem',
-                    borderBottom: '1px solid var(--border-subtle)',
-                    marginBottom: '1.25rem',
+                    padding: '1.75rem',
+                    boxShadow: 'var(--liquid-glass-shadow)',
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <Activity size={16} color="var(--text-primary)" />
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700 }}>
-                      TELEMETRY // ACTIVE SECTOR
+                  {/* Console Header */}
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      paddingBottom: '1rem',
+                      borderBottom: '1px solid var(--liquid-glass-border)',
+                      marginBottom: '1.25rem',
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <Activity size={16} style={{ color: 'var(--accent-orange)' }} />
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700 }}>
+                        TELEMETRY // ACTIVE SECTOR
+                      </span>
+                    </div>
+                    <span className="badge-orange" style={{ padding: '0.2rem 0.55rem', borderRadius: 'var(--radius-xs)', fontSize: '0.68rem', fontWeight: 800 }}>
+                      {currentSectorData.code}
                     </span>
                   </div>
-                  <span className="mono-badge mono-badge-filled">{currentSectorData.code}</span>
-                </div>
 
-                {/* Sector Quick Switcher */}
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(4, 1fr)',
-                    gap: '0.35rem',
-                    marginBottom: '1.25rem',
-                  }}
-                >
-                  {sectors.map((sec) => (
-                    <button
-                      key={sec.id}
-                      type="button"
-                      onClick={() => setActiveSector(sec.id)}
-                      style={{
-                        padding: '0.5rem 0.25rem',
-                        background: activeSector === sec.id ? 'var(--text-primary)' : 'var(--surface-2)',
-                        color: activeSector === sec.id ? 'var(--text-inverse)' : 'var(--text-muted)',
-                        border: '1px solid var(--border-subtle)',
-                        borderRadius: 'var(--radius-xs)',
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: '0.72rem',
-                        fontWeight: 700,
-                        cursor: 'pointer',
-                        transition: 'all var(--transition-fast)',
-                      }}
-                    >
-                      {sec.index}
-                    </button>
-                  ))}
-                </div>
+                  {/* Sector Quick Switcher */}
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(4, 1fr)',
+                      gap: '0.4rem',
+                      marginBottom: '1.25rem',
+                    }}
+                  >
+                    {sectors.map((sec) => (
+                      <button
+                        key={sec.id}
+                        type="button"
+                        onClick={() => setActiveSector(sec.id)}
+                        style={{
+                          padding: '0.55rem 0.25rem',
+                          background: activeSector === sec.id ? 'var(--accent-orange)' : 'var(--liquid-glass-bg)',
+                          color: activeSector === sec.id ? '#ffffff' : 'var(--text-muted)',
+                          border: activeSector === sec.id ? '1px solid var(--accent-orange)' : '1px solid var(--liquid-glass-border)',
+                          borderRadius: 'var(--radius-xs)',
+                          fontFamily: 'var(--font-mono)',
+                          fontSize: '0.72rem',
+                          fontWeight: 800,
+                          cursor: 'pointer',
+                          boxShadow: activeSector === sec.id ? '0 0 12px var(--accent-orange-glow)' : 'none',
+                          transition: 'all var(--transition-fast)',
+                        }}
+                      >
+                        {sec.index}
+                      </button>
+                    ))}
+                  </div>
 
-                {/* Sector Featured Preview */}
-                <div style={{ marginBottom: '1.25rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
-                    <span style={{ fontSize: '0.78rem', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)' }}>
-                      {currentSectorData.name}
-                    </span>
-                    <Link
-                      to={currentSectorData.route}
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '0.3rem',
-                        fontSize: '0.75rem',
-                        fontWeight: 700,
-                        color: 'var(--text-primary)',
-                      }}
-                    >
-                      <span>Launch</span>
-                      <ArrowRight size={12} />
-                    </Link>
+                  {/* Sector Featured Preview */}
+                  <div style={{ marginBottom: '1.25rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
+                      <span style={{ fontSize: '0.78rem', fontWeight: 800, textTransform: 'uppercase', color: 'var(--accent-orange)' }}>
+                        {currentSectorData.name}
+                      </span>
+                      <Link
+                        to={currentSectorData.route}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.3rem',
+                          fontSize: '0.75rem',
+                          fontWeight: 700,
+                          color: 'var(--text-primary)',
+                        }}
+                      >
+                        <span>Launch</span>
+                        <ArrowRight size={12} />
+                      </Link>
+                    </div>
+                    <h4 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0 0 0.5rem', lineHeight: 1.25 }}>
+                      {currentSectorData.tagline}
+                    </h4>
+                    <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.5, margin: 0 }}>
+                      {currentSectorData.description}
+                    </p>
                   </div>
-                  <h4 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0 0 0.5rem', lineHeight: 1.25 }}>
-                    {currentSectorData.tagline}
-                  </h4>
-                  <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.5, margin: 0 }}>
-                    {currentSectorData.description}
-                  </p>
-                </div>
 
-                {/* Sector Live Feed Item */}
-                <div
-                  style={{
-                    padding: '1rem',
-                    background: 'var(--surface-2)',
-                    border: '1px solid var(--border-subtle)',
-                    borderRadius: 'var(--radius-xs)',
-                  }}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                    <span className="mono-badge">{currentSectorData.items[0].badge}</span>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-muted)' }}>
-                      REAL-TIME
-                    </span>
-                  </div>
-                  <div style={{ fontSize: '0.92rem', fontWeight: 750, color: 'var(--text-primary)', marginBottom: '0.35rem' }}>
-                    {currentSectorData.items[0].title}
-                  </div>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>
-                    {currentSectorData.items[0].meta}
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', color: 'var(--text-secondary)', marginBottom: '0.35rem' }}>
-                    <span>{currentSectorData.items[0].capacity}</span>
-                    <span style={{ fontFamily: 'var(--font-mono)' }}>{currentSectorData.items[0].progress}%</span>
-                  </div>
-                  <div style={{ width: '100%', height: '4px', background: 'var(--border-subtle)', borderRadius: '2px', overflow: 'hidden' }}>
-                    <div
-                      style={{
-                        width: `${currentSectorData.items[0].progress}%`,
-                        height: '100%',
-                        background: 'var(--text-primary)',
-                      }}
-                    />
+                  {/* Sector Live Feed Item */}
+                  <div
+                    style={{
+                      padding: '1rem',
+                      background: 'var(--liquid-glass-bg)',
+                      border: '1px solid var(--liquid-glass-border)',
+                      borderRadius: 'var(--radius-sm)',
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                      <span className="liquid-glass-pill" style={{ padding: '0.2rem 0.5rem', fontSize: '0.65rem' }}>
+                        {currentSectorData.items[0].badge}
+                      </span>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--accent-orange)', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                        <span className="orange-dot" style={{ width: 5, height: 5 }} />
+                        REAL-TIME
+                      </span>
+                    </div>
+                    <div style={{ fontSize: '0.92rem', fontWeight: 750, color: 'var(--text-primary)', marginBottom: '0.35rem' }}>
+                      {currentSectorData.items[0].title}
+                    </div>
+                    <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>
+                      {currentSectorData.items[0].meta}
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', color: 'var(--text-secondary)', marginBottom: '0.35rem' }}>
+                      <span>{currentSectorData.items[0].capacity}</span>
+                      <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--accent-orange)', fontWeight: 700 }}>
+                        {currentSectorData.items[0].progress}%
+                      </span>
+                    </div>
+                    <div style={{ width: '100%', height: '4px', background: 'var(--liquid-glass-border)', borderRadius: '2px', overflow: 'hidden' }}>
+                      <div
+                        style={{
+                          width: `${currentSectorData.items[0].progress}%`,
+                          height: '100%',
+                          background: 'linear-gradient(90deg, var(--accent-orange) 0%, var(--accent-orange-light) 100%)',
+                          boxShadow: '0 0 8px var(--accent-orange-glow)',
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
+              </TiltCard>
             </motion.div>
           </div>
         </div>
@@ -449,22 +434,22 @@ export const LandingPage = () => {
       {/* ── Real-Time Architectural Ticker Strip ───────────────────── */}
       <div className="ticker-strip">
         <div className="ticker-item">
-          <span className="live-dot" />
+          <span className="orange-dot" style={{ width: 6, height: 6 }} />
           <span>EVENT ARCHIVE: ACTIVE // REAL-TIME RSVP TELEMETRY</span>
         </div>
         <span>///</span>
         <div className="ticker-item">
-          <span className="live-dot" />
+          <span className="orange-dot" style={{ width: 6, height: 6 }} />
           <span>PEER MARKETPLACE: 0% TRANSACTION FEES // VERIFIED STUDENTS</span>
         </div>
         <span>///</span>
         <div className="ticker-item">
-          <span className="live-dot" />
+          <span className="orange-dot" style={{ width: 6, height: 6 }} />
           <span>RESOURCE ALLOCATION: OPERATIONAL // TIME-SLOT SCHEDULING</span>
         </div>
         <span>///</span>
         <div className="ticker-item">
-          <span className="live-dot" />
+          <span className="orange-dot" style={{ width: 6, height: 6 }} />
           <span>STUDENT GUILDS: CHARTERED DIRECTORY // OPEN RECRUITMENT</span>
         </div>
       </div>
@@ -474,15 +459,16 @@ export const LandingPage = () => {
         <div className="container">
           <div style={{ marginBottom: '2.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem' }}>
             <div>
-              <span className="telemetry-tag" style={{ marginBottom: '0.5rem' }}>
-                [02 // SECTOR ARCHITECTURE]
+              <span className="liquid-glass-pill" style={{ marginBottom: '0.65rem' }}>
+                <Sparkles size={13} style={{ color: 'var(--accent-orange)' }} />
+                <span>[02 // SECTOR ARCHITECTURE]</span>
               </span>
               <h2 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.75rem)', fontWeight: 850, margin: 0, textTransform: 'uppercase' }}>
                 Four Synchronized Modules.
               </h2>
             </div>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: '420px', margin: 0 }}>
-              Engineered to operate as one unified campus digital fabric rather than disconnected siloed tools.
+              Engineered to operate as one unified liquid campus ecosystem rather than disconnected siloed tools.
             </p>
           </div>
 
@@ -496,58 +482,63 @@ export const LandingPage = () => {
             {sectors.map((sector) => {
               const Icon = sector.icon;
               return (
-                <div
-                  key={sector.id}
-                  className="card arch-panel arch-panel-interactive"
-                  style={{
-                    padding: '2rem',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-                      <span className="mono-badge mono-badge-filled">{sector.code}</span>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-muted)' }}>
-                        {sector.index}
-                      </span>
-                    </div>
-
-                    <div
-                      style={{
-                        width: '42px',
-                        height: '42px',
-                        borderRadius: 'var(--radius-xs)',
-                        background: 'var(--surface-2)',
-                        border: '1px solid var(--border-subtle)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginBottom: '1.25rem',
-                        color: 'var(--text-primary)',
-                      }}
-                    >
-                      <Icon size={20} />
-                    </div>
-
-                    <h3 style={{ fontSize: '1.25rem', fontWeight: 800, margin: '0 0 0.5rem' }}>
-                      {sector.name}
-                    </h3>
-                    <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: '0 0 1.5rem' }}>
-                      {sector.description}
-                    </p>
-                  </div>
-
-                  <Link
-                    to={sector.route}
-                    className="btn btn-secondary btn-sm"
-                    style={{ justifyContent: 'space-between', width: '100%', minHeight: '38px' }}
+                <TiltCard key={sector.id} glare={true} tiltIntensity={6}>
+                  <div
+                    className="card liquid-glass-card"
+                    style={{
+                      padding: '2rem',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      height: '100%',
+                    }}
                   >
-                    <span>{sector.cta}</span>
-                    <ArrowRight size={14} />
-                  </Link>
-                </div>
+                    <div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+                        <span className="badge-orange" style={{ padding: '0.2rem 0.55rem', borderRadius: 'var(--radius-xs)', fontSize: '0.68rem', fontWeight: 800 }}>
+                          {sector.code}
+                        </span>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-muted)' }}>
+                          {sector.index}
+                        </span>
+                      </div>
+
+                      <div
+                        style={{
+                          width: '44px',
+                          height: '44px',
+                          borderRadius: 'var(--radius-sm)',
+                          background: 'var(--liquid-glass-bg)',
+                          border: '1px solid var(--liquid-glass-border)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          marginBottom: '1.25rem',
+                          color: 'var(--accent-orange)',
+                          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                        }}
+                      >
+                        <Icon size={22} />
+                      </div>
+
+                      <h3 style={{ fontSize: '1.25rem', fontWeight: 800, margin: '0 0 0.5rem' }}>
+                        {sector.name}
+                      </h3>
+                      <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: '0 0 1.5rem' }}>
+                        {sector.description}
+                      </p>
+                    </div>
+
+                    <Link
+                      to={sector.route}
+                      className="btn btn-secondary btn-sm"
+                      style={{ justifyContent: 'space-between', width: '100%', minHeight: '38px' }}
+                    >
+                      <span>{sector.cta}</span>
+                      <ArrowRight size={14} style={{ color: 'var(--accent-orange)' }} />
+                    </Link>
+                  </div>
+                </TiltCard>
               );
             })}
           </div>
@@ -558,15 +549,14 @@ export const LandingPage = () => {
       <section
         style={{
           padding: 'clamp(4rem, 6vw, 6rem) 0',
-          background: 'var(--surface-1)',
-          borderTop: '1px solid var(--border-subtle)',
-          borderBottom: '1px solid var(--border-subtle)',
+          position: 'relative',
         }}
       >
         <div className="container">
           <div style={{ marginBottom: '3rem', maxWidth: '640px' }}>
-            <span className="telemetry-tag" style={{ marginBottom: '0.5rem' }}>
-              [03 // PLATFORM INTEGRITY]
+            <span className="liquid-glass-pill" style={{ marginBottom: '0.65rem' }}>
+              <Shield size={13} style={{ color: 'var(--accent-orange)' }} />
+              <span>[03 // PLATFORM INTEGRITY]</span>
             </span>
             <h2 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.75rem)', fontWeight: 850, margin: '0 0 0.75rem', textTransform: 'uppercase' }}>
               Engineered For Campus Trust.
@@ -583,10 +573,10 @@ export const LandingPage = () => {
               gap: '1.5rem',
             }}
           >
-            <div className="card arch-panel" style={{ padding: '2rem' }}>
+            <div className="card liquid-glass-card" style={{ padding: '2rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1rem' }}>
-                <Shield size={20} color="var(--text-primary)" />
-                <span className="mono-badge">AUTH PROTOCOL</span>
+                <Shield size={20} style={{ color: 'var(--accent-orange)' }} />
+                <span className="badge-orange">AUTH PROTOCOL</span>
               </div>
               <h4 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0 0 0.65rem' }}>
                 Verified Collegiate Authentication
@@ -597,10 +587,10 @@ export const LandingPage = () => {
               </p>
             </div>
 
-            <div className="card arch-panel" style={{ padding: '2rem' }}>
+            <div className="card liquid-glass-card" style={{ padding: '2rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1rem' }}>
-                <Lock size={20} color="var(--text-primary)" />
-                <span className="mono-badge">COMMERCE POLICY</span>
+                <Lock size={20} style={{ color: 'var(--accent-orange)' }} />
+                <span className="badge-orange">COMMERCE POLICY</span>
               </div>
               <h4 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0 0 0.65rem' }}>
                 Zero Platform Commission
@@ -611,10 +601,10 @@ export const LandingPage = () => {
               </p>
             </div>
 
-            <div className="card arch-panel" style={{ padding: '2rem' }}>
+            <div className="card liquid-glass-card" style={{ padding: '2rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1rem' }}>
-                <Zap size={20} color="var(--text-primary)" />
-                <span className="mono-badge">RSVP TELEMETRY</span>
+                <Zap size={20} style={{ color: 'var(--accent-orange)' }} />
+                <span className="badge-orange">RSVP TELEMETRY</span>
               </div>
               <h4 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0 0 0.65rem' }}>
                 Real-Time Quota Telemetry
@@ -631,64 +621,67 @@ export const LandingPage = () => {
       {/* ── 04 // Architectural Call To Action ─────────────────────── */}
       <section style={{ padding: 'clamp(4rem, 7vw, 6.5rem) 0' }}>
         <div className="container">
-          <div
-            className="arch-panel"
-            style={{
-              padding: 'clamp(2.5rem, 5vw, 4.5rem)',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              textAlign: 'center',
-              background: 'var(--surface-1)',
-              border: '1px solid var(--border-strong)',
-            }}
-          >
-            <span className="telemetry-tag" style={{ marginBottom: '1.25rem' }}>
-              [04 // SESSION INITIATION]
-            </span>
-
-            <h2
+          <TiltCard glare={true} tiltIntensity={5}>
+            <div
+              className="card liquid-glass-card"
               style={{
-                fontSize: 'clamp(2.2rem, 4.5vw, 3.75rem)',
-                fontWeight: 900,
-                letterSpacing: '-0.035em',
-                lineHeight: 1.1,
-                margin: '0 0 1rem',
-                textTransform: 'uppercase',
-                maxWidth: '780px',
+                padding: 'clamp(2.5rem, 5vw, 4.5rem)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
+                border: '1px solid var(--accent-orange-border)',
+                boxShadow: 'var(--liquid-glass-shadow-hover)',
               }}
             >
-              Ready To Enter The Campspace Network?
-            </h2>
+              <span className="liquid-glass-pill" style={{ marginBottom: '1.25rem' }}>
+                <span className="orange-dot" />
+                <span>[04 // SESSION INITIATION]</span>
+              </span>
 
-            <p
-              style={{
-                fontSize: '1.05rem',
-                color: 'var(--text-secondary)',
-                maxWidth: '580px',
-                margin: '0 auto 2.5rem',
-                lineHeight: 1.6,
-              }}
-            >
-              Access event registrations, fee-free student commerce, campus lab reservations, and student
-              societies in a single unified operating workspace.
-            </p>
-
-            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-              <Link
-                to={isAuthenticated ? '/dashboard' : '/register'}
-                className="btn btn-primary btn-lg"
-                style={{ gap: '0.5rem', minWidth: '200px' }}
+              <h2
+                style={{
+                  fontSize: 'clamp(2.2rem, 4.5vw, 3.75rem)',
+                  fontWeight: 900,
+                  letterSpacing: '-0.035em',
+                  lineHeight: 1.1,
+                  margin: '0 0 1rem',
+                  textTransform: 'uppercase',
+                  maxWidth: '780px',
+                }}
               >
-                <span>{isAuthenticated ? 'Enter Dashboard Hub' : 'Create Campus Account'}</span>
-                <ArrowRight size={16} />
-              </Link>
+                Ready To Enter The <span className="text-orange">Campspace</span> Network?
+              </h2>
 
-              <Link to="/events" className="btn btn-secondary btn-lg">
-                <span>Explore Campus Events</span>
-              </Link>
+              <p
+                style={{
+                  fontSize: '1.05rem',
+                  color: 'var(--text-secondary)',
+                  maxWidth: '580px',
+                  margin: '0 auto 2.5rem',
+                  lineHeight: 1.6,
+                }}
+              >
+                Access event registrations, fee-free student commerce, campus lab reservations, and student
+                societies in a single unified operating workspace.
+              </p>
+
+              <div style={{ display: 'flex', gap: '0.85rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+                <Link
+                  to={isAuthenticated ? '/dashboard' : '/register'}
+                  className="btn btn-liquid-orange btn-lg"
+                  style={{ gap: '0.5rem', minWidth: '220px' }}
+                >
+                  <span>{isAuthenticated ? 'Enter Dashboard Hub' : 'Create Campus Account'}</span>
+                  <ArrowRight size={16} />
+                </Link>
+
+                <Link to="/events" className="btn btn-secondary btn-lg">
+                  <span>Explore Campus Events</span>
+                </Link>
+              </div>
             </div>
-          </div>
+          </TiltCard>
         </div>
       </section>
     </div>

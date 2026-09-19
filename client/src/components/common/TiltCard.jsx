@@ -97,7 +97,7 @@ export const TiltCard = ({
       >
         {children}
 
-        {/* Dynamic Specular Light Glare */}
+        {/* Dynamic Specular Light Glare (White + Light Orange) */}
         {glare && isHovered && (
           <motion.div
             style={{
@@ -106,8 +106,8 @@ export const TiltCard = ({
               borderRadius: 'inherit',
               pointerEvents: 'none',
               zIndex: 10,
-              background: `radial-gradient(circle at ${glareX.get()}% ${glareY.get()}%, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.03) 40%, transparent 70%)`,
-              mixBlendMode: 'overlay',
+              background: `radial-gradient(circle at ${glareX.get()}% ${glareY.get()}%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 138, 61, 0.1) 32%, transparent 68%)`,
+              mixBlendMode: 'screen',
             }}
           />
         )}

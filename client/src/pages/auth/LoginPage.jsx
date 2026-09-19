@@ -104,18 +104,19 @@ export const LoginPage = () => {
             style={{
               width: '52px',
               height: '52px',
-              borderRadius: 'var(--radius-xs)',
+              borderRadius: 'var(--radius-sm)',
               background: 'var(--text-primary)',
-              border: '1px solid var(--border-subtle)',
+              border: '1px solid var(--accent-orange-border)',
               color: 'var(--text-inverse)',
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
               marginBottom: '1rem',
-              boxShadow: 'var(--shadow-sm)',
+              boxShadow: '0 0 16px var(--accent-orange-glow)',
+              position: 'relative',
             }}
           >
-            <GraduationCap size={28} />
+            <GraduationCap size={28} style={{ color: 'var(--accent-orange)' }} />
           </div>
           <h1 style={{ fontSize: '1.5rem', fontWeight: '800', marginBottom: '0.35rem', letterSpacing: '-0.02em', color: 'var(--text-primary)' }}>Welcome Back</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>

@@ -184,12 +184,26 @@ export const Footer = () => {
           }}
         >
           <p style={{ margin: 0 }}>&copy; {new Date().getFullYear()} Campspace Platform. All rights reserved.</p>
-          <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-              SYSTEM STATUS: 100% OPERATIONAL
-            </span>
-            <span style={{ width: '6px', height: '6px', borderRadius: 'var(--radius-xs)', background: 'var(--text-primary)', display: 'inline-block', boxShadow: '0 0 6px var(--text-primary)' }} />
-            <span>Campus Operating System</span>
+          <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
+            <div
+              className="liquid-glass-pill"
+              style={{ padding: '0.35rem 0.75rem', gap: '0.5rem', background: 'rgba(255, 255, 255, 0.04)' }}
+            >
+              <span
+                style={{
+                  width: '7px',
+                  height: '7px',
+                  borderRadius: '50%',
+                  background: 'var(--accent-orange)',
+                  boxShadow: '0 0 8px var(--accent-orange-glow)',
+                  display: 'inline-block',
+                }}
+              />
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-secondary)' }}>
+                SYSTEM STATUS: 100% OPERATIONAL
+              </span>
+            </div>
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-dim)' }}>Campus Operating System</span>
           </div>
         </div>
       </div>

@@ -13,11 +13,13 @@ const navItems = [
 ];
 
 const iconButtonStyle = {
-  width: '36px',
-  height: '36px',
-  borderRadius: 'var(--radius-xs)',
-  border: '1px solid var(--border-subtle)',
-  background: 'var(--bg-surface)',
+  width: '38px',
+  height: '38px',
+  borderRadius: 'var(--radius-sm)',
+  border: '1px solid var(--liquid-glass-border)',
+  background: 'var(--liquid-glass-bg)',
+  backdropFilter: 'blur(12px)',
+  WebkitBackdropFilter: 'blur(12px)',
   color: 'var(--text-secondary)',
   display: 'inline-flex',
   alignItems: 'center',
@@ -56,10 +58,12 @@ export const Navbar = () => {
       className="nav-capsule"
       role="banner"
       style={{
-        borderBottom: '1px solid var(--border-subtle)',
-        background: scrolled ? 'var(--nav-bg)' : 'var(--nav-bg)',
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
+        borderBottom: '1px solid var(--liquid-glass-border)',
+        background: 'var(--nav-bg)',
+        backdropFilter: 'blur(24px) saturate(190%)',
+        WebkitBackdropFilter: 'blur(24px) saturate(190%)',
+        boxShadow: scrolled ? 'var(--liquid-glass-shadow)' : 'none',
+        transition: 'all var(--transition-normal)',
       }}
     >
       <Link
@@ -70,9 +74,9 @@ export const Navbar = () => {
       >
         <span
           style={{
-            width: '32px',
-            height: '32px',
-            borderRadius: 'var(--radius-xs)',
+            width: '34px',
+            height: '34px',
+            borderRadius: 'var(--radius-sm)',
             background: 'var(--text-primary)',
             color: 'var(--text-inverse)',
             display: 'inline-flex',
@@ -82,16 +86,30 @@ export const Navbar = () => {
             fontSize: '0.85rem',
             fontWeight: 800,
             letterSpacing: '-0.02em',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.18)',
+            position: 'relative',
           }}
         >
           CS
+          <span
+            style={{
+              position: 'absolute',
+              top: '-2px',
+              right: '-2px',
+              width: '7px',
+              height: '7px',
+              borderRadius: '50%',
+              background: 'var(--accent-orange)',
+              boxShadow: '0 0 6px var(--accent-orange-glow)',
+            }}
+          />
         </span>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <span
             style={{
               color: 'var(--text-primary)',
               fontFamily: 'var(--font-heading)',
-              fontSize: '1rem',
+              fontSize: '1.05rem',
               fontWeight: 850,
               letterSpacing: '0.04em',
               textTransform: 'uppercase',
@@ -100,38 +118,84 @@ export const Navbar = () => {
           >
             Campspace
           </span>
-          <span
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.62rem',
-              color: 'var(--text-muted)',
-              letterSpacing: '0.06em',
-            }}
-          >
-            OS // 2.4
-          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.62rem',
+                color: 'var(--accent-orange)',
+                letterSpacing: '0.08em',
+                fontWeight: 700,
+              }}
+            >
+              OS // 2.4
+            </span>
+            <span
+              style={{
+                width: '4px',
+                height: '4px',
+                borderRadius: '50%',
+                background: 'var(--accent-orange)',
+                display: 'inline-block',
+              }}
+            />
+          </div>
         </div>
       </Link>
 
       <nav
         className="desktop-nav"
         aria-label="Main Navigation"
-        style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}
+        style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}
       >
         {allNavItems.map(({ to, label, index }) => (
           <NavLink
             key={to}
             to={to}
             className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}
+            style={({ isActive }) => ({
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              padding: '0.45rem 0.8rem',
+              borderRadius: 'var(--radius-sm)',
+              color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
+              background: isActive ? 'var(--liquid-glass-bg-hover)' : 'transparent',
+              border: isActive ? '1px solid var(--accent-orange-border)' : '1px solid transparent',
+              boxShadow: isActive ? '0 2px 8px var(--accent-orange-subtle)' : 'none',
+              transition: 'all var(--transition-fast)',
+            })}
           >
-            <span style={{ color: 'var(--text-dim)', fontSize: '0.65rem' }}>{index}</span>
-            <span>{label}</span>
+            {({ isActive }) => (
+              <>
+                <span
+                  style={{
+                    color: isActive ? 'var(--accent-orange)' : 'var(--text-dim)',
+                    fontSize: '0.65rem',
+                    fontWeight: 800,
+                  }}
+                >
+                  {index}
+                </span>
+                <span>{label}</span>
+                {isActive && (
+                  <span
+                    style={{
+                      width: '5px',
+                      height: '5px',
+                      borderRadius: '50%',
+                      background: 'var(--accent-orange)',
+                      boxShadow: '0 0 6px var(--accent-orange-glow)',
+                    }}
+                  />
+                )}
+              </>
+            )}
           </NavLink>
         ))}
       </nav>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
         <button
           onClick={toggleTheme}
           title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
@@ -139,7 +203,7 @@ export const Navbar = () => {
           style={iconButtonStyle}
           className="focus-ring"
         >
-          {isDark ? <Sun size={16} strokeWidth={2} /> : <Moon size={16} strokeWidth={2} />}
+          {isDark ? <Sun size={16} strokeWidth={2} style={{ color: 'var(--accent-orange)' }} /> : <Moon size={16} strokeWidth={2} />}
         </button>
 
         <Link
@@ -149,24 +213,25 @@ export const Navbar = () => {
           style={iconButtonStyle}
           className="focus-ring"
         >
-          <Heart size={16} fill={wishlistCount > 0 ? 'currentColor' : 'none'} strokeWidth={2} />
+          <Heart size={16} fill={wishlistCount > 0 ? 'var(--accent-orange)' : 'none'} color={wishlistCount > 0 ? 'var(--accent-orange)' : 'currentColor'} strokeWidth={2} />
           {wishlistCount > 0 && (
             <span
               style={{
                 position: 'absolute',
-                top: '-2px',
-                right: '-2px',
+                top: '-3px',
+                right: '-3px',
                 minWidth: '16px',
                 height: '16px',
                 padding: '0 4px',
                 borderRadius: '999px',
-                background: 'var(--text-primary)',
-                color: 'var(--text-inverse)',
+                background: 'var(--accent-orange)',
+                color: '#ffffff',
                 border: '1px solid var(--surface-0)',
                 fontSize: '0.62rem',
                 fontWeight: 800,
                 lineHeight: '14px',
                 textAlign: 'center',
+                boxShadow: '0 0 8px var(--accent-orange-glow)',
               }}
             >
               {wishlistCount}
@@ -174,7 +239,7 @@ export const Navbar = () => {
           )}
         </Link>
 
-        <div style={{ width: 1, height: 22, background: 'var(--border-subtle)', margin: '0 0.2rem' }} />
+        <div style={{ width: 1, height: 22, background: 'var(--liquid-glass-border)', margin: '0 0.2rem' }} />
 
         {isAuthenticated ? (
           <div className="auth-actions" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
@@ -239,8 +304,10 @@ export const Navbar = () => {
             left: 0,
             right: 0,
             bottom: 0,
-            background: 'var(--bg-base)',
-            borderTop: '1px solid var(--border-subtle)',
+            background: 'var(--nav-bg)',
+            backdropFilter: 'blur(28px) saturate(190%)',
+            WebkitBackdropFilter: 'blur(28px) saturate(190%)',
+            borderTop: '1px solid var(--liquid-glass-border)',
             padding: '1.5rem',
             display: 'flex',
             flexDirection: 'column',
@@ -255,12 +322,13 @@ export const Navbar = () => {
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.68rem',
                 letterSpacing: '0.1em',
-                color: 'var(--text-muted)',
+                color: 'var(--accent-orange)',
                 marginBottom: '0.5rem',
                 textTransform: 'uppercase',
+                fontWeight: 700,
               }}
             >
-              [NAVIGATION INDEX]
+              [NAVIGATION INDEX // CAMPSPACE]
             </div>
 
             {allNavItems.map(({ to, label, index }) => (
@@ -269,7 +337,7 @@ export const Navbar = () => {
                 to={to}
                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 onClick={() => setMobileMenuOpen(false)}
-                style={{
+                style={({ isActive }) => ({
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
@@ -277,9 +345,12 @@ export const Navbar = () => {
                   fontSize: '1.15rem',
                   fontFamily: 'var(--font-heading)',
                   fontWeight: 700,
-                  borderBottom: '1px solid var(--border-subtle)',
-                  padding: '0.5rem 0',
-                }}
+                  borderBottom: '1px solid var(--liquid-glass-border)',
+                  padding: '0.65rem 0.75rem',
+                  borderRadius: 'var(--radius-sm)',
+                  background: isActive ? 'var(--liquid-glass-bg-hover)' : 'transparent',
+                  color: isActive ? 'var(--accent-orange)' : 'var(--text-primary)',
+                })}
               >
                 <span>{label}</span>
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
