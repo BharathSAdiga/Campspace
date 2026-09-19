@@ -216,13 +216,17 @@ export const MarketplaceDetailPage = () => {
         {/* Left Column: Media & Photos Gallery */}
         <div>
           <div
-            className="card"
+            className="card liquid-glass-card"
             style={{
               padding: 0,
               overflow: 'hidden',
-              backgroundColor: 'var(--bg-card-subtle)',
+              backgroundColor: 'var(--liquid-glass-bg)',
+              backdropFilter: 'var(--liquid-glass-blur)',
+              WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+              border: '1px solid var(--liquid-glass-border)',
               position: 'relative',
-              boxShadow: 'var(--shadow-md)',
+              boxShadow: 'var(--liquid-glass-shadow)',
+              borderRadius: 'var(--radius-xl)',
             }}
           >
             <div
@@ -231,7 +235,7 @@ export const MarketplaceDetailPage = () => {
                 width: '100%',
                 paddingTop: '75%', // 4:3 Aspect Ratio
                 overflow: 'hidden',
-                backgroundColor: 'var(--bg-card-subtle)',
+                backgroundColor: 'var(--liquid-glass-bg)',
               }}
             >
               {currentImage ? (
@@ -263,7 +267,7 @@ export const MarketplaceDetailPage = () => {
                     gap: '0.5rem',
                   }}
                 >
-                  <ImageIcon size={48} strokeWidth={1.25} />
+                  <ImageIcon size={48} strokeWidth={1.25} color="var(--accent-orange)" />
                   <span style={{ fontSize: '0.875rem' }}>No photo available for this listing</span>
                 </div>
               )}
@@ -291,16 +295,14 @@ export const MarketplaceDetailPage = () => {
               <div style={{ position: 'absolute', top: '1rem', left: '1rem', zIndex: 5 }}>
                 <span
                   style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.92)',
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(216, 204, 184, 0.85)',
+                    backgroundColor: 'var(--accent-orange)',
+                    border: '1px solid var(--accent-orange)',
                     padding: '0.25rem 0.75rem',
                     borderRadius: '9999px',
                     fontSize: '0.8125rem',
                     fontWeight: '700',
-                    color: '#111111',
-                    boxShadow: '0 4px 14px rgba(44, 36, 22, 0.08)',
+                    color: '#ffffff',
+                    boxShadow: '0 0 12px var(--accent-orange-glow)',
                   }}
                 >
                   {product.category}
@@ -352,11 +354,16 @@ export const MarketplaceDetailPage = () => {
 
           {/* Safe Campus Meetup Tips */}
           <div
-            className="card"
+            className="card liquid-glass-card"
             style={{
               marginTop: '1.5rem',
               padding: '1.25rem',
+              background: 'var(--liquid-glass-bg)',
+              backdropFilter: 'var(--liquid-glass-blur)',
+              WebkitBackdropFilter: 'var(--liquid-glass-blur)',
               border: '1px solid var(--liquid-glass-border)',
+              boxShadow: 'var(--liquid-glass-shadow)',
+              borderRadius: 'var(--radius-lg)',
             }}
           >
             <div
@@ -366,11 +373,11 @@ export const MarketplaceDetailPage = () => {
                 gap: '0.5rem',
                 fontSize: '0.875rem',
                 fontWeight: '700',
-                color: '#111111',
+                color: 'var(--text-primary)',
                 marginBottom: '0.5rem',
               }}
             >
-              <ShieldCheck size={18} color="#111111" />
+              <ShieldCheck size={18} color="var(--accent-orange)" />
               <span>Campus Trading Safety</span>
             </div>
             <ul
@@ -394,7 +401,7 @@ export const MarketplaceDetailPage = () => {
           {/* Header Info */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
-              <span style={{ fontSize: '2.25rem', fontWeight: '800', color: '#111111' }}>
+              <span style={{ fontSize: '2.25rem', fontWeight: '800', color: 'var(--text-primary)' }}>
                 ${typeof product.price === 'number' ? product.price.toFixed(product.price % 1 === 0 ? 0 : 2) : product.price}
               </span>
               <Badge variant={getConditionBadgeVariant(product.condition)} size="md">
@@ -424,14 +431,14 @@ export const MarketplaceDetailPage = () => {
                 flexWrap: 'wrap',
                 gap: '0.75rem',
                 padding: '0.75rem 0',
-                borderTop: '1px solid var(--border-subtle)',
-                borderBottom: '1px solid var(--border-subtle)',
+                borderTop: '1px solid var(--liquid-glass-border)',
+                borderBottom: '1px solid var(--liquid-glass-border)',
                 fontSize: '0.875rem',
                 color: 'var(--text-secondary)',
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                <Tag size={16} color="#111111" />
+                <Tag size={16} color="var(--accent-orange)" />
                 <span>Category: <strong>{product.category}</strong></span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
@@ -461,11 +468,15 @@ export const MarketplaceDetailPage = () => {
 
           {/* Action Area */}
           <div
-            className="card"
+            className="card liquid-glass-card"
             style={{
               padding: '1.5rem',
-              backgroundColor: 'var(--bg-card)',
-              border: '1px solid var(--border-subtle)',
+              backgroundColor: 'var(--liquid-glass-bg)',
+              backdropFilter: 'var(--liquid-glass-blur)',
+              WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+              border: '1px solid var(--liquid-glass-border)',
+              borderRadius: 'var(--radius-xl)',
+              boxShadow: 'var(--liquid-glass-shadow)',
             }}
           >
             {isOwner ? (
@@ -477,7 +488,7 @@ export const MarketplaceDetailPage = () => {
                     alignItems: 'center',
                     gap: '0.4rem',
                     marginBottom: '0.75rem',
-                    color: 'var(--primary-700)',
+                    color: 'var(--accent-orange)',
                     fontSize: '0.875rem',
                     fontWeight: '700',
                   }}
@@ -491,13 +502,13 @@ export const MarketplaceDetailPage = () => {
                 <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
                   <Link
                     to={`/marketplace/${product.id || product._id}/edit`}
-                    className="btn btn-primary"
+                    className="btn btn-liquid-orange"
                     style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
                   >
                     <Edit size={16} />
                     <span>Edit Listing</span>
                   </Link>
-                  <Link to="/marketplace" className="btn btn-secondary">
+                  <Link to="/marketplace" className="btn btn-secondary" style={{ backdropFilter: 'blur(12px)' }}>
                     View Other Items
                   </Link>
                 </div>
@@ -505,7 +516,7 @@ export const MarketplaceDetailPage = () => {
             ) : (
               /* Buyer / Peer Actions */
               <div>
-                <h3 style={{ fontSize: '1rem', fontWeight: '700', marginBottom: '0.5rem' }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: '700', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
                   Interested in this item?
                 </h3>
                 <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '1.25rem' }}>
@@ -524,7 +535,7 @@ export const MarketplaceDetailPage = () => {
                             `Hi ${product.seller?.name || 'Seller'},\n\nI saw your listing for "${product.title}" on Campspace and would like to arrange to buy it.\n\nAre you available to meet on campus?\n\nThanks!`
                           )}`
                     }
-                    className={`btn ${isSold ? 'btn-secondary' : 'btn-primary'} btn-lg btn-block`}
+                    className={`btn ${isSold ? 'btn-secondary' : 'btn-liquid-orange'} btn-lg btn-block`}
                     style={{
                       display: 'flex',
                       alignItems: 'center',

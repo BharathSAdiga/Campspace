@@ -70,8 +70,10 @@ export const EventsCreatePage = () => {
       {/* Top Header Navigation */}
       <div
         style={{
-          borderBottom: '1px solid var(--border-subtle)',
-          background: 'var(--bg-card)',
+          borderBottom: '1px solid var(--liquid-glass-border)',
+          background: 'var(--liquid-glass-bg)',
+          backdropFilter: 'var(--liquid-glass-blur)',
+          WebkitBackdropFilter: 'var(--liquid-glass-blur)',
           padding: '0.85rem 0',
         }}
       >
@@ -102,20 +104,22 @@ export const EventsCreatePage = () => {
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.5rem',
+              gap: '0.45rem',
               padding: '0.35rem 0.85rem',
               borderRadius: 'var(--radius-full)',
-              background: 'var(--border-subtle)',
+              background: 'var(--accent-orange-subtle)',
+              border: '1px solid var(--accent-orange-border)',
               fontSize: '0.78rem',
               fontWeight: 700,
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
               fontFamily: 'var(--font-mono)',
-              color: 'var(--text-primary)',
+              color: 'var(--accent-orange)',
               marginBottom: '0.75rem',
+              boxShadow: '0 0 12px var(--accent-orange-glow)',
             }}
           >
-            <CalendarPlus size={13} />
+            <span className="orange-dot" />
             <span>Event Management</span>
           </div>
 

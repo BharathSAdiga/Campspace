@@ -67,38 +67,38 @@ export const WishlistButton = ({
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: isSaved
-            ? '#fee2e2'
+            ? 'var(--accent-orange-subtle)'
             : isHovered
-            ? 'rgba(255, 255, 255, 0.98)'
-            : 'rgba(255, 255, 255, 0.9)',
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
+            ? 'var(--liquid-glass-bg-hover)'
+            : 'var(--liquid-glass-bg)',
+          backdropFilter: 'var(--liquid-glass-blur)',
+          WebkitBackdropFilter: 'var(--liquid-glass-blur)',
           border: isSaved
-            ? '1px solid #fca5a5'
+            ? '1px solid var(--accent-orange-border)'
             : isHovered
-            ? '1px solid rgba(176, 155, 126, 0.9)'
-            : '1px solid rgba(216, 204, 184, 0.85)',
+            ? '1px solid var(--liquid-glass-border-hover)'
+            : '1px solid var(--liquid-glass-border)',
           boxShadow: isSaved
-            ? '0 0 16px -2px rgba(244, 63, 94, 0.3)'
+            ? '0 0 16px var(--accent-orange-glow)'
             : isHovered
-            ? '0 4px 14px rgba(44, 36, 22, 0.12)'
-            : '0 2px 8px rgba(44, 36, 22, 0.08)',
+            ? 'var(--liquid-glass-shadow-hover)'
+            : 'var(--liquid-glass-shadow)',
           cursor: pending ? 'wait' : 'pointer',
           transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
           transform: isHovered && !pending ? 'scale(1.08)' : 'scale(1)',
-          color: isSaved ? '#333333' : '#666666',
+          color: isSaved ? 'var(--accent-orange)' : 'var(--text-muted)',
           padding: 0,
           outline: 'none',
           ...style,
         }}
       >
         {pending ? (
-          <Loader2 size={iconSize} className="animate-spin" style={{ color: '#333333' }} />
+          <Loader2 size={iconSize} className="animate-spin" style={{ color: 'var(--accent-orange)' }} />
         ) : (
           <Heart
             size={iconSize}
-            fill={isSaved ? '#333333' : 'none'}
-            stroke={isSaved ? '#333333' : isHovered ? '#333333' : '#666666'}
+            fill={isSaved ? 'var(--accent-orange)' : 'none'}
+            stroke={isSaved ? 'var(--accent-orange)' : isHovered ? 'var(--accent-orange)' : 'currentColor'}
             strokeWidth={isSaved ? 2 : 2.2}
             style={{
               transition: 'transform 0.2s ease, fill 0.2s ease, stroke 0.2s ease',
@@ -126,11 +126,11 @@ export const WishlistButton = ({
         alignItems: 'center',
         justifyContent: 'center',
         gap: '0.5rem',
-        backgroundColor: isSaved ? '#fee2e2' : isHovered ? 'rgba(255, 255, 255, 0.98)' : 'rgba(255, 255, 255, 0.88)',
-        backdropFilter: 'blur(14px)',
-        WebkitBackdropFilter: 'blur(14px)',
-        color: isSaved ? '#333333' : 'var(--text-primary)',
-        borderColor: isSaved ? '#fca5a5' : isHovered ? 'rgba(176, 155, 126, 0.85)' : 'var(--border-subtle)',
+        backgroundColor: isSaved ? 'var(--accent-orange-subtle)' : isHovered ? 'var(--liquid-glass-bg-hover)' : 'var(--liquid-glass-bg)',
+        backdropFilter: 'var(--liquid-glass-blur)',
+        WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+        color: isSaved ? 'var(--accent-orange)' : 'var(--text-primary)',
+        borderColor: isSaved ? 'var(--accent-orange-border)' : isHovered ? 'var(--liquid-glass-border-hover)' : 'var(--liquid-glass-border)',
         borderWidth: '1px',
         borderStyle: 'solid',
         borderRadius: 'var(--radius-md, 8px)',
@@ -139,17 +139,17 @@ export const WishlistButton = ({
         padding: size === 'sm' ? '0.4rem 0.75rem' : size === 'lg' ? '0.75rem 1.5rem' : '0.6rem 1.15rem',
         transition: 'all 0.2s ease',
         cursor: pending ? 'wait' : 'pointer',
-        boxShadow: isHovered ? '0 4px 14px rgba(44, 36, 22, 0.1)' : 'none',
+        boxShadow: isSaved ? '0 0 14px var(--accent-orange-glow)' : 'var(--liquid-glass-shadow)',
         ...style,
       }}
     >
       {pending ? (
-        <Loader2 size={iconSize} className="animate-spin" style={{ color: isSaved ? '#888888' : 'currentColor' }} />
+        <Loader2 size={iconSize} className="animate-spin" style={{ color: isSaved ? 'var(--accent-orange)' : 'currentColor' }} />
       ) : (
         <Heart
           size={iconSize}
-          fill={isSaved ? '#888888' : 'none'}
-          stroke={isSaved ? '#888888' : 'currentColor'}
+          fill={isSaved ? 'var(--accent-orange)' : 'none'}
+          stroke={isSaved ? 'var(--accent-orange)' : 'currentColor'}
           strokeWidth={2}
           style={{
             transition: 'transform 0.2s ease',

@@ -20,36 +20,44 @@ export const EmptyState = ({
 
   return (
     <div
-      className={`card ${className}`.trim()}
+      className={`card liquid-glass-card ${className}`.trim()}
       style={{
         textAlign: 'center',
-        padding: '3.5rem 1.5rem',
-        maxWidth: '480px',
+        padding: '3.5rem 2rem',
+        maxWidth: '520px',
         margin: '2rem auto',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        background: 'var(--liquid-glass-bg)',
+        backdropFilter: 'var(--liquid-glass-blur)',
+        WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+        border: '1px solid var(--liquid-glass-border)',
+        borderRadius: 'var(--radius-xl)',
+        boxShadow: 'var(--liquid-glass-shadow)',
       }}
     >
       <div
         style={{
-          width: '54px',
-          height: '54px',
-          borderRadius: 'var(--radius-md)',
-          background: 'var(--bg-surface-hover)',
-          color: 'var(--text-muted)',
+          width: '60px',
+          height: '60px',
+          borderRadius: '16px',
+          background: 'var(--accent-orange-subtle)',
+          border: '1px solid var(--accent-orange-border)',
+          color: 'var(--accent-orange)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          marginBottom: '1rem',
+          marginBottom: '1.25rem',
+          boxShadow: '0 0 20px var(--accent-orange-glow)',
         }}
       >
         {renderIcon()}
       </div>
-      <h3 style={{ fontSize: '1.2rem', marginBottom: '0.4rem', color: 'var(--text-primary)' }}>
+      <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.45rem', color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
         {title}
       </h3>
-      <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: action ? '1.5rem' : 0 }}>
+      <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: action ? '1.75rem' : 0 }}>
         {description}
       </p>
       {action && <div>{action}</div>}

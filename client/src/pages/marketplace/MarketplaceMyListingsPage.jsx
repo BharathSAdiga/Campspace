@@ -123,6 +123,28 @@ export const MarketplaceMyListingsPage = () => {
         }}
       >
         <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+            <span
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                fontSize: '0.75rem',
+                fontWeight: '700',
+                color: 'var(--accent-orange)',
+                backgroundColor: 'var(--accent-orange-subtle)',
+                border: '1px solid var(--accent-orange-border)',
+                padding: '0.25rem 0.75rem',
+                borderRadius: '9999px',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+                fontFamily: 'var(--font-mono)',
+                boxShadow: '0 0 12px var(--accent-orange-glow)',
+              }}
+            >
+              <span className="orange-dot" /> Seller Dashboard
+            </span>
+          </div>
           <h1 style={{ fontSize: '1.85rem', fontWeight: '800', margin: 0, color: 'var(--text-primary)' }}>
             My Marketplace Listings
           </h1>
@@ -133,7 +155,7 @@ export const MarketplaceMyListingsPage = () => {
 
         <Link
           to="/marketplace/create"
-          className="btn btn-primary"
+          className="btn btn-liquid-orange"
           style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
         >
           <Plus size={18} />
@@ -161,7 +183,7 @@ export const MarketplaceMyListingsPage = () => {
           display: 'flex',
           gap: '0.5rem',
           marginBottom: '1.5rem',
-          borderBottom: '1px solid var(--border-subtle)',
+          borderBottom: '1px solid var(--liquid-glass-border)',
           paddingBottom: '0.5rem',
         }}
       >
@@ -178,14 +200,15 @@ export const MarketplaceMyListingsPage = () => {
               type="button"
               onClick={() => setFilterStatus(tab.id)}
               style={{
-                background: isActive ? 'var(--primary-50)' : 'transparent',
-                border: 'none',
-                color: isActive ? 'var(--primary-700)' : 'var(--text-secondary)',
+                background: isActive ? 'var(--accent-orange)' : 'var(--liquid-glass-bg)',
+                border: isActive ? '1px solid var(--accent-orange)' : '1px solid var(--liquid-glass-border)',
+                color: isActive ? '#ffffff' : 'var(--text-secondary)',
                 fontWeight: isActive ? '700' : '500',
                 padding: '0.4rem 0.9rem',
                 borderRadius: '9999px',
                 cursor: 'pointer',
                 fontSize: '0.875rem',
+                boxShadow: isActive ? '0 0 12px var(--accent-orange-glow)' : 'none',
                 transition: 'all 0.15s ease',
               }}
             >
@@ -205,13 +228,13 @@ export const MarketplaceMyListingsPage = () => {
           title="No Listings Found"
           description={
             filterStatus === 'ALL'
-              ? "You haven't posted any items for sale yet. Turn your unused textbooks and gear into cash!"
-              : `You have no ${filterStatus.toLowerCase()} listings.`
+              ? "You haven't posted any items for sale yet. Create your first listing to start connecting with campus buyers!"
+              : `You don't have any listings currently categorized as "${filterStatus.toLowerCase()}".`
           }
           icon={<Package size={32} />}
           action={
-            <Link to="/marketplace/create" className="btn btn-primary">
-              Post Your First Listing
+            <Link to="/marketplace/create" className="btn btn-liquid-orange">
+              <Plus size={16} style={{ marginRight: '0.35rem' }} /> Create First Listing
             </Link>
           }
         />
@@ -227,7 +250,7 @@ export const MarketplaceMyListingsPage = () => {
             return (
               <div
                 key={prodId}
-                className="card"
+                className="card liquid-glass-card"
                 style={{
                   padding: '1.25rem',
                   display: 'flex',
@@ -235,6 +258,12 @@ export const MarketplaceMyListingsPage = () => {
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   gap: '1.25rem',
+                  background: 'var(--liquid-glass-bg)',
+                  backdropFilter: 'var(--liquid-glass-blur)',
+                  WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+                  border: '1px solid var(--liquid-glass-border)',
+                  boxShadow: 'var(--liquid-glass-shadow)',
+                  borderRadius: 'var(--radius-lg)',
                   transition: 'border-color 0.15s ease',
                 }}
               >
