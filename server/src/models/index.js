@@ -8,6 +8,9 @@ const {
 const { Wishlist } = require('./Wishlist');
 const { Event, EVENT_CATEGORIES, EVENT_STATUS } = require('./Event');
 const { EventRegistration, REGISTRATION_STATUS } = require('./EventRegistration');
+const { Resource, RESOURCE_CATEGORIES, RESOURCE_STATUS } = require('./Resource');
+const { Booking, BOOKING_STATUS } = require('./Booking');
+const { Club, CLUB_CATEGORIES } = require('./Club');
 
 module.exports = {
   User,
@@ -22,4 +25,11 @@ module.exports = {
   EVENT_STATUS,
   EventRegistration,
   REGISTRATION_STATUS,
+  Resource,
+  RESOURCE_CATEGORIES,
+  RESOURCE_STATUS,
+  Booking,
+  BOOKING_STATUS,
+  Club,
+  CLUB_CATEGORIES,
 };
