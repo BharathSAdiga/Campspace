@@ -5,14 +5,25 @@ const ThemeContext = createContext();
 export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(() => {
     const savedTheme = localStorage.getItem('campspace-theme');
-    if (savedTheme) {
+    if (savedTheme === 'light' || savedTheme === 'dark') {
       return savedTheme;
     }
-    return 'dark';
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    return 'light';
   });
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
+    const root = document.documentElement;
+    root.setAttribute('data-theme', theme);
+    if (theme === 'dark') {
+      root.classList.add('dark');
+      root.classList.remove('light');
+    } else {
+      root.classList.add('light');
+      root.classList.remove('dark');
+    }
     localStorage.setItem('campspace-theme', theme);
   }, [theme]);
 
@@ -21,7 +32,7 @@ export const ThemeProvider = ({ children }) => {
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, isDark: theme === 'dark' }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme, isDark: theme === 'dark', setTheme }}>
       {children}
     </ThemeContext.Provider>
   );

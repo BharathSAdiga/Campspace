@@ -86,19 +86,19 @@ export const WishlistButton = ({
           cursor: pending ? 'wait' : 'pointer',
           transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
           transform: isHovered && !pending ? 'scale(1.08)' : 'scale(1)',
-          color: isSaved ? '#e11d48' : '#475569',
+          color: isSaved ? '#333333' : '#666666',
           padding: 0,
           outline: 'none',
           ...style,
         }}
       >
         {pending ? (
-          <Loader2 size={iconSize} className="animate-spin" style={{ color: '#e11d48' }} />
+          <Loader2 size={iconSize} className="animate-spin" style={{ color: '#333333' }} />
         ) : (
           <Heart
             size={iconSize}
-            fill={isSaved ? '#e11d48' : 'none'}
-            stroke={isSaved ? '#e11d48' : isHovered ? '#e11d48' : '#475569'}
+            fill={isSaved ? '#333333' : 'none'}
+            stroke={isSaved ? '#333333' : isHovered ? '#333333' : '#666666'}
             strokeWidth={isSaved ? 2 : 2.2}
             style={{
               transition: 'transform 0.2s ease, fill 0.2s ease, stroke 0.2s ease',
@@ -129,7 +129,7 @@ export const WishlistButton = ({
         backgroundColor: isSaved ? '#fee2e2' : isHovered ? 'rgba(255, 255, 255, 0.98)' : 'rgba(255, 255, 255, 0.88)',
         backdropFilter: 'blur(14px)',
         WebkitBackdropFilter: 'blur(14px)',
-        color: isSaved ? '#e11d48' : 'var(--text-primary)',
+        color: isSaved ? '#333333' : 'var(--text-primary)',
         borderColor: isSaved ? '#fca5a5' : isHovered ? 'rgba(176, 155, 126, 0.85)' : 'var(--border-subtle)',
         borderWidth: '1px',
         borderStyle: 'solid',
@@ -144,12 +144,12 @@ export const WishlistButton = ({
       }}
     >
       {pending ? (
-        <Loader2 size={iconSize} className="animate-spin" style={{ color: isSaved ? '#fb7185' : 'currentColor' }} />
+        <Loader2 size={iconSize} className="animate-spin" style={{ color: isSaved ? '#888888' : 'currentColor' }} />
       ) : (
         <Heart
           size={iconSize}
-          fill={isSaved ? '#fb7185' : 'none'}
-          stroke={isSaved ? '#fb7185' : 'currentColor'}
+          fill={isSaved ? '#888888' : 'none'}
+          stroke={isSaved ? '#888888' : 'currentColor'}
           strokeWidth={2}
           style={{
             transition: 'transform 0.2s ease',

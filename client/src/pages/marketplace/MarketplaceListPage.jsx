@@ -234,7 +234,7 @@ export const MarketplaceListPage = () => {
                     gap: '0.35rem',
                     fontSize: '0.75rem',
                     fontWeight: '700',
-                    color: '#0F172A',
+                    color: '#111111',
                     backgroundColor: '#E8E0D2',
                     border: '1px solid rgba(216, 204, 184, 0.9)',
                     padding: '0.2rem 0.65rem',
@@ -243,7 +243,7 @@ export const MarketplaceListPage = () => {
                     letterSpacing: '0.05em',
                   }}
                 >
-                  <Sparkles size={12} color="#0F172A" /> Verified Peer-to-Peer
+                  <Sparkles size={12} color="#111111" /> Verified Peer-to-Peer
                 </span>
               </div>
               <h1 style={{ fontSize: '2rem', fontWeight: '800', margin: 0, color: 'var(--text-primary)' }}>
@@ -261,7 +261,7 @@ export const MarketplaceListPage = () => {
                 style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem' }}
                 title="View your saved items"
               >
-                <Heart size={16} fill="#fb7185" color="#fb7185" />
+                <Heart size={16} fill="#888888" color="#888888" />
                 <span>Saved Wishlist</span>
               </Link>
               <Link to="/marketplace/create" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -352,8 +352,8 @@ export const MarketplaceListPage = () => {
                     borderRadius: '9999px',
                     fontSize: '0.8125rem',
                     fontWeight: isSelected ? '700' : '500',
-                    border: isSelected ? '1px solid #0F172A' : '1px solid var(--border-subtle)',
-                    backgroundColor: isSelected ? '#0F172A' : 'rgba(255, 255, 255, 0.9)',
+                    border: isSelected ? '1px solid #111111' : '1px solid var(--border-subtle)',
+                    backgroundColor: isSelected ? '#111111' : 'rgba(255, 255, 255, 0.9)',
                     backdropFilter: 'blur(10px)',
                     WebkitBackdropFilter: 'blur(10px)',
                     color: isSelected ? '#FFFFFF' : 'var(--text-secondary)',

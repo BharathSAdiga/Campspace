@@ -103,13 +103,13 @@ export const MarketplaceWishlistPage = () => {
                   height: '36px',
                   borderRadius: '10px',
                   backgroundColor: '#fff1f2',
-                  color: '#e11d48',
+                  color: '#333333',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
               >
-                <Heart size={20} fill="#e11d48" />
+                <Heart size={20} fill="#333333" />
               </div>
               <h1 style={{ fontSize: '1.875rem', fontWeight: '800', color: 'var(--text-primary)', margin: 0 }}>
                 My Saved Wishlist
@@ -231,7 +231,7 @@ export const MarketplaceWishlistPage = () => {
       ) : validProducts.length === 0 ? (
         /* Empty State */
         <EmptyState
-          icon={<Heart size={28} color="#e11d48" />}
+          icon={<Heart size={28} color="#333333" />}
           title="Your wishlist is empty"
           description="Explore the campus marketplace and tap the heart icon on any listing to save it here for quick access."
           action={
@@ -313,7 +313,7 @@ export const MarketplaceWishlistPage = () => {
                       style={{
                         background: 'none',
                         border: 'none',
-                        color: 'var(--danger-600, #dc2626)',
+                        color: 'var(--danger-600, #333333)',
                         cursor: pending ? 'wait' : 'pointer',
                         display: 'inline-flex',
                         alignItems: 'center',

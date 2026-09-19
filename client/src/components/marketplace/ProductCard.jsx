@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, Tag, User, Image as ImageIcon } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { MapPin, Image as ImageIcon } from 'lucide-react';
 import { Badge } from '../common/Badge';
 import { WishlistButton } from './WishlistButton';
 
@@ -55,14 +56,22 @@ export const ProductCard = ({ product }) => {
   };
 
   return (
-    <Link
-      to={`/marketplace/${productId}`}
-      className="card product-card"
-      style={{
-        textDecoration: 'none',
-        color: 'inherit',
-        display: 'flex',
-        flexDirection: 'column',
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.08 }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ y: -4, transition: { duration: 0.2 } }}
+      style={{ height: '100%' }}
+    >
+      <Link
+        to={`/marketplace/${productId}`}
+        className="card product-card"
+        style={{
+          textDecoration: 'none',
+          color: 'inherit',
+          display: 'flex',
+          flexDirection: 'column',
         height: '100%',
         padding: 0,
         overflow: 'hidden',
@@ -75,7 +84,7 @@ export const ProductCard = ({ product }) => {
           position: 'relative',
           width: '100%',
           paddingTop: '65%', // 16:10 aspect ratio
-          backgroundColor: 'rgba(238, 233, 224, 0.5)',
+              backgroundColor: 'var(--bg-subtle)',
           overflow: 'hidden',
           borderBottom: '1px solid var(--border-subtle)',
         }}
@@ -120,16 +129,14 @@ export const ProductCard = ({ product }) => {
         <div style={{ position: 'absolute', top: '0.75rem', left: '0.75rem', zIndex: 5 }}>
           <span
             style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.92)',
-              backdropFilter: 'blur(10px)',
-              WebkitBackdropFilter: 'blur(10px)',
               padding: '0.22rem 0.65rem',
-              borderRadius: '9999px',
+              borderRadius: 'var(--radius-xs)',
               fontSize: '0.75rem',
-              fontWeight: '600',
-              color: '#0F172A',
-              border: '1px solid rgba(216, 204, 184, 0.8)',
-              boxShadow: '0 2px 8px rgba(44, 36, 22, 0.08)',
+              fontWeight: '700',
+              color: 'var(--text-primary)',
+              background: 'var(--bg-surface)',
+              border: '1px solid var(--border-subtle)',
+              boxShadow: 'var(--shadow-sm)',
             }}
           >
             {category}
@@ -161,7 +168,7 @@ export const ProductCard = ({ product }) => {
         <div>
           {/* Price & Condition */}
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-            <span style={{ fontSize: '1.35rem', fontWeight: '800', color: '#0F172A' }}>
+            <span style={{ fontSize: '1.35rem', fontWeight: '800', color: 'var(--text-primary)' }}>
               ${typeof price === 'number' ? price.toFixed(price % 1 === 0 ? 0 : 2) : price}
             </span>
             <Badge variant={getConditionBadgeVariant(condition)} size="sm">
@@ -205,9 +212,9 @@ export const ProductCard = ({ product }) => {
                 style={{
                   width: '20px',
                   height: '20px',
-                  borderRadius: '50%',
-                  backgroundColor: '#0F172A',
-                  color: '#FFFFFF',
+                  borderRadius: 'var(--radius-xs)',
+                  backgroundColor: 'var(--text-primary)',
+                  color: 'var(--text-inverse)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -226,6 +233,7 @@ export const ProductCard = ({ product }) => {
         </div>
       </div>
     </Link>
+  </motion.div>
   );
 };
 

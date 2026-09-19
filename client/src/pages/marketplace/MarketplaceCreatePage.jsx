@@ -209,7 +209,7 @@ export const MarketplaceCreatePage = () => {
               gap: '0.35rem',
               fontSize: '0.75rem',
               fontWeight: '700',
-              color: '#0F172A',
+              color: '#111111',
               backgroundColor: '#E8E0D2',
               border: '1px solid rgba(216, 204, 184, 0.9)',
               padding: '0.2rem 0.65rem',
@@ -218,7 +218,7 @@ export const MarketplaceCreatePage = () => {
               letterSpacing: '0.05em',
             }}
           >
-            <Sparkles size={12} color="#0F172A" /> Peer Marketplace
+            <Sparkles size={12} color="#111111" /> Peer Marketplace
           </span>
         </div>
         <h1 style={{ fontSize: '1.85rem', fontWeight: '800', margin: 0, color: 'var(--text-primary)' }}>

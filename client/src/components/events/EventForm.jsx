@@ -298,7 +298,7 @@ export const EventForm = ({
             <div className="form-group" style={{ margin: 0 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
                 <label className="form-label" htmlFor="event-title" style={{ margin: 0 }}>
-                  Event Title <span style={{ color: 'var(--accent-rose, #ef4444)' }}>*</span>
+                  Event Title <span style={{ color: 'var(--accent-rose, #333333)' }}>*</span>
                 </label>
                 <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                   {formData.title.length}/120
@@ -315,11 +315,11 @@ export const EventForm = ({
                 maxLength={120}
                 className={`form-input ${clientErrors.title && touched.title ? 'error' : ''}`}
                 style={{
-                  borderColor: clientErrors.title && touched.title ? '#ef4444' : undefined,
+                  borderColor: clientErrors.title && touched.title ? '#333333' : undefined,
                 }}
               />
               {clientErrors.title && touched.title && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#ef4444', fontSize: '0.8rem', marginTop: '0.35rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#333333', fontSize: '0.8rem', marginTop: '0.35rem' }}>
                   <AlertCircle size={13} />
                   <span>{clientErrors.title}</span>
                 </div>
@@ -331,7 +331,7 @@ export const EventForm = ({
               {/* Category */}
               <div className="form-group" style={{ margin: 0 }}>
                 <label className="form-label" htmlFor="event-category" style={{ marginBottom: '0.4rem', display: 'block' }}>
-                  Category <span style={{ color: 'var(--accent-rose, #ef4444)' }}>*</span>
+                  Category <span style={{ color: 'var(--accent-rose, #333333)' }}>*</span>
                 </label>
                 <select
                   id="event-category"
@@ -341,7 +341,7 @@ export const EventForm = ({
                   onBlur={handleBlur}
                   className={`form-select ${clientErrors.category && touched.category ? 'error' : ''}`}
                   style={{
-                    borderColor: clientErrors.category && touched.category ? '#ef4444' : undefined,
+                    borderColor: clientErrors.category && touched.category ? '#333333' : undefined,
                   }}
                 >
                   <option value="">-- Select a Category --</option>
@@ -352,7 +352,7 @@ export const EventForm = ({
                   ))}
                 </select>
                 {clientErrors.category && touched.category && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#ef4444', fontSize: '0.8rem', marginTop: '0.35rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#333333', fontSize: '0.8rem', marginTop: '0.35rem' }}>
                     <AlertCircle size={13} />
                     <span>{clientErrors.category}</span>
                   </div>
@@ -363,7 +363,7 @@ export const EventForm = ({
               {isEdit && (
                 <div className="form-group" style={{ margin: 0 }}>
                   <label className="form-label" htmlFor="event-status" style={{ marginBottom: '0.4rem', display: 'block' }}>
-                    Event Status <span style={{ color: 'var(--accent-rose, #ef4444)' }}>*</span>
+                    Event Status <span style={{ color: 'var(--accent-rose, #333333)' }}>*</span>
                   </label>
                   <select
                     id="event-status"
@@ -387,7 +387,7 @@ export const EventForm = ({
             <div className="form-group" style={{ margin: 0 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
                 <label className="form-label" htmlFor="event-description" style={{ margin: 0 }}>
-                  Event Description <span style={{ color: 'var(--accent-rose, #ef4444)' }}>*</span>
+                  Event Description <span style={{ color: 'var(--accent-rose, #333333)' }}>*</span>
                 </label>
                 <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                   {formData.description.length}/5000
@@ -405,12 +405,12 @@ export const EventForm = ({
                 className={`form-input ${clientErrors.description && touched.description ? 'error' : ''}`}
                 style={{
                   resize: 'vertical',
-                  borderColor: clientErrors.description && touched.description ? '#ef4444' : undefined,
+                  borderColor: clientErrors.description && touched.description ? '#333333' : undefined,
                   minHeight: '120px',
                 }}
               />
               {clientErrors.description && touched.description && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#ef4444', fontSize: '0.8rem', marginTop: '0.35rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#333333', fontSize: '0.8rem', marginTop: '0.35rem' }}>
                   <AlertCircle size={13} />
                   <span>{clientErrors.description}</span>
                 </div>
@@ -443,7 +443,7 @@ export const EventForm = ({
               {/* Date */}
               <div className="form-group" style={{ margin: 0 }}>
                 <label className="form-label" htmlFor="event-date" style={{ marginBottom: '0.4rem', display: 'block' }}>
-                  Event Date <span style={{ color: 'var(--accent-rose, #ef4444)' }}>*</span>
+                  Event Date <span style={{ color: 'var(--accent-rose, #333333)' }}>*</span>
                 </label>
                 <input
                   id="event-date"
@@ -454,11 +454,11 @@ export const EventForm = ({
                   onBlur={handleBlur}
                   className={`form-input ${clientErrors.date && touched.date ? 'error' : ''}`}
                   style={{
-                    borderColor: clientErrors.date && touched.date ? '#ef4444' : undefined,
+                    borderColor: clientErrors.date && touched.date ? '#333333' : undefined,
                   }}
                 />
                 {clientErrors.date && touched.date && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#ef4444', fontSize: '0.8rem', marginTop: '0.35rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#333333', fontSize: '0.8rem', marginTop: '0.35rem' }}>
                     <AlertCircle size={13} />
                     <span>{clientErrors.date}</span>
                   </div>
@@ -468,7 +468,7 @@ export const EventForm = ({
               {/* Start Time */}
               <div className="form-group" style={{ margin: 0 }}>
                 <label className="form-label" htmlFor="event-start-time" style={{ marginBottom: '0.4rem', display: 'block' }}>
-                  Start Time <span style={{ color: 'var(--accent-rose, #ef4444)' }}>*</span>
+                  Start Time <span style={{ color: 'var(--accent-rose, #333333)' }}>*</span>
                 </label>
                 <input
                   id="event-start-time"
@@ -479,11 +479,11 @@ export const EventForm = ({
                   onBlur={handleBlur}
                   className={`form-input ${clientErrors.startTime && touched.startTime ? 'error' : ''}`}
                   style={{
-                    borderColor: clientErrors.startTime && touched.startTime ? '#ef4444' : undefined,
+                    borderColor: clientErrors.startTime && touched.startTime ? '#333333' : undefined,
                   }}
                 />
                 {clientErrors.startTime && touched.startTime && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#ef4444', fontSize: '0.8rem', marginTop: '0.35rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#333333', fontSize: '0.8rem', marginTop: '0.35rem' }}>
                     <AlertCircle size={13} />
                     <span>{clientErrors.startTime}</span>
                   </div>
@@ -493,7 +493,7 @@ export const EventForm = ({
               {/* End Time */}
               <div className="form-group" style={{ margin: 0 }}>
                 <label className="form-label" htmlFor="event-end-time" style={{ marginBottom: '0.4rem', display: 'block' }}>
-                  End Time <span style={{ color: 'var(--accent-rose, #ef4444)' }}>*</span>
+                  End Time <span style={{ color: 'var(--accent-rose, #333333)' }}>*</span>
                 </label>
                 <input
                   id="event-end-time"
@@ -504,11 +504,11 @@ export const EventForm = ({
                   onBlur={handleBlur}
                   className={`form-input ${clientErrors.endTime && touched.endTime ? 'error' : ''}`}
                   style={{
-                    borderColor: clientErrors.endTime && touched.endTime ? '#ef4444' : undefined,
+                    borderColor: clientErrors.endTime && touched.endTime ? '#333333' : undefined,
                   }}
                 />
                 {clientErrors.endTime && touched.endTime && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#ef4444', fontSize: '0.8rem', marginTop: '0.35rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#333333', fontSize: '0.8rem', marginTop: '0.35rem' }}>
                     <AlertCircle size={13} />
                     <span>{clientErrors.endTime}</span>
                   </div>
@@ -521,7 +521,7 @@ export const EventForm = ({
               {/* Location */}
               <div className="form-group" style={{ margin: 0 }}>
                 <label className="form-label" htmlFor="event-location" style={{ marginBottom: '0.4rem', display: 'block' }}>
-                  Location / Venue <span style={{ color: 'var(--accent-rose, #ef4444)' }}>*</span>
+                  Location / Venue <span style={{ color: 'var(--accent-rose, #333333)' }}>*</span>
                 </label>
                 <div style={{ position: 'relative' }}>
                   <input
@@ -535,12 +535,12 @@ export const EventForm = ({
                     maxLength={150}
                     className={`form-input ${clientErrors.location && touched.location ? 'error' : ''}`}
                     style={{
-                      borderColor: clientErrors.location && touched.location ? '#ef4444' : undefined,
+                      borderColor: clientErrors.location && touched.location ? '#333333' : undefined,
                     }}
                   />
                 </div>
                 {clientErrors.location && touched.location && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#ef4444', fontSize: '0.8rem', marginTop: '0.35rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#333333', fontSize: '0.8rem', marginTop: '0.35rem' }}>
                     <AlertCircle size={13} />
                     <span>{clientErrors.location}</span>
                   </div>
@@ -550,7 +550,7 @@ export const EventForm = ({
               {/* Maximum Participants */}
               <div className="form-group" style={{ margin: 0 }}>
                 <label className="form-label" htmlFor="event-max-participants" style={{ marginBottom: '0.4rem', display: 'block' }}>
-                  Capacity Cap <span style={{ color: 'var(--accent-rose, #ef4444)' }}>*</span>
+                  Capacity Cap <span style={{ color: 'var(--accent-rose, #333333)' }}>*</span>
                 </label>
                 <input
                   id="event-max-participants"
@@ -564,11 +564,11 @@ export const EventForm = ({
                   onBlur={handleBlur}
                   className={`form-input ${clientErrors.maximumParticipants && touched.maximumParticipants ? 'error' : ''}`}
                   style={{
-                    borderColor: clientErrors.maximumParticipants && touched.maximumParticipants ? '#ef4444' : undefined,
+                    borderColor: clientErrors.maximumParticipants && touched.maximumParticipants ? '#333333' : undefined,
                   }}
                 />
                 {clientErrors.maximumParticipants && touched.maximumParticipants && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#ef4444', fontSize: '0.8rem', marginTop: '0.35rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#333333', fontSize: '0.8rem', marginTop: '0.35rem' }}>
                     <AlertCircle size={13} />
                     <span>{clientErrors.maximumParticipants}</span>
                   </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar, Clock, MapPin, Users, Sparkles, Tag } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Calendar, Clock, MapPin, Users, CalendarDays, Tag } from 'lucide-react';
 import { Badge } from '../common/Badge';
 
 export const EventCard = ({ event }) => {
@@ -72,18 +73,26 @@ export const EventCard = ({ event }) => {
   };
 
   return (
-    <Link
-      to={`/events/${eventId}`}
-      className="card event-card"
-      style={{
-        textDecoration: 'none',
-        color: 'inherit',
-        height: '100%',
-        padding: 0,
-        display: 'flex',
-        flexDirection: 'column',
-      }}
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.08 }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ y: -4, transition: { duration: 0.2 } }}
+      style={{ height: '100%' }}
     >
+      <Link
+        to={`/events/${eventId}`}
+        className="card event-card"
+        style={{
+          textDecoration: 'none',
+          color: 'inherit',
+          height: '100%',
+          padding: 0,
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
       {/* Event Banner Media */}
       <div
         style={{
@@ -127,7 +136,7 @@ export const EventCard = ({ event }) => {
               gap: '0.5rem',
             }}
           >
-            <Sparkles size={28} style={{ color: 'var(--text-primary)' }} />
+            <CalendarDays size={28} style={{ color: 'var(--text-primary)' }} />
             <span style={{ fontSize: '0.75rem', fontWeight: '700', color: 'var(--text-secondary)', letterSpacing: '0.08em', fontFamily: 'var(--font-mono)' }}>
               CAMPUS EVENT
             </span>
@@ -147,10 +156,8 @@ export const EventCard = ({ event }) => {
             justifyContent: 'center',
             width: '46px',
             height: '48px',
-            borderRadius: '10px',
+            borderRadius: 'var(--radius-sm)',
             backgroundColor: 'var(--card-bg)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
             border: '1px solid var(--border-subtle)',
             boxShadow: 'var(--shadow-sm)',
             lineHeight: 1.1,
@@ -169,12 +176,10 @@ export const EventCard = ({ event }) => {
           <span
             style={{
               backgroundColor: 'var(--card-bg)',
-              backdropFilter: 'blur(12px)',
-              WebkitBackdropFilter: 'blur(12px)',
               padding: '0.25rem 0.75rem',
-              borderRadius: '9999px',
+              borderRadius: 'var(--radius-xs)',
               fontSize: '0.75rem',
-              fontWeight: '600',
+              fontWeight: '700',
               color: 'var(--text-primary)',
               border: '1px solid var(--border-subtle)',
               boxShadow: 'var(--shadow-sm)',
@@ -279,6 +284,7 @@ export const EventCard = ({ event }) => {
         </div>
       </div>
     </Link>
+  </motion.div>
   );
 };
 

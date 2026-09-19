@@ -299,7 +299,7 @@ export const MarketplaceDetailPage = () => {
                     borderRadius: '9999px',
                     fontSize: '0.8125rem',
                     fontWeight: '700',
-                    color: '#0F172A',
+                    color: '#111111',
                     boxShadow: '0 4px 14px rgba(44, 36, 22, 0.08)',
                   }}
                 >
@@ -331,7 +331,7 @@ export const MarketplaceDetailPage = () => {
                       overflow: 'hidden',
                       border:
                         activeImageIndex === idx
-                          ? '2px solid #0F172A'
+                          ? '2px solid #111111'
                           : '1px solid var(--border-subtle)',
                       boxShadow: activeImageIndex === idx ? '0 0 12px rgba(15, 23, 42, 0.25)' : 'none',
                       padding: 0,
@@ -366,11 +366,11 @@ export const MarketplaceDetailPage = () => {
                 gap: '0.5rem',
                 fontSize: '0.875rem',
                 fontWeight: '700',
-                color: '#0F172A',
+                color: '#111111',
                 marginBottom: '0.5rem',
               }}
             >
-              <ShieldCheck size={18} color="#0F172A" />
+              <ShieldCheck size={18} color="#111111" />
               <span>Campus Trading Safety</span>
             </div>
             <ul
@@ -394,7 +394,7 @@ export const MarketplaceDetailPage = () => {
           {/* Header Info */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
-              <span style={{ fontSize: '2.25rem', fontWeight: '800', color: '#0F172A' }}>
+              <span style={{ fontSize: '2.25rem', fontWeight: '800', color: '#111111' }}>
                 ${typeof product.price === 'number' ? product.price.toFixed(product.price % 1 === 0 ? 0 : 2) : product.price}
               </span>
               <Badge variant={getConditionBadgeVariant(product.condition)} size="md">
@@ -431,7 +431,7 @@ export const MarketplaceDetailPage = () => {
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                <Tag size={16} color="#0F172A" />
+                <Tag size={16} color="#111111" />
                 <span>Category: <strong>{product.category}</strong></span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>

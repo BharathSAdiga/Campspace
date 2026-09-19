@@ -104,20 +104,20 @@ export const LoginPage = () => {
             style={{
               width: '52px',
               height: '52px',
-              borderRadius: '14px',
-              background: '#E8E0D2',
-              border: '1px solid rgba(216, 204, 184, 0.9)',
-              color: '#0F172A',
+              borderRadius: 'var(--radius-xs)',
+              background: 'var(--text-primary)',
+              border: '1px solid var(--border-subtle)',
+              color: 'var(--text-inverse)',
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
               marginBottom: '1rem',
-              boxShadow: '0 4px 14px rgba(44, 36, 22, 0.1)',
+              boxShadow: 'var(--shadow-sm)',
             }}
           >
             <GraduationCap size={28} />
           </div>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '0.35rem', letterSpacing: '-0.02em', color: 'var(--text-primary)' }}>Welcome Back</h1>
+          <h1 style={{ fontSize: '1.5rem', fontWeight: '800', marginBottom: '0.35rem', letterSpacing: '-0.02em', color: 'var(--text-primary)' }}>Welcome Back</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
             Sign in to access your Campspace dashboard and campus tools.
           </p>
@@ -240,7 +240,7 @@ export const LoginPage = () => {
         {/* Footer Link */}
         <div style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
           Don't have an account?{' '}
-          <Link to="/register" style={{ color: '#0F172A', fontWeight: '700', textDecoration: 'underline' }}>
+          <Link to="/register" style={{ color: 'var(--text-primary)', fontWeight: '750', textDecoration: 'underline' }}>
             Sign up
           </Link>
         </div>

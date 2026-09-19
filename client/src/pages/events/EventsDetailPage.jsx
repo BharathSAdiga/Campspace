@@ -287,7 +287,7 @@ export const EventsDetailPage = () => {
               {/* Status Badge Over Banner */}
               <div style={{ position: 'absolute', top: '1rem', right: '1rem', zIndex: 2 }}>
                 {isCancelled && (
-                  <span className="badge badge-outline" style={{ background: '#fef2f2', color: '#991b1b', borderColor: '#fecaca', fontWeight: 700 }}>
+                  <span className="badge badge-outline" style={{ background: '#eeeeee', color: '#222222', borderColor: '#cccccc', fontWeight: 700 }}>
                     <XCircle size={12} /> CANCELLED
                   </span>
                 )}
@@ -484,7 +484,7 @@ export const EventsDetailPage = () => {
                             style={{
                               width: `${Math.min(100, Math.round((currentParticipants / maximumParticipants) * 100))}%`,
                               height: '100%',
-                              backgroundColor: isSoldOut ? '#ef4444' : 'var(--text-primary)',
+                              backgroundColor: isSoldOut ? '#333333' : 'var(--text-primary)',
                               borderRadius: '9999px',
                               transition: 'width 0.3s ease',
                             }}
@@ -504,7 +504,7 @@ export const EventsDetailPage = () => {
                 {/* State 1: Cancelled Event */}
                 {isCancelled && (
                   <div style={{ textAlign: 'center', padding: '1rem', background: 'var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.45rem', color: '#ef4444', fontWeight: 700, marginBottom: '0.35rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.45rem', color: '#333333', fontWeight: 700, marginBottom: '0.35rem' }}>
                       <AlertCircle size={16} />
                       <span>Event Cancelled</span>
                     </div>
@@ -539,7 +539,7 @@ export const EventsDetailPage = () => {
                         background: 'rgba(16, 185, 129, 0.1)',
                         border: '1px solid rgba(16, 185, 129, 0.3)',
                         borderRadius: 'var(--radius-lg)',
-                        color: '#10B981',
+                        color: '#555555',
                         marginBottom: '1rem',
                       }}
                     >
@@ -579,8 +579,8 @@ export const EventsDetailPage = () => {
                             className="btn btn-outline btn-sm"
                             style={{
                               flex: 1,
-                              borderColor: '#ef4444',
-                              color: '#ef4444',
+                              borderColor: '#333333',
+                              color: '#333333',
                             }}
                           >
                             {isSubmitting ? (
@@ -602,8 +602,8 @@ export const EventsDetailPage = () => {
                         style={{
                           width: '100%',
                           fontSize: '0.9rem',
-                          borderColor: '#ef4444',
-                          color: '#ef4444',
+                          borderColor: '#333333',
+                          color: '#333333',
                           cursor: isSubmitting ? 'not-allowed' : 'pointer',
                           opacity: isSubmitting ? 0.7 : 1,
                         }}

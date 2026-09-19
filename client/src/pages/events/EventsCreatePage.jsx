@@ -20,7 +20,7 @@ export const EventsCreatePage = () => {
       <div className="page-wrapper" style={{ padding: '6rem 0', textAlign: 'center' }}>
         <div className="container" style={{ maxWidth: '520px' }}>
           <div className="card" style={{ padding: '3rem 2rem', border: '1px solid var(--border-subtle)' }}>
-            <ShieldAlert size={48} color="#ef4444" style={{ marginBottom: '1rem' }} />
+            <ShieldAlert size={48} color="#333333" style={{ marginBottom: '1rem' }} />
             <h1 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '0.75rem', color: 'var(--text-primary)' }}>
               Organizer Access Required
             </h1>

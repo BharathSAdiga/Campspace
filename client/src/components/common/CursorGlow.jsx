@@ -1,17 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 export const CursorGlow = () => {
-  const [position, setPosition] = useState({ x: -200, y: -200 });
+  const [coords, setCoords] = useState({ x: -400, y: -400 });
   const [isVisible, setIsVisible] = useState(false);
+  const [isEnabled, setIsEnabled] = useState(false);
+  const rafRef = useRef(null);
+  const pendingCoords = useRef({ x: -400, y: -400 });
 
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      setPosition({ x: e.clientX, y: e.clientY });
-      if (!isVisible) setIsVisible(true);
+    // 1. Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // 2. Check for touch/coarse pointer device
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const isFinePointer = window.matchMedia('(pointer: fine)').matches;
 
-      // Pass coordinates to CSS custom properties for hover card illumination
-      document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
-      document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
+    if (prefersReducedMotion || isTouchDevice || !isFinePointer) {
+      setIsEnabled(false);
+      return;
+    }
+
+    setIsEnabled(true);
+
+    const handleMouseMove = (e) => {
+      pendingCoords.current = { x: e.clientX, y: e.clientY };
+
+      if (!rafRef.current) {
+        rafRef.current = requestAnimationFrame(() => {
+          setCoords(pendingCoords.current);
+          document.documentElement.style.setProperty('--mouse-x', `${pendingCoords.current.x}px`);
+          document.documentElement.style.setProperty('--mouse-y', `${pendingCoords.current.y}px`);
+          rafRef.current = null;
+        });
+      }
+
+      if (!isVisible) setIsVisible(true);
     };
 
     const handleMouseLeave = () => {
@@ -24,26 +46,31 @@ export const CursorGlow = () => {
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, [isVisible]);
 
-  if (!isVisible) return null;
+  if (!isEnabled || !isVisible) return null;
 
   return (
     <div
+      className="desktop-cursor-spotlight"
       style={{
         position: 'fixed',
-        left: position.x,
-        top: position.y,
-        width: '450px',
-        height: '450px',
+        left: coords.x,
+        top: coords.y,
+        width: '500px',
+        height: '500px',
         transform: 'translate(-50%, -50%)',
-        background: 'radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 40%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 45%, transparent 70%)',
         borderRadius: '50%',
         pointerEvents: 'none',
         zIndex: 9999,
-        transition: 'opacity 0.2s ease',
+        willChange: 'transform',
       }}
+      aria-hidden="true"
     />
   );
 };
+
+export default CursorGlow;

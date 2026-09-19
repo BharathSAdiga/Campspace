@@ -1,77 +1,88 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
   Calendar,
   ShoppingBag,
   Layers,
   Users,
-  Sparkles,
   ArrowRight,
-  ArrowUpRight,
   Shield,
   Zap,
-  Globe,
-  Compass,
-  Search,
-  Radio,
   Clock,
   MapPin,
-  Tag,
   CheckCircle2,
+  Lock,
+  Flame,
+  ArrowUpRight,
+  Laptop,
+  Star,
+  Sparkles,
+  TrendingUp,
   Terminal,
   Activity,
-  Cpu,
-  Orbit,
-  Maximize2,
-  ChevronRight,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { ScrollProgressBar } from '../components/common';
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  show: (d = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, delay: d, ease: [0.16, 1, 0.3, 1] },
+  }),
+};
 
 export const LandingPage = () => {
   const { isAuthenticated } = useAuth();
   const [activeSector, setActiveSector] = useState('events');
 
-  // Sector Data for the Interactive Orbit Gateway
   const sectors = [
     {
       id: 'events',
-      name: 'Campus Events',
-      code: 'SECTOR-EV',
+      name: 'Events & Workshops',
+      code: 'SECTOR-01',
+      index: '01',
       icon: Calendar,
-      tagline: 'Workshops, Hackathons & Keynote Summits',
+      tagline: 'Flagship Hackathons, Summits & Mixers',
       description:
-        'Coordinate and RSVP to student hackathons, career fairs, guest seminars, and campus mixers with real-time capacity telemetry.',
+        'Discover and RSVP to verified collegiate hackathons, career workshops, guest keynotes, and socials with real-time seat telemetry.',
       route: '/events',
-      cta: 'Explore Events',
+      cta: 'Explore All Events',
       items: [
         {
-          title: 'HackCampus 2026 // 24H AI & Space Tech Hackathon',
+          title: 'HackCampus 2026 // 24H AI & Robotics Hackathon',
           meta: 'Oct 24 • Engineering Atrium',
           badge: 'FLAGSHIP',
           capacity: '184 / 250 Spots Filled',
+          progress: 74,
         },
         {
-          title: 'Deep Learning & Quantum Computing Seminar',
+          title: 'Deep Learning & Quantum Computing Keynote',
           meta: 'Nov 12 • Turing Hall Auditorium',
           badge: 'KEYNOTE',
           capacity: '92 / 120 Spots Filled',
+          progress: 76,
         },
         {
-          title: 'Astronomy Club Lunar & Deep Sky Observation',
+          title: 'Astronomy Society Lunar & Deep Sky Night',
           meta: 'Nov 18 • Science Observatory Deck',
           badge: 'FIELD EVENT',
           capacity: '45 / 50 Spots Filled',
+          progress: 90,
         },
       ],
     },
     {
       id: 'marketplace',
       name: 'Peer Marketplace',
-      code: 'SECTOR-MK',
+      code: 'SECTOR-02',
+      index: '02',
       icon: ShoppingBag,
-      tagline: 'Zero-Fee Student Commerce',
+      tagline: 'Zero-Fee Direct Student Commerce',
       description:
-        'Buy, sell, and trade textbooks, high-end electronics, lab instruments, and dorm essentials directly with verified students.',
+        'Buy, sell, and swap tech gear, textbooks, lab equipment, and dorm furniture directly with peers on campus. 0% platform tax.',
       route: '/marketplace',
       cta: 'Browse Marketplace',
       items: [
@@ -80,80 +91,91 @@ export const LandingPage = () => {
           meta: '$1,450 • CS Senior • Science Quad',
           badge: 'TECH',
           capacity: 'Verified Student Seller',
+          progress: 100,
         },
         {
           title: 'Principles of Astrophysics & Cosmology (4th Ed.)',
-          meta: '$42 • Physics Dept • North Campus',
+          meta: '$42 • Physics Dept • North Quad',
           badge: 'TEXTBOOK',
           capacity: 'Mint Condition',
+          progress: 100,
         },
         {
-          title: 'Ergonomic Desk Setup & 4K Monitor',
+          title: 'Ergonomic Desk Setup & 4K Monitor (27-inch)',
           meta: '$180 • Grad Housing • Pickup Today',
           badge: 'DORM GEAR',
-          capacity: 'Immediate Transfer',
+          capacity: 'Instant Hand-off',
+          progress: 100,
         },
       ],
     },
     {
       id: 'resources',
       name: 'Compute & Labs',
-      code: 'SECTOR-RS',
+      code: 'SECTOR-03',
+      index: '03',
       icon: Layers,
-      tagline: 'Specialized Hardware & Facility Bookings',
+      tagline: 'High-Performance Facilities & Hardware',
       description:
-        'Reserve high-performance GPU nodes, clean rooms, podcast studios, robotics testing bays, and private focus study pods.',
+        'Reserve high-power GPU cluster nodes, clean rooms, podcast soundstages, rapid 3D prototyping bays, and private focus study pods.',
       route: '/resources',
-      cta: 'Reserve Facilities',
+      cta: 'Book Facilities',
       items: [
         {
           title: 'Quantum & AI Simulation Cluster #2 (8x H100)',
           meta: 'Engineering Building Lab 402',
           badge: 'SUPERCOMPUTE',
-          capacity: 'Available Today',
+          capacity: 'Available Today • 3 Slots Open',
+          progress: 60,
         },
         {
           title: 'Acoustic Soundstage & Podcasting Suite A',
           meta: 'Fine Arts Media Wing',
           badge: 'MULTIMEDIA',
-          capacity: '3 Time Slots Open',
+          capacity: 'Reserved for 4 PM',
+          progress: 40,
         },
         {
-          title: 'Rapid Prototyping & 3D Fabrication Bay',
+          title: 'Rapid Prototyping & 3D Fabrication Studio',
           meta: 'Innovation Workshop Center',
           badge: 'MAKER LAB',
-          capacity: 'Open Walk-in',
+          capacity: 'Open Walk-in Today',
+          progress: 85,
         },
       ],
     },
     {
       id: 'clubs',
-      name: 'Constellations',
-      code: 'SECTOR-CL',
+      name: 'Guilds & Societies',
+      code: 'SECTOR-04',
+      index: '04',
       icon: Users,
-      tagline: 'Student Organizations & Societies',
+      tagline: 'Chartered Student Organizations',
       description:
-        'Join student constellations, technical societies, robotics collectives, and creative guilds to shape the future of campus culture.',
+        'Discover autonomous engineering teams, design guilds, academic associations, and cultural societies active on campus.',
       route: '/clubs',
-      cta: 'Join Constellations',
+      cta: 'Discover Clubs',
       items: [
         {
-          title: 'Autonomous Robotics & Rover Development Team',
-          meta: '128 Members • Hardware & Firmware',
+          title: 'Autonomous Systems & Drone Racing Guild',
+          meta: 'Engineering Quad Hangar • 142 Members',
           badge: 'ENGINEERING',
-          capacity: 'Recruiting Cohort 2026',
+          capacity: 'Open Recruitment Sprint',
+          progress: 92,
         },
         {
-          title: 'Campus Design Guild & UI/UX Laboratory',
-          meta: '84 Members • Figma & Frontend',
-          badge: 'CREATIVE',
-          capacity: 'Weekly Sprints',
+          title: 'Campus Design Collective & Swiss Typography Lab',
+          meta: 'Arts Studio 204 • 88 Members',
+          badge: 'DESIGN',
+          capacity: 'Portfolio Review Active',
+          progress: 80,
         },
         {
-          title: 'Astrophysics & Deep Space Observation Society',
-          meta: '210 Members • Stargazing & Research',
-          badge: 'SCIENCE',
-          capacity: 'Open to All Majors',
+          title: 'Collegiate Esports & High-Performance Gaming',
+          meta: 'Student Union Arena • 310 Members',
+          badge: 'ATHLETICS',
+          capacity: 'Open Practice Friday',
+          progress: 65,
         },
       ],
     },
@@ -165,757 +187,510 @@ export const LandingPage = () => {
     <div
       style={{
         minHeight: '100vh',
-        backgroundColor: '#000000',
-        color: '#FFFFFF',
+        backgroundColor: 'var(--surface-0)',
+        color: 'var(--text-primary)',
         position: 'relative',
         overflowX: 'hidden',
-        paddingTop: '5rem',
+        paddingTop: 'var(--header-height)',
       }}
     >
-      {/* 1. Deep Space Atmospheric Canvas Grid & Stars */}
-      <div
-        style={{
-          position: 'fixed',
-          inset: 0,
-          pointerEvents: 'none',
-          zIndex: 0,
-          backgroundImage: `
-            radial-gradient(1.2px 1.2px at 20px 30px, rgba(255, 255, 255, 0.85), rgba(0, 0, 0, 0)),
-            radial-gradient(1.5px 1.5px at 90px 140px, rgba(255, 255, 255, 0.6), rgba(0, 0, 0, 0)),
-            radial-gradient(1px 1px at 220px 70px, rgba(255, 255, 255, 0.75), rgba(0, 0, 0, 0)),
-            radial-gradient(2px 2px at 340px 280px, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0)),
-            radial-gradient(1px 1px at 480px 180px, rgba(255, 255, 255, 0.7), rgba(0, 0, 0, 0)),
-            linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)
-          `,
-          backgroundSize: '450px 450px, 550px 550px, 350px 350px, 600px 600px, 500px 500px, 80px 80px, 80px 80px',
-        }}
-        aria-hidden="true"
-      />
+      <ScrollProgressBar />
 
-      {/* Atmospheric Luminous Nebulae Orbs */}
+      {/* ── Monochromatic Ambient Light ────────────────────────────── */}
       <div
         style={{
           position: 'absolute',
-          top: '-150px',
+          top: 0,
           left: '50%',
           transform: 'translateX(-50%)',
-          width: '900px',
-          height: '600px',
-          borderRadius: '50%',
-          background: 'radial-gradient(ellipse at center, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 40%, transparent 70%)',
-          filter: 'blur(100px)',
+          width: '100%',
+          maxWidth: '1280px',
+          height: '500px',
+          background: 'radial-gradient(ellipse at 50% 10%, var(--border-subtle) 0%, transparent 70%)',
           pointerEvents: 'none',
           zIndex: 0,
+          opacity: 0.6,
         }}
       />
 
-      {/* Main Container */}
-      <div className="container" style={{ position: 'relative', zIndex: 1, paddingBottom: '6rem' }}>
-        {/* Top Telemetry Beacon Bar */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: '2rem',
-          }}
-        >
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.65rem',
-              padding: '0.4rem 1.1rem',
-              borderRadius: '9999px',
-              backgroundColor: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(255, 255, 255, 0.16)',
-              backdropFilter: 'blur(16px)',
-              boxShadow: '0 0 20px rgba(255, 255, 255, 0.06)',
-            }}
-          >
-            <span
-              style={{
-                width: '6px',
-                height: '6px',
-                borderRadius: '50%',
-                backgroundColor: '#FFFFFF',
-                boxShadow: '0 0 10px #FFFFFF',
-                animation: 'pulseBeacon 1.8s infinite',
-              }}
-            />
-            <span
-              style={{
-                fontSize: '0.75rem',
-                fontWeight: '700',
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-                fontFamily: 'var(--font-mono)',
-                color: '#FFFFFF',
-              }}
-            >
-              CAMPSPACE OS // ORBITAL CAMPUS ECOSYSTEM
-            </span>
-          </div>
-        </div>
-
-        {/* 2. Massive Space Hero Headline */}
-        <div style={{ textAlign: 'center', maxWidth: '980px', margin: '0 auto 3.5rem' }}>
-          <h1
-            style={{
-              fontSize: 'clamp(2.8rem, 7vw, 5.8rem)',
-              fontWeight: '900',
-              letterSpacing: '-0.04em',
-              lineHeight: '1.02',
-              margin: '0 0 1.5rem',
-              color: '#FFFFFF',
-              textShadow: '0 0 40px rgba(255, 255, 255, 0.25)',
-              fontFamily: 'var(--font-heading)',
-            }}
-          >
-            THE DIGITAL COSMOS
-            <br />
-            <span
-              style={{
-                color: '#FFFFFF',
-                WebkitTextStroke: '1px rgba(255, 255, 255, 0.8)',
-                background: 'linear-gradient(180deg, #FFFFFF 30%, rgba(255, 255, 255, 0.4) 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-            >
-              FOR CAMPUS LIFE.
-            </span>
-          </h1>
-
-          <p
-            style={{
-              fontSize: 'clamp(1.05rem, 2vw, 1.28rem)',
-              color: '#A1A1AA',
-              lineHeight: '1.6',
-              maxWidth: '720px',
-              margin: '0 auto 2.5rem',
-              fontWeight: '400',
-            }}
-          >
-            An ultra-modern, zero-friction operating system uniting student hackathons, peer-to-peer
-            trade, quantum computing labs, and student constellations in one celestial orbit.
-          </p>
-
-          {/* Action Button Cluster */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-              gap: '1rem',
-              marginBottom: '3rem',
-            }}
-          >
-            <Link
-              to={isAuthenticated ? '/dashboard' : '/register'}
-              className="btn btn-primary btn-lg"
-              style={{
-                background: '#FFFFFF',
-                color: '#000000',
-                fontWeight: '800',
-                fontSize: '1rem',
-                padding: '0.85rem 2.2rem',
-                borderRadius: '9999px',
-                boxShadow: '0 0 35px rgba(255, 255, 255, 0.4)',
-                border: '1px solid #FFFFFF',
-              }}
-            >
-              <span>{isAuthenticated ? 'Enter Control Console' : 'Launch Campspace Free'}</span>
-              <ArrowRight size={18} />
-            </Link>
-
-            <Link
-              to="/events"
-              className="btn btn-secondary btn-lg"
-              style={{
-                background: 'rgba(255, 255, 255, 0.06)',
-                color: '#FFFFFF',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                backdropFilter: 'blur(20px)',
-                padding: '0.85rem 2rem',
-                borderRadius: '9999px',
-                fontWeight: '600',
-              }}
-            >
-              <Orbit size={18} />
-              <span>Explore Orbit Events</span>
-            </Link>
-
-            <Link
-              to="/marketplace"
-              className="btn btn-secondary btn-lg"
-              style={{
-                background: 'rgba(255, 255, 255, 0.04)',
-                color: '#A1A1AA',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
-                padding: '0.85rem 1.8rem',
-                borderRadius: '9999px',
-                fontWeight: '500',
-              }}
-            >
-              <span>Marketplace</span>
-              <ArrowUpRight size={16} />
-            </Link>
-          </div>
-
-          {/* Telemetry Metric Pills */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-              gap: '1rem',
-              maxWidth: '880px',
-              margin: '0 auto',
-            }}
-          >
-            {[
-              { label: 'Orbital Sectors', value: '04 Unified', desc: 'Events • Market • Labs • Orgs' },
-              { label: 'Campus Governance', value: '100% Student', desc: 'Zero Intermediaries' },
-              { label: 'Transaction Tax', value: '0.00%', desc: 'Direct Peer Exchange' },
-              { label: 'RSVP Teleportation', value: '< 20ms', desc: 'Real-Time Capacity' },
-            ].map((stat, idx) => (
-              <div
-                key={idx}
-                style={{
-                  padding: '1.25rem 1rem',
-                  borderRadius: '16px',
-                  backgroundColor: 'rgba(10, 10, 14, 0.7)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  backdropFilter: 'blur(16px)',
-                  textAlign: 'center',
-                }}
-              >
-                <div
-                  style={{
-                    fontSize: '1.5rem',
-                    fontWeight: '800',
-                    color: '#FFFFFF',
-                    fontFamily: 'var(--font-heading)',
-                    letterSpacing: '-0.02em',
-                  }}
-                >
-                  {stat.value}
-                </div>
-                <div
-                  style={{
-                    fontSize: '0.78rem',
-                    fontWeight: '700',
-                    color: '#A1A1AA',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.08em',
-                    marginTop: '0.2rem',
-                    fontFamily: 'var(--font-mono)',
-                  }}
-                >
-                  {stat.label}
-                </div>
-                <div style={{ fontSize: '0.72rem', color: '#71717A', marginTop: '0.25rem' }}>
-                  {stat.desc}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* 3. Interactive Space Quadrant Station (4 Sectors) */}
-        <section style={{ marginBottom: '5.5rem' }}>
-          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-            <span
-              style={{
-                fontSize: '0.75rem',
-                fontWeight: '700',
-                color: '#71717A',
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                fontFamily: 'var(--font-mono)',
-              }}
-            >
-              // ORBITAL CONTROL MATRIX
-            </span>
-            <h2
-              style={{
-                fontSize: 'clamp(1.8rem, 3.5vw, 2.75rem)',
-                fontWeight: '800',
-                color: '#FFFFFF',
-                margin: '0.5rem 0 0',
-                letterSpacing: '-0.03em',
-              }}
-            >
-              Explore The Four Campus Sectors
-            </h2>
-          </div>
-
-          {/* Sector Selector Tabs */}
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-              gap: '0.75rem',
-              marginBottom: '2rem',
-            }}
-          >
-            {sectors.map((s) => {
-              const Icon = s.icon;
-              const isSelected = activeSector === s.id;
-              return (
-                <button
-                  key={s.id}
-                  type="button"
-                  onClick={() => setActiveSector(s.id)}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.6rem',
-                    padding: '0.65rem 1.4rem',
-                    borderRadius: '9999px',
-                    border: isSelected
-                      ? '1px solid #FFFFFF'
-                      : '1px solid rgba(255, 255, 255, 0.12)',
-                    backgroundColor: isSelected ? '#FFFFFF' : 'rgba(15, 15, 20, 0.6)',
-                    color: isSelected ? '#000000' : '#A1A1AA',
-                    fontWeight: isSelected ? '700' : '500',
-                    fontSize: '0.9rem',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    boxShadow: isSelected ? '0 0 25px rgba(255, 255, 255, 0.35)' : 'none',
-                  }}
-                >
-                  <Icon size={16} />
-                  <span>{s.name}</span>
-                  <span
-                    style={{
-                      fontSize: '0.68rem',
-                      fontFamily: 'var(--font-mono)',
-                      opacity: isSelected ? 0.7 : 0.4,
-                    }}
-                  >
-                    {s.code}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Active Sector Display Deck */}
-          <div
-            style={{
-              backgroundColor: 'rgba(8, 8, 12, 0.85)',
-              border: '1px solid rgba(255, 255, 255, 0.18)',
-              borderRadius: '24px',
-              padding: '2.5rem',
-              backdropFilter: 'blur(32px)',
-              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(255, 255, 255, 0.03)',
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-                flexWrap: 'wrap',
-                gap: '1.5rem',
-                marginBottom: '2rem',
-                paddingBottom: '1.5rem',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-              }}
-            >
-              <div>
-                <div
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    fontSize: '0.75rem',
-                    color: '#A1A1AA',
-                    fontFamily: 'var(--font-mono)',
-                    marginBottom: '0.4rem',
-                  }}
-                >
-                  <span>ORBIT VECTOR:</span>
-                  <strong style={{ color: '#FFFFFF' }}>{currentSectorData.code}</strong>
-                </div>
-                <h3
-                  style={{
-                    fontSize: '1.8rem',
-                    fontWeight: '800',
-                    margin: 0,
-                    color: '#FFFFFF',
-                  }}
-                >
-                  {currentSectorData.tagline}
-                </h3>
-                <p
-                  style={{
-                    color: '#A1A1AA',
-                    fontSize: '0.98rem',
-                    margin: '0.4rem 0 0',
-                    maxWidth: '650px',
-                  }}
-                >
-                  {currentSectorData.description}
-                </p>
-              </div>
-
-              <Link
-                to={currentSectorData.route}
-                className="btn btn-primary"
-                style={{
-                  background: '#FFFFFF',
-                  color: '#000000',
-                  fontWeight: '700',
-                  padding: '0.65rem 1.6rem',
-                  borderRadius: '9999px',
-                  boxShadow: '0 0 25px rgba(255, 255, 255, 0.3)',
-                }}
-              >
-                <span>{currentSectorData.cta}</span>
-                <ArrowRight size={16} />
-              </Link>
-            </div>
-
-            {/* Sector Telemetry Preview Grid */}
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                gap: '1.25rem',
-              }}
-            >
-              {currentSectorData.items.map((item, idx) => (
-                <div
-                  key={idx}
-                  style={{
-                    padding: '1.5rem',
-                    borderRadius: '16px',
-                    backgroundColor: 'rgba(16, 16, 22, 0.7)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    transition: 'all 0.25s ease',
-                  }}
-                  className="space-card-glow"
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      marginBottom: '0.75rem',
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: '0.7rem',
-                        fontWeight: '700',
-                        color: '#FFFFFF',
-                        backgroundColor: 'rgba(255, 255, 255, 0.12)',
-                        padding: '0.2rem 0.6rem',
-                        borderRadius: '9999px',
-                        letterSpacing: '0.08em',
-                        fontFamily: 'var(--font-mono)',
-                      }}
-                    >
-                      {item.badge}
-                    </span>
-                    <span
-                      style={{
-                        fontSize: '0.75rem',
-                        color: '#71717A',
-                        fontFamily: 'var(--font-mono)',
-                      }}
-                    >
-                      INDEX-0{idx + 1}
-                    </span>
-                  </div>
-
-                  <div
-                    style={{
-                      fontSize: '1.05rem',
-                      fontWeight: '700',
-                      color: '#FFFFFF',
-                      lineHeight: '1.35',
-                      marginBottom: '0.5rem',
-                    }}
-                  >
-                    {item.title}
-                  </div>
-
-                  <div style={{ fontSize: '0.82rem', color: '#A1A1AA', marginBottom: '0.75rem' }}>
-                    {item.meta}
-                  </div>
-
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.4rem',
-                      fontSize: '0.75rem',
-                      fontWeight: '600',
-                      color: '#D4D4D8',
-                      paddingTop: '0.65rem',
-                      borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-                    }}
-                  >
-                    <CheckCircle2 size={13} color="#FFFFFF" />
-                    <span>{item.capacity}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* 4. Bento Grid: Deep Space Framework */}
-        <section style={{ marginBottom: '5.5rem' }}>
-          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-            <span
-              style={{
-                fontSize: '0.75rem',
-                fontWeight: '700',
-                color: '#71717A',
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                fontFamily: 'var(--font-mono)',
-              }}
-            >
-              // CORE SYSTEM ARCHITECTURE
-            </span>
-            <h2
-              style={{
-                fontSize: 'clamp(1.8rem, 3.5vw, 2.75rem)',
-                fontWeight: '800',
-                color: '#FFFFFF',
-                margin: '0.5rem 0 0',
-                letterSpacing: '-0.03em',
-              }}
-            >
-              Engineered For Deep Space Velocity
-            </h2>
-          </div>
-
+      {/* ── Hero Section (Editorial Split Composition) ─────────────── */}
+      <section style={{ position: 'relative', zIndex: 1, padding: 'clamp(2.5rem, 5vw, 4.5rem) 0 3rem' }}>
+        <div className="container">
           <div
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+              gap: 'clamp(2rem, 4vw, 3.5rem)',
+              alignItems: 'center',
+            }}
+          >
+            {/* Left Column: Asymmetric Editorial Typography */}
+            <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem' }}>
+                <span className="telemetry-tag">
+                  <span className="live-dot" />
+                  [01 // SYSTEM OVERVIEW]
+                </span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-dim)' }}>
+                  // OS V2.4
+                </span>
+              </div>
+
+              <h1
+                style={{
+                  fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
+                  fontWeight: 850,
+                  letterSpacing: '-0.04em',
+                  lineHeight: 1.05,
+                  margin: '0 0 1.5rem',
+                  fontFamily: 'var(--font-heading)',
+                  textTransform: 'uppercase',
+                }}
+              >
+                The Unified Campus Operating Platform.
+              </h1>
+
+              <p
+                className="editorial-lead"
+                style={{
+                  maxWidth: '560px',
+                  marginBottom: '2rem',
+                }}
+              >
+                Campspace consolidates campus life into one synchronized architectural system. Coordinate
+                flagship student hackathons with live RSVP tracking, buy & sell textbooks with verified peers at
+                zero platform fee, reserve compute facilities, and connect with chartered guilds.
+              </p>
+
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '2.5rem' }}>
+                <Link
+                  to={isAuthenticated ? '/dashboard' : '/register'}
+                  className="btn btn-primary btn-lg"
+                  style={{ gap: '0.5rem', minWidth: '180px' }}
+                >
+                  <Terminal size={16} />
+                  <span>{isAuthenticated ? 'Enter Dashboard' : 'Initialize Session'}</span>
+                  <ArrowRight size={16} />
+                </Link>
+
+                <Link
+                  to="/events"
+                  className="btn btn-secondary btn-lg"
+                  style={{ gap: '0.5rem' }}
+                >
+                  <Calendar size={16} />
+                  <span>Explore Archive</span>
+                </Link>
+
+                <Link
+                  to="/marketplace"
+                  className="btn btn-ghost btn-lg"
+                  style={{ gap: '0.35rem', fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}
+                >
+                  <span>Marketplace</span>
+                  <ArrowUpRight size={15} />
+                </Link>
+              </div>
+
+              {/* Architecture Specs Monospace Bar */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '1.25rem',
+                  paddingTop: '1.25rem',
+                  borderTop: '1px solid var(--border-subtle)',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.72rem',
+                  color: 'var(--text-muted)',
+                  flexWrap: 'wrap',
+                }}
+              >
+                <span>AUTH: JWT BEARER</span>
+                <span>•</span>
+                <span>COMMERCE: 0% FEES</span>
+                <span>•</span>
+                <span>MODULES: 04 ACTIVE</span>
+              </div>
+            </motion.div>
+
+            {/* Right Column: Live Operational Telemetry Monitor */}
+            <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0.15}>
+              <div
+                className="arch-panel"
+                style={{
+                  padding: '1.75rem',
+                  boxShadow: 'var(--shadow-md)',
+                }}
+              >
+                {/* Console Header */}
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    paddingBottom: '1rem',
+                    borderBottom: '1px solid var(--border-subtle)',
+                    marginBottom: '1.25rem',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <Activity size={16} color="var(--text-primary)" />
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700 }}>
+                      TELEMETRY // ACTIVE SECTOR
+                    </span>
+                  </div>
+                  <span className="mono-badge mono-badge-filled">{currentSectorData.code}</span>
+                </div>
+
+                {/* Sector Quick Switcher */}
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(4, 1fr)',
+                    gap: '0.35rem',
+                    marginBottom: '1.25rem',
+                  }}
+                >
+                  {sectors.map((sec) => (
+                    <button
+                      key={sec.id}
+                      type="button"
+                      onClick={() => setActiveSector(sec.id)}
+                      style={{
+                        padding: '0.5rem 0.25rem',
+                        background: activeSector === sec.id ? 'var(--text-primary)' : 'var(--surface-2)',
+                        color: activeSector === sec.id ? 'var(--text-inverse)' : 'var(--text-muted)',
+                        border: '1px solid var(--border-subtle)',
+                        borderRadius: 'var(--radius-xs)',
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '0.72rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        transition: 'all var(--transition-fast)',
+                      }}
+                    >
+                      {sec.index}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Sector Featured Preview */}
+                <div style={{ marginBottom: '1.25rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
+                    <span style={{ fontSize: '0.78rem', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)' }}>
+                      {currentSectorData.name}
+                    </span>
+                    <Link
+                      to={currentSectorData.route}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.3rem',
+                        fontSize: '0.75rem',
+                        fontWeight: 700,
+                        color: 'var(--text-primary)',
+                      }}
+                    >
+                      <span>Launch</span>
+                      <ArrowRight size={12} />
+                    </Link>
+                  </div>
+                  <h4 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0 0 0.5rem', lineHeight: 1.25 }}>
+                    {currentSectorData.tagline}
+                  </h4>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.5, margin: 0 }}>
+                    {currentSectorData.description}
+                  </p>
+                </div>
+
+                {/* Sector Live Feed Item */}
+                <div
+                  style={{
+                    padding: '1rem',
+                    background: 'var(--surface-2)',
+                    border: '1px solid var(--border-subtle)',
+                    borderRadius: 'var(--radius-xs)',
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                    <span className="mono-badge">{currentSectorData.items[0].badge}</span>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+                      REAL-TIME
+                    </span>
+                  </div>
+                  <div style={{ fontSize: '0.92rem', fontWeight: 750, color: 'var(--text-primary)', marginBottom: '0.35rem' }}>
+                    {currentSectorData.items[0].title}
+                  </div>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>
+                    {currentSectorData.items[0].meta}
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', color: 'var(--text-secondary)', marginBottom: '0.35rem' }}>
+                    <span>{currentSectorData.items[0].capacity}</span>
+                    <span style={{ fontFamily: 'var(--font-mono)' }}>{currentSectorData.items[0].progress}%</span>
+                  </div>
+                  <div style={{ width: '100%', height: '4px', background: 'var(--border-subtle)', borderRadius: '2px', overflow: 'hidden' }}>
+                    <div
+                      style={{
+                        width: `${currentSectorData.items[0].progress}%`,
+                        height: '100%',
+                        background: 'var(--text-primary)',
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Real-Time Architectural Ticker Strip ───────────────────── */}
+      <div className="ticker-strip">
+        <div className="ticker-item">
+          <span className="live-dot" />
+          <span>EVENT ARCHIVE: ACTIVE // REAL-TIME RSVP TELEMETRY</span>
+        </div>
+        <span>///</span>
+        <div className="ticker-item">
+          <span className="live-dot" />
+          <span>PEER MARKETPLACE: 0% TRANSACTION FEES // VERIFIED STUDENTS</span>
+        </div>
+        <span>///</span>
+        <div className="ticker-item">
+          <span className="live-dot" />
+          <span>RESOURCE ALLOCATION: OPERATIONAL // TIME-SLOT SCHEDULING</span>
+        </div>
+        <span>///</span>
+        <div className="ticker-item">
+          <span className="live-dot" />
+          <span>STUDENT GUILDS: CHARTERED DIRECTORY // OPEN RECRUITMENT</span>
+        </div>
+      </div>
+
+      {/* ── 02 // Sector Architecture Matrix ───────────────────────── */}
+      <section style={{ padding: 'clamp(4rem, 6vw, 6rem) 0' }}>
+        <div className="container">
+          <div style={{ marginBottom: '2.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem' }}>
+            <div>
+              <span className="telemetry-tag" style={{ marginBottom: '0.5rem' }}>
+                [02 // SECTOR ARCHITECTURE]
+              </span>
+              <h2 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.75rem)', fontWeight: 850, margin: 0, textTransform: 'uppercase' }}>
+                Four Synchronized Modules.
+              </h2>
+            </div>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: '420px', margin: 0 }}>
+              Engineered to operate as one unified campus digital fabric rather than disconnected siloed tools.
+            </p>
+          </div>
+
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: '1.25rem',
+            }}
+          >
+            {sectors.map((sector) => {
+              const Icon = sector.icon;
+              return (
+                <div
+                  key={sector.id}
+                  className="card arch-panel arch-panel-interactive"
+                  style={{
+                    padding: '2rem',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+                      <span className="mono-badge mono-badge-filled">{sector.code}</span>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-muted)' }}>
+                        {sector.index}
+                      </span>
+                    </div>
+
+                    <div
+                      style={{
+                        width: '42px',
+                        height: '42px',
+                        borderRadius: 'var(--radius-xs)',
+                        background: 'var(--surface-2)',
+                        border: '1px solid var(--border-subtle)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginBottom: '1.25rem',
+                        color: 'var(--text-primary)',
+                      }}
+                    >
+                      <Icon size={20} />
+                    </div>
+
+                    <h3 style={{ fontSize: '1.25rem', fontWeight: 800, margin: '0 0 0.5rem' }}>
+                      {sector.name}
+                    </h3>
+                    <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: '0 0 1.5rem' }}>
+                      {sector.description}
+                    </p>
+                  </div>
+
+                  <Link
+                    to={sector.route}
+                    className="btn btn-secondary btn-sm"
+                    style={{ justifyContent: 'space-between', width: '100%', minHeight: '38px' }}
+                  >
+                    <span>{sector.cta}</span>
+                    <ArrowRight size={14} />
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 03 // Architecture & Security Principles ───────────────── */}
+      <section
+        style={{
+          padding: 'clamp(4rem, 6vw, 6rem) 0',
+          background: 'var(--surface-1)',
+          borderTop: '1px solid var(--border-subtle)',
+          borderBottom: '1px solid var(--border-subtle)',
+        }}
+      >
+        <div className="container">
+          <div style={{ marginBottom: '3rem', maxWidth: '640px' }}>
+            <span className="telemetry-tag" style={{ marginBottom: '0.5rem' }}>
+              [03 // PLATFORM INTEGRITY]
+            </span>
+            <h2 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.75rem)', fontWeight: 850, margin: '0 0 0.75rem', textTransform: 'uppercase' }}>
+              Engineered For Campus Trust.
+            </h2>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', margin: 0 }}>
+              Strictly enforced access policies and student security built into the core backend.
+            </p>
+          </div>
+
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
               gap: '1.5rem',
             }}
           >
-            {/* Bento Card 1: Monochromatic HUD */}
-            <div
-              style={{
-                padding: '2rem',
-                borderRadius: '20px',
-                backgroundColor: 'rgba(10, 10, 14, 0.8)',
-                border: '1px solid rgba(255, 255, 255, 0.14)',
-                backdropFilter: 'blur(24px)',
-              }}
-            >
-              <div
-                style={{
-                  width: '44px',
-                  height: '44px',
-                  borderRadius: '12px',
-                  backgroundColor: '#FFFFFF',
-                  color: '#000000',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: '1.25rem',
-                  boxShadow: '0 0 20px rgba(255, 255, 255, 0.4)',
-                }}
-              >
-                <Terminal size={22} strokeWidth={2.4} />
+            <div className="card arch-panel" style={{ padding: '2rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1rem' }}>
+                <Shield size={20} color="var(--text-primary)" />
+                <span className="mono-badge">AUTH PROTOCOL</span>
               </div>
-              <h4 style={{ fontSize: '1.25rem', fontWeight: '700', margin: '0 0 0.5rem' }}>
-                Pure Monochromatic HUD
+              <h4 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0 0 0.65rem' }}>
+                Verified Collegiate Authentication
               </h4>
-              <p style={{ color: '#A1A1AA', fontSize: '0.92rem', lineHeight: '1.6', margin: 0 }}>
-                High-contrast pure white and obsidian dark UI designed for zero visual fatigue,
-                instant readability in low-light auditoriums, and lightning-fast keyboard navigation.
+              <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>
+                Every participant holds an authenticated university session verified through JWT Bearer tokens and
+                role-governed authorization (Students, Organizers, Administrators). Zero bot traffic, zero spam.
               </p>
             </div>
 
-            {/* Bento Card 2: Stellar Security */}
-            <div
-              style={{
-                padding: '2rem',
-                borderRadius: '20px',
-                backgroundColor: 'rgba(10, 10, 14, 0.8)',
-                border: '1px solid rgba(255, 255, 255, 0.14)',
-                backdropFilter: 'blur(24px)',
-              }}
-            >
-              <div
-                style={{
-                  width: '44px',
-                  height: '44px',
-                  borderRadius: '12px',
-                  backgroundColor: '#FFFFFF',
-                  color: '#000000',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: '1.25rem',
-                  boxShadow: '0 0 20px rgba(255, 255, 255, 0.4)',
-                }}
-              >
-                <Shield size={22} strokeWidth={2.4} />
+            <div className="card arch-panel" style={{ padding: '2rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1rem' }}>
+                <Lock size={20} color="var(--text-primary)" />
+                <span className="mono-badge">COMMERCE POLICY</span>
               </div>
-              <h4 style={{ fontSize: '1.25rem', fontWeight: '700', margin: '0 0 0.5rem' }}>
-                Role-Based Orbit Security
+              <h4 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0 0 0.65rem' }}>
+                Zero Platform Commission
               </h4>
-              <p style={{ color: '#A1A1AA', fontSize: '0.92rem', lineHeight: '1.6', margin: 0 }}>
-                Strict organizer permissions, attendee privacy enforcement, and tokenized session
-                encryption ensure students and faculty collaborate without data leaks.
+              <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>
+                Student transactions remain 100% peer-to-peer. No 15% marketplace commissions, no platform processing tax.
+                Coordinate campus handoffs with direct in-person inspection and accountability.
               </p>
             </div>
 
-            {/* Bento Card 3: Real-Time Telemetry */}
-            <div
-              style={{
-                padding: '2rem',
-                borderRadius: '20px',
-                backgroundColor: 'rgba(10, 10, 14, 0.8)',
-                border: '1px solid rgba(255, 255, 255, 0.14)',
-                backdropFilter: 'blur(24px)',
-              }}
-            >
-              <div
-                style={{
-                  width: '44px',
-                  height: '44px',
-                  borderRadius: '12px',
-                  backgroundColor: '#FFFFFF',
-                  color: '#000000',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: '1.25rem',
-                  boxShadow: '0 0 20px rgba(255, 255, 255, 0.4)',
-                }}
-              >
-                <Zap size={22} strokeWidth={2.4} />
+            <div className="card arch-panel" style={{ padding: '2rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1rem' }}>
+                <Zap size={20} color="var(--text-primary)" />
+                <span className="mono-badge">RSVP TELEMETRY</span>
               </div>
-              <h4 style={{ fontSize: '1.25rem', fontWeight: '700', margin: '0 0 0.5rem' }}>
-                Live Quota Telemetry
+              <h4 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0 0 0.65rem' }}>
+                Real-Time Quota Telemetry
               </h4>
-              <p style={{ color: '#A1A1AA', fontSize: '0.92rem', lineHeight: '1.6', margin: 0 }}>
-                Never run into overbooked events or unavailable lab equipment again. Instantaneous
-                seat counters, remaining spots gauges, and auto-closing RSVP pipelines.
+              <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>
+                Live capacity tracking ensures attendee quotas are respected automatically. Capacity meters,
+                instant registration confirmations, and direct organizer attendee management.
               </p>
             </div>
-          </div>
-        </section>
-
-        {/* 5. Mission Control Final Warp Call-to-Action */}
-        <div
-          style={{
-            borderRadius: '28px',
-            background: 'radial-gradient(ellipse at top, rgba(255, 255, 255, 0.12) 0%, rgba(10, 10, 14, 0.95) 75%)',
-            border: '1px solid rgba(255, 255, 255, 0.22)',
-            padding: '4.5rem 2rem',
-            textAlign: 'center',
-            position: 'relative',
-            overflow: 'hidden',
-            boxShadow: '0 24px 70px rgba(0, 0, 0, 0.95), 0 0 50px rgba(255, 255, 255, 0.05)',
-          }}
-        >
-          {/* Subtle star particle in CTA */}
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.45rem',
-              padding: '0.35rem 1rem',
-              borderRadius: '9999px',
-              backgroundColor: 'rgba(255, 255, 255, 0.08)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              fontSize: '0.75rem',
-              fontWeight: '700',
-              textTransform: 'uppercase',
-              letterSpacing: '0.12em',
-              marginBottom: '1.25rem',
-              fontFamily: 'var(--font-mono)',
-            }}
-          >
-            <Sparkles size={13} />
-            <span>MISSION LAUNCH READY</span>
-          </div>
-
-          <h2
-            style={{
-              fontSize: 'clamp(2.2rem, 5vw, 4rem)',
-              fontWeight: '900',
-              color: '#FFFFFF',
-              letterSpacing: '-0.03em',
-              margin: '0 0 1rem',
-            }}
-          >
-            Ready To Enter The Orbit?
-          </h2>
-
-          <p
-            style={{
-              fontSize: '1.1rem',
-              color: '#A1A1AA',
-              maxWidth: '580px',
-              margin: '0 auto 2.5rem',
-              lineHeight: '1.6',
-            }}
-          >
-            Join thousands of campus explorers. Publish events, discover peer trade, reserve
-            computing facilities, and synchronize your campus existence today.
-          </p>
-
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-              gap: '1rem',
-            }}
-          >
-            <Link
-              to="/register"
-              className="btn btn-primary btn-lg"
-              style={{
-                background: '#FFFFFF',
-                color: '#000000',
-                fontWeight: '800',
-                fontSize: '1.05rem',
-                padding: '0.9rem 2.5rem',
-                borderRadius: '9999px',
-                boxShadow: '0 0 40px rgba(255, 255, 255, 0.45)',
-                border: '1px solid #FFFFFF',
-              }}
-            >
-              <span>Initialize Orbit Access</span>
-              <ArrowRight size={18} />
-            </Link>
-
-            <Link
-              to="/events"
-              className="btn btn-secondary btn-lg"
-              style={{
-                background: 'rgba(255, 255, 255, 0.08)',
-                color: '#FFFFFF',
-                border: '1px solid rgba(255, 255, 255, 0.25)',
-                padding: '0.9rem 2.2rem',
-                borderRadius: '9999px',
-              }}
-            >
-              <span>Explore Public Gateway</span>
-            </Link>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* ── 04 // Architectural Call To Action ─────────────────────── */}
+      <section style={{ padding: 'clamp(4rem, 7vw, 6.5rem) 0' }}>
+        <div className="container">
+          <div
+            className="arch-panel"
+            style={{
+              padding: 'clamp(2.5rem, 5vw, 4.5rem)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textAlign: 'center',
+              background: 'var(--surface-1)',
+              border: '1px solid var(--border-strong)',
+            }}
+          >
+            <span className="telemetry-tag" style={{ marginBottom: '1.25rem' }}>
+              [04 // SESSION INITIATION]
+            </span>
+
+            <h2
+              style={{
+                fontSize: 'clamp(2.2rem, 4.5vw, 3.75rem)',
+                fontWeight: 900,
+                letterSpacing: '-0.035em',
+                lineHeight: 1.1,
+                margin: '0 0 1rem',
+                textTransform: 'uppercase',
+                maxWidth: '780px',
+              }}
+            >
+              Ready To Enter The Campspace Network?
+            </h2>
+
+            <p
+              style={{
+                fontSize: '1.05rem',
+                color: 'var(--text-secondary)',
+                maxWidth: '580px',
+                margin: '0 auto 2.5rem',
+                lineHeight: 1.6,
+              }}
+            >
+              Access event registrations, fee-free student commerce, campus lab reservations, and student
+              societies in a single unified operating workspace.
+            </p>
+
+            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+              <Link
+                to={isAuthenticated ? '/dashboard' : '/register'}
+                className="btn btn-primary btn-lg"
+                style={{ gap: '0.5rem', minWidth: '200px' }}
+              >
+                <span>{isAuthenticated ? 'Enter Dashboard Hub' : 'Create Campus Account'}</span>
+                <ArrowRight size={16} />
+              </Link>
+
+              <Link to="/events" className="btn btn-secondary btn-lg">
+                <span>Explore Campus Events</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

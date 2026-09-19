@@ -7,16 +7,26 @@ export const Card = ({
   action,
   footer,
   interactive = false,
+  variant = 'default',
   className = '',
   onClick,
   style = {},
   ...props
 }) => {
   const hasHeader = title || subtitle || action;
+  const variantClass = variant === 'elevated'
+    ? 'surface-2'
+    : variant === 'frame'
+    ? 'geo-frame'
+    : variant === 'glass'
+    ? 'surface-1'
+    : variant === 'spotlight'
+    ? 'studio-spotlight'
+    : '';
 
   return (
     <div
-      className={`card ${interactive ? 'card-interactive' : ''} ${className}`.trim()}
+      className={`card ${variantClass} ${interactive ? 'card-interactive' : ''} ${className}`.trim()}
       onClick={onClick}
       style={{
         cursor: interactive || onClick ? 'pointer' : 'default',
