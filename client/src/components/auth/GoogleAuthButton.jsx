@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { Loader2, Sparkles } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
 // Google Multicolor "G" Logo
 export const GoogleIcon = ({ size = 20 }) => (
@@ -31,218 +31,88 @@ export const GoogleAuthButton = ({
 }) => {
   const { loginWithGoogle } = useAuth();
   const [loading, setLoading] = useState(false);
-  const [showDevModal, setShowDevModal] = useState(false);
-  const [devEmail, setDevEmail] = useState('');
-  const [devName, setDevName] = useState('');
 
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
   const handleGoogleClick = async () => {
-    // If real Google Client ID is configured, trigger Google Identity Services
-    if (clientId && window.google?.accounts?.id) {
-      setLoading(true);
-      try {
-        window.google.accounts.id.initialize({
-          client_id: clientId,
-          callback: async (response) => {
-            try {
-              const res = await loginWithGoogle({ credential: response.credential });
-              if (onSuccess) onSuccess(res);
-            } catch (err) {
-              if (onError) onError(err);
-            } finally {
-              setLoading(false);
-            }
-          },
-        });
-        window.google.accounts.id.prompt();
-      } catch (err) {
-        setLoading(false);
-        if (onError) onError(err);
-      }
+    if (!clientId || clientId === 'YOUR_CLIENT_ID.apps.googleusercontent.com') {
+      const errorMsg = 'Google Client ID is not configured. Please set VITE_GOOGLE_CLIENT_ID in your .env file.';
+      console.error(errorMsg);
+      if (onError) onError(new Error(errorMsg));
+      alert(errorMsg);
       return;
     }
 
-    // Otherwise, show the quick Google One-Click Sandbox modal
-    setShowDevModal(true);
-  };
-
-  const handleDevSubmit = async (selectedEmail, selectedName) => {
-    const emailToUse = selectedEmail || devEmail.trim() || 'student.google@campus.edu';
-    const nameToUse = selectedName || devName.trim() || 'Google Campus Scholar';
+    if (!window.google?.accounts?.id) {
+      const errorMsg = 'Google Identity Services script failed to load.';
+      console.error(errorMsg);
+      if (onError) onError(new Error(errorMsg));
+      return;
+    }
 
     setLoading(true);
-    setShowDevModal(false);
     try {
-      const res = await loginWithGoogle({
-        userInfo: {
-          email: emailToUse,
-          name: nameToUse,
-          picture: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80',
-          googleId: `google_sim_${Date.now()}`,
+      window.google.accounts.id.initialize({
+        client_id: clientId,
+        callback: async (response) => {
+          try {
+            const res = await loginWithGoogle({ credential: response.credential });
+            if (onSuccess) onSuccess(res);
+          } catch (err) {
+            if (onError) onError(err);
+          } finally {
+            setLoading(false);
+          }
         },
       });
-      if (onSuccess) onSuccess(res);
+      window.google.accounts.id.prompt();
     } catch (err) {
-      if (onError) onError(err);
-    } finally {
       setLoading(false);
+      if (onError) onError(err);
     }
   };
 
   return (
-    <>
-      <button
-        type="button"
-        onClick={handleGoogleClick}
-        disabled={loading}
-        className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-all duration-300 relative group overflow-hidden"
+    <button
+      type="button"
+      onClick={handleGoogleClick}
+      disabled={loading}
+      className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-all duration-300 relative group overflow-hidden"
+      style={{
+        background: 'rgba(255, 255, 255, 0.05)',
+        border: '1px solid rgba(255, 255, 255, 0.12)',
+        color: 'var(--text-primary)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.09)';
+        e.currentTarget.style.borderColor = 'rgba(255, 140, 66, 0.35)';
+        e.currentTarget.style.boxShadow = '0 6px 24px rgba(255, 140, 66, 0.15)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)';
+        e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.2)';
+      }}
+    >
+      <div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
         style={{
-          background: 'rgba(255, 255, 255, 0.05)',
-          border: '1px solid rgba(255, 255, 255, 0.12)',
-          color: 'var(--text-primary)',
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
+          background: 'radial-gradient(circle at 50% 50%, rgba(255, 140, 66, 0.12) 0%, transparent 70%)',
         }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.09)';
-          e.currentTarget.style.borderColor = 'rgba(255, 140, 66, 0.35)';
-          e.currentTarget.style.boxShadow = '0 6px 24px rgba(255, 140, 66, 0.15)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)';
-          e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.2)';
-        }}
-      >
-        {/* Glow ambient highlight */}
-        <div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-          style={{
-            background: 'radial-gradient(circle at 50% 50%, rgba(255, 140, 66, 0.12) 0%, transparent 70%)',
-          }}
-        />
+      />
 
-        {loading ? (
-          <Loader2 className="w-5 h-5 animate-spin text-orange-400" />
-        ) : (
-          <GoogleIcon size={20} />
-        )}
-        <span className="relative z-10 font-semibold tracking-wide">
-          {loading ? 'Authenticating with Google...' : text}
-        </span>
-      </button>
-
-      {/* Development Google Simulation Modal */}
-      {showDevModal && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ background: 'rgba(0, 0, 0, 0.65)', backdropFilter: 'blur(8px)' }}
-          onClick={() => setShowDevModal(false)}
-        >
-          <div
-            className="w-full max-w-md p-6 rounded-2xl relative"
-            style={{
-              background: '#0d1117',
-              border: '1px solid rgba(255, 140, 66, 0.25)',
-              boxShadow: '0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 140, 66, 0.1)',
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <GoogleIcon size={28} />
-              <div>
-                <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                  Google Sign-In
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30 font-normal">
-                    Interactive
-                  </span>
-                </h3>
-                <p className="text-xs text-neutral-400">
-                  Select a Google campus account or enter your custom email
-                </p>
-              </div>
-            </div>
-
-            {/* Fast Quick-Select Accounts */}
-            <div className="space-y-2 mb-4">
-              <button
-                type="button"
-                onClick={() => handleDevSubmit('alex.rivera@campus.edu', 'Alex Rivera')}
-                className="w-full text-left p-3 rounded-xl border border-white/10 hover:border-orange-500/40 hover:bg-white/5 transition-all flex items-center justify-between group"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center text-orange-400 font-bold text-sm">
-                    AR
-                  </div>
-                  <div>
-                    <div className="text-sm font-semibold text-white group-hover:text-orange-400 transition-colors">
-                      Alex Rivera
-                    </div>
-                    <div className="text-xs text-neutral-400">alex.rivera@campus.edu</div>
-                  </div>
-                </div>
-                <Sparkles className="w-4 h-4 text-neutral-500 group-hover:text-orange-400 transition-colors" />
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleDevSubmit('jordan.lee@stanford.edu', 'Jordan Lee')}
-                className="w-full text-left p-3 rounded-xl border border-white/10 hover:border-orange-500/40 hover:bg-white/5 transition-all flex items-center justify-between group"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 font-bold text-sm">
-                    JL
-                  </div>
-                  <div>
-                    <div className="text-sm font-semibold text-white group-hover:text-orange-400 transition-colors">
-                      Jordan Lee
-                    </div>
-                    <div className="text-xs text-neutral-400">jordan.lee@stanford.edu</div>
-                  </div>
-                </div>
-                <Sparkles className="w-4 h-4 text-neutral-500 group-hover:text-orange-400 transition-colors" />
-              </button>
-            </div>
-
-            {/* Custom Google Email Input */}
-            <div className="pt-2 border-t border-white/10">
-              <label className="block text-xs font-medium text-neutral-400 mb-1">
-                Or enter custom Google account:
-              </label>
-              <div className="flex gap-2">
-                <input
-                  type="email"
-                  placeholder="your.name@campus.edu"
-                  value={devEmail}
-                  onChange={(e) => setDevEmail(e.target.value)}
-                  className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500"
-                />
-                <button
-                  type="button"
-                  onClick={() => handleDevSubmit()}
-                  className="px-4 py-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white text-xs font-semibold rounded-lg hover:brightness-110 transition-all"
-                >
-                  Continue
-                </button>
-              </div>
-            </div>
-
-            <div className="mt-4 flex justify-between items-center text-[11px] text-neutral-500">
-              <span>Client ID: {clientId ? 'Configured' : 'Dev Simulation Mode'}</span>
-              <button
-                type="button"
-                onClick={() => setShowDevModal(false)}
-                className="hover:text-white transition-colors"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
+      {loading ? (
+        <Loader2 className="w-5 h-5 animate-spin text-orange-400" />
+      ) : (
+        <GoogleIcon size={20} />
       )}
-    </>
+      <span className="relative z-10 font-semibold tracking-wide">
+        {loading ? 'Authenticating with Google...' : text}
+      </span>
+    </button>
   );
 };
 
