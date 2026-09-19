@@ -7,7 +7,7 @@ export const ClubsPage = () => {
         <div className="card">
           <h2 style={{ marginBottom: '0.75rem' }}>Campus Clubs</h2>
           <p style={{ color: 'var(--slate-400)', fontSize: '0.95rem' }}>
-            Developer 2 module: Campus clubs foundation.
+            Campus clubs foundation.
           </p>
         </div>
       </div>

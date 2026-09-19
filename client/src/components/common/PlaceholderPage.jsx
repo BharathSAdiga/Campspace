@@ -23,10 +23,7 @@ export const PlaceholderPage = ({
           breadcrumb={`Campspace // ${module.toUpperCase()}`}
           badge={
             <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-              <span className="badge-orange">[MODULE: {module.toUpperCase()}]</span>
-              <span className="liquid-glass-pill" style={{ fontSize: '0.65rem', padding: '0.2rem 0.5rem' }}>
-                [ROUTE: {routePath}]
-              </span>
+              <span className="badge-outline">In Development</span>
             </div>
           }
         />
@@ -62,69 +59,14 @@ export const PlaceholderPage = ({
                 </div>
                 <div>
                   <h3 style={{ fontSize: '1.15rem', fontWeight: 800, fontFamily: 'var(--font-heading)' }}>
-                    {isResource ? 'Resource Scheduling Architecture' : isClub ? 'Campus Guild Registry' : 'Module Specification'}
+                    {isResource ? 'Resource Scheduling' : isClub ? 'Campus Clubs' : 'Module Information'}
                   </h3>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'var(--text-muted)' }}>
-                    ID: {routePath.replace(/\//g, '_').toUpperCase()}
-                  </span>
                 </div>
               </div>
 
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.6, marginBottom: '1.5rem' }}>
                 {description}
               </p>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    padding: '0.65rem 0.85rem',
-                    background: 'var(--liquid-glass-bg)',
-                    border: '1px solid var(--liquid-glass-border)',
-                    borderRadius: 'var(--radius-sm)',
-                  }}
-                >
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-muted)' }}>ENDPOINT</span>
-                  <code style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--accent-orange)' }}>{routePath}</code>
-                </div>
-
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    padding: '0.65rem 0.85rem',
-                    background: 'var(--liquid-glass-bg)',
-                    border: '1px solid var(--liquid-glass-border)',
-                    borderRadius: 'var(--radius-sm)',
-                  }}
-                >
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-muted)' }}>STATUS</span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-primary)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                    <span className="orange-dot" style={{ width: 6, height: 6 }} />
-                    INTEGRATED WITH CLIENT ROUTER
-                  </span>
-                </div>
-
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    padding: '0.65rem 0.85rem',
-                    background: 'var(--liquid-glass-bg)',
-                    border: '1px solid var(--liquid-glass-border)',
-                    borderRadius: 'var(--radius-sm)',
-                  }}
-                >
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-muted)' }}>ACCESS CONTROL</span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-primary)', fontWeight: 700 }}>
-                    CAMPUS AUTHENTICATED
-                  </span>
-                </div>
-              </div>
 
               <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
                 <Link to="/dashboard" className="btn btn-liquid-orange btn-sm">
@@ -143,17 +85,14 @@ export const PlaceholderPage = ({
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
                 <span
                   style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.72rem',
-                    letterSpacing: '0.08em',
-                    color: 'var(--accent-orange)',
+                    fontSize: '0.85rem',
+                    color: 'var(--text-primary)',
                     textTransform: 'uppercase',
                     fontWeight: 700,
                   }}
                 >
-                  [OPERATIONAL TELEMETRY]
+                  Overview
                 </span>
-                <span className="badge-orange">[ONLINE]</span>
               </div>
 
               {isResource ? (
@@ -221,8 +160,8 @@ export const PlaceholderPage = ({
                   </div>
                 </div>
               ) : (
-                <div style={{ padding: '1.5rem', textAlign: 'center', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', fontSize: '0.82rem' }}>
-                  [CAMPUS SUBSYSTEM OPERATIONAL]
+                <div style={{ padding: '1.5rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+                  Content coming soon
                 </div>
               )}
             </div>

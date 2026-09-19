@@ -40,7 +40,7 @@ export const LandingPage = () => {
       icon: Calendar,
       tagline: 'Flagship Hackathons, Summits & Mixers',
       description:
-        'Discover and RSVP to verified collegiate hackathons, career workshops, guest keynotes, and socials with real-time seat telemetry.',
+        'Discover and RSVP to verified collegiate hackathons, career workshops, guest keynotes, and socials.',
       route: '/events',
       cta: 'Explore All Events',
       items: [
@@ -233,7 +233,7 @@ export const LandingPage = () => {
                 }}
               >
                 Campspace consolidates student life into one synchronized, liquid glass interface. Coordinate
-                flagship student hackathons with live telemetry, trade textbooks directly at 0% fees, book GPU clusters, and charter student societies.
+                flagship student hackathons, trade textbooks directly at 0% fees, book campus resources, and charter student societies.
               </p>
 
               {/* Action Buttons: Get Started and Log In */}
@@ -309,7 +309,7 @@ export const LandingPage = () => {
                 <span>•</span>
                 <span>COMMERCE: <span style={{ color: 'var(--accent-orange)' }}>0% TAX</span></span>
                 <span>•</span>
-                <span>MODULES: 04 ACTIVE</span>
+                <span>System Modules</span>
               </div>
             </motion.div>
 
@@ -337,7 +337,7 @@ export const LandingPage = () => {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                       <Activity size={16} style={{ color: 'var(--accent-orange)' }} />
                       <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700 }}>
-                        TELEMETRY // ACTIVE SECTOR
+                        Active Selection
                       </span>
                     </div>
                     <span className="badge-orange" style={{ padding: '0.2rem 0.55rem', borderRadius: 'var(--radius-xs)', fontSize: '0.68rem', fontWeight: 800 }}>
@@ -459,7 +459,7 @@ export const LandingPage = () => {
       <div className="ticker-strip">
         <div className="ticker-item">
           <span className="orange-dot" style={{ width: 6, height: 6 }} />
-          <span>EVENT ARCHIVE: ACTIVE // REAL-TIME RSVP TELEMETRY</span>
+          <span>Recent Events</span>
         </div>
         <span>///</span>
         <div className="ticker-item">
@@ -628,10 +628,10 @@ export const LandingPage = () => {
             <div className="card liquid-glass-card" style={{ padding: '2rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1rem' }}>
                 <Zap size={20} style={{ color: 'var(--accent-orange)' }} />
-                <span className="badge-orange">RSVP TELEMETRY</span>
+                <span className="badge-orange">RSVP TRACKING</span>
               </div>
               <h4 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0 0 0.65rem' }}>
-                Real-Time Quota Telemetry
+                Real-Time Capacity Tracking
               </h4>
               <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>
                 Live capacity tracking ensures attendee quotas are respected automatically. Capacity meters,
