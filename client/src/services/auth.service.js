@@ -29,6 +29,18 @@ export const authService = {
   },
 
   /**
+   * Sign in or register with Google OAuth
+   * @param {Object} payload - { credential, userInfo }
+   */
+  async googleLogin(payload) {
+    const response = await api.post('/api/auth/google', payload);
+    if (response.token && response.user) {
+      this.saveSession(response.token, response.user);
+    }
+    return response;
+  },
+
+  /**
    * Fetch current authenticated user profile
    */
   async getMe() {

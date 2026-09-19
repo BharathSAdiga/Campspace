@@ -7,6 +7,7 @@ const config = {
   clientUrl: process.env.CLIENT_URL || 'http://localhost:5173',
   jwtSecret: process.env.JWT_SECRET || 'campspace_jwt_secret_dev_key_2024_secure',
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
+  googleClientId: process.env.GOOGLE_CLIENT_ID || '',
 };
 
 module.exports = config;

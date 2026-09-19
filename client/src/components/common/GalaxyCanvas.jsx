@@ -65,13 +65,13 @@ export const GalaxyCanvas = ({ className = '', style = {} }) => {
     const ARM_SPREAD = 0.55;
     const GALAXY_RADIUS = Math.min(width, height) * 0.85;
 
-    // Color palettes
+    // Color palettes (Monochrome + Light Orange accents)
     const colors = [
-      { r: 255, g: 255, b: 255 }, // Radiant core white
-      { r: 200, g: 230, b: 255 }, // Celestial cyan-white
-      { r: 160, g: 185, b: 255 }, // Deep space soft blue
-      { r: 195, g: 155, b: 255 }, // Nebula violet
-      { r: 255, g: 215, b: 180 }, // Stellar amber
+      { r: 255, g: 255, b: 255 }, // Radiant core pure white
+      { r: 245, g: 245, b: 250 }, // Crisp starlight white
+      { r: 255, g: 240, b: 230 }, // Soft warm starlight
+      { r: 255, g: 175, b: 100 }, // Stellar light orange
+      { r: 255, g: 205, b: 155 }, // Soft amber apricot glow
     ];
 
     const particles = [];
@@ -186,7 +186,7 @@ export const GalaxyCanvas = ({ className = '', style = {} }) => {
         ctx.fillRect(px, py, star.size, star.size);
       }
 
-      // 2. Core Nebular Ambient Glow
+      // 2. Core Nebular Ambient Glow (Soft White & Light Orange Rim)
       const coreGlow = ctx.createRadialGradient(
         centerX,
         centerY,
@@ -195,9 +195,9 @@ export const GalaxyCanvas = ({ className = '', style = {} }) => {
         centerY,
         GALAXY_RADIUS * 0.45
       );
-      coreGlow.addColorStop(0, 'rgba(255, 255, 255, 0.22)');
-      coreGlow.addColorStop(0.2, 'rgba(180, 210, 255, 0.12)');
-      coreGlow.addColorStop(0.5, 'rgba(140, 110, 240, 0.05)');
+      coreGlow.addColorStop(0, 'rgba(255, 255, 255, 0.2)');
+      coreGlow.addColorStop(0.25, 'rgba(255, 245, 235, 0.1)');
+      coreGlow.addColorStop(0.55, 'rgba(255, 138, 61, 0.045)');
       coreGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
       ctx.fillStyle = coreGlow;
       ctx.fillRect(0, 0, width, height);

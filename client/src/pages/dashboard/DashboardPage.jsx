@@ -54,27 +54,27 @@ export const DashboardPage = () => {
       <div className="container" style={{ paddingTop: '1.5rem' }}>
         {/* Cockpit Header */}
         <div
-          className="card arch-panel"
+          className="card liquid-glass-card"
           style={{
             padding: '2rem',
             marginBottom: '2rem',
-            background: 'var(--surface-1)',
-            border: '1px solid var(--border-subtle)',
+            border: '1px solid var(--liquid-glass-border)',
+            boxShadow: 'var(--liquid-glass-shadow)',
           }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1.25rem' }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '0.5rem' }}>
-                <span className="telemetry-tag">
-                  <span className="live-dot" />
-                  [COCKPIT // ACTIVE SESSION]
+                <span className="liquid-glass-pill" style={{ padding: '0.25rem 0.65rem' }}>
+                  <span className="orange-dot" />
+                  <span>[COCKPIT // ACTIVE SESSION]</span>
                 </span>
-                <span className="mono-badge mono-badge-filled">
+                <span className="badge-orange">
                   {user?.role?.toUpperCase() || 'STUDENT'}
                 </span>
               </div>
               <h1 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.4rem)', fontWeight: 850, margin: '0 0 0.4rem', textTransform: 'uppercase' }}>
-                Welcome, {user?.name || 'Campus Member'}
+                Welcome, <span className="text-orange">{user?.name || 'Campus Member'}</span>
               </h1>
               <p style={{ color: 'var(--text-secondary)', margin: 0, fontSize: '0.95rem' }}>
                 Your authenticated Campspace session is active. Operating with full campus privileges.
@@ -82,7 +82,7 @@ export const DashboardPage = () => {
             </div>
 
             <div style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap' }}>
-              <Link to="/marketplace" className="btn btn-primary btn-sm">
+              <Link to="/marketplace" className="btn btn-liquid-orange btn-sm">
                 Marketplace
               </Link>
               <Link to="/events" className="btn btn-secondary btn-sm">
@@ -105,15 +105,15 @@ export const DashboardPage = () => {
           }}
         >
           {/* User Profile Summary Card */}
-          <div className="card arch-panel" style={{ padding: '1.75rem' }}>
+          <div className="card liquid-glass-card" style={{ padding: '1.75rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <User size={18} color="var(--text-primary)" />
+                <User size={18} style={{ color: 'var(--accent-orange)' }} />
                 <span style={{ fontWeight: 750, fontSize: '1rem', textTransform: 'uppercase' }}>
                   Profile Identity
                 </span>
               </div>
-              <span className="mono-badge">VERIFIED</span>
+              <span className="badge-orange">VERIFIED</span>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>

@@ -263,13 +263,15 @@ export const EventForm = ({
       )}
 
       <div
-        className="card"
+        className="card liquid-glass-card"
         style={{
-          background: 'var(--card-bg)',
-          border: '1px solid var(--border-subtle)',
+          background: 'var(--liquid-glass-bg)',
+          backdropFilter: 'var(--liquid-glass-blur)',
+          WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+          border: '1px solid var(--liquid-glass-border)',
           borderRadius: 'var(--radius-xl)',
           padding: '2.5rem',
-          boxShadow: 'var(--shadow-md)',
+          boxShadow: 'var(--liquid-glass-shadow)',
           display: 'flex',
           flexDirection: 'column',
           gap: '2rem',
@@ -282,12 +284,12 @@ export const EventForm = ({
               display: 'flex',
               alignItems: 'center',
               gap: '0.6rem',
-              borderBottom: '1px solid var(--border-subtle)',
+              borderBottom: '1px solid var(--liquid-glass-border)',
               paddingBottom: '0.85rem',
               marginBottom: '1.5rem',
             }}
           >
-            <Sparkles size={18} color="var(--text-primary)" />
+            <Sparkles size={18} color="var(--accent-orange)" />
             <h2 style={{ fontSize: '1.2rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
               Core Event Information
             </h2>
@@ -688,7 +690,7 @@ export const EventForm = ({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="btn btn-primary"
+            className="btn btn-liquid-orange"
             style={{
               minWidth: '160px',
               cursor: isSubmitting ? 'not-allowed' : 'pointer',

@@ -79,8 +79,19 @@ export const EventsEditPage = () => {
     return (
       <div className="page-wrapper" style={{ padding: '6rem 0', textAlign: 'center' }}>
         <div className="container" style={{ maxWidth: '520px' }}>
-          <div className="card" style={{ padding: '3rem 2rem', border: '1px solid var(--border-subtle)' }}>
-            <ShieldAlert size={48} color="#333333" style={{ marginBottom: '1rem' }} />
+          <div
+            className="card liquid-glass-card"
+            style={{
+              padding: '3rem 2rem',
+              border: '1px solid var(--liquid-glass-border)',
+              background: 'var(--liquid-glass-bg)',
+              backdropFilter: 'var(--liquid-glass-blur)',
+              WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+              boxShadow: 'var(--liquid-glass-shadow)',
+              borderRadius: 'var(--radius-xl)',
+            }}
+          >
+            <ShieldAlert size={48} color="var(--accent-orange)" style={{ marginBottom: '1rem' }} />
             <h1 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '0.75rem', color: 'var(--text-primary)' }}>
               Forbidden: Unauthorized Access
             </h1>
@@ -93,7 +104,7 @@ export const EventsEditPage = () => {
                 <ArrowLeft size={16} />
                 <span>Return to Event</span>
               </Link>
-              <Link to="/events" className="btn btn-primary">
+              <Link to="/events" className="btn btn-liquid-orange">
                 <span>Browse All Events</span>
               </Link>
             </div>
@@ -124,8 +135,10 @@ export const EventsEditPage = () => {
       {/* Top Header Navigation */}
       <div
         style={{
-          borderBottom: '1px solid var(--border-subtle)',
-          background: 'var(--bg-card)',
+          borderBottom: '1px solid var(--liquid-glass-border)',
+          background: 'var(--liquid-glass-bg)',
+          backdropFilter: 'var(--liquid-glass-blur)',
+          WebkitBackdropFilter: 'var(--liquid-glass-blur)',
           padding: '0.85rem 0',
         }}
       >
@@ -156,20 +169,22 @@ export const EventsEditPage = () => {
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.5rem',
+              gap: '0.45rem',
               padding: '0.35rem 0.85rem',
               borderRadius: 'var(--radius-full)',
-              background: 'var(--border-subtle)',
+              background: 'var(--accent-orange-subtle)',
+              border: '1px solid var(--accent-orange-border)',
               fontSize: '0.78rem',
               fontWeight: 700,
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
               fontFamily: 'var(--font-mono)',
-              color: 'var(--text-primary)',
+              color: 'var(--accent-orange)',
               marginBottom: '0.75rem',
+              boxShadow: 'none',
             }}
           >
-            <Edit3 size={13} />
+            <span className="orange-dot" />
             <span>Event Management</span>
           </div>
 

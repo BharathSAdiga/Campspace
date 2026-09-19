@@ -1,4 +1,4 @@
-const { registerUser, loginUser, getCurrentUser } = require('../services/auth.service');
+const { registerUser, loginUser, getCurrentUser, googleAuthUser } = require('../services/auth.service');
 const { validateRegisterInput, validateLoginInput } = require('../validators/auth.validator');
 
 /**
@@ -62,6 +62,35 @@ const login = async (req, res, next) => {
 };
 
 /**
+ * @desc    Authenticate user via Google OAuth
+ * @route   POST /api/auth/google
+ * @access  Public
+ */
+const googleAuth = async (req, res, next) => {
+  try {
+    const { credential, userInfo } = req.body;
+
+    if (!credential && !userInfo?.email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Google credentials or profile payload required',
+      });
+    }
+
+    const { user, token } = await googleAuthUser({ credential, userInfo });
+
+    res.status(200).json({
+      success: true,
+      message: 'Signed in with Google successfully.',
+      token,
+      user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  * @desc    Get currently authenticated user profile
  * @route   GET /api/auth/me
  * @access  Private (Authenticated)
@@ -82,5 +111,6 @@ const getMe = async (req, res, next) => {
 module.exports = {
   register,
   login,
+  googleAuth,
   getMe,
 };

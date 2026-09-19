@@ -207,10 +207,10 @@ export const MarketplaceListPage = () => {
       {/* 1. Header Section */}
       <section
         style={{
-          background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(243, 239, 230, 0.75) 100%)',
+          background: 'var(--liquid-glass-bg)',
           backdropFilter: 'var(--liquid-glass-blur)',
           WebkitBackdropFilter: 'var(--liquid-glass-blur)',
-          borderBottom: '1px solid var(--border-subtle)',
+          borderBottom: '1px solid var(--liquid-glass-border)',
           padding: '2.5rem 0',
           position: 'relative',
         }}
@@ -231,19 +231,21 @@ export const MarketplaceListPage = () => {
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '0.35rem',
+                    gap: '0.4rem',
                     fontSize: '0.75rem',
                     fontWeight: '700',
-                    color: '#111111',
-                    backgroundColor: '#E8E0D2',
-                    border: '1px solid rgba(216, 204, 184, 0.9)',
-                    padding: '0.2rem 0.65rem',
+                    color: 'var(--accent-orange)',
+                    backgroundColor: 'var(--accent-orange-subtle)',
+                    border: '1px solid var(--accent-orange-border)',
+                    padding: '0.25rem 0.75rem',
                     borderRadius: '9999px',
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em',
+                    fontFamily: 'var(--font-mono)',
+                    boxShadow: 'none',
                   }}
                 >
-                  <Sparkles size={12} color="#111111" /> Verified Peer-to-Peer
+                  <span className="orange-dot" /> Verified Peer-to-Peer
                 </span>
               </div>
               <h1 style={{ fontSize: '2rem', fontWeight: '800', margin: 0, color: 'var(--text-primary)' }}>
@@ -258,13 +260,13 @@ export const MarketplaceListPage = () => {
               <Link
                 to="/marketplace/wishlist"
                 className="btn btn-secondary"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem' }}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', backdropFilter: 'blur(12px)' }}
                 title="View your saved items"
               >
-                <Heart size={16} fill="#888888" color="#888888" />
+                <Heart size={16} fill="var(--accent-orange)" color="var(--accent-orange)" />
                 <span>Saved Wishlist</span>
               </Link>
-              <Link to="/marketplace/create" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Link to="/marketplace/create" className="btn btn-liquid-orange" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
                 <Plus size={18} />
                 <span>Create Listing</span>
               </Link>
@@ -292,7 +294,13 @@ export const MarketplaceListPage = () => {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="form-input"
-                  style={{ paddingLeft: '2.5rem', fontSize: '0.9375rem', height: '44px' }}
+                  style={{
+                    paddingLeft: '2.5rem',
+                    fontSize: '0.9375rem',
+                    height: '44px',
+                    background: 'var(--liquid-glass-bg)',
+                    borderColor: 'var(--liquid-glass-border)',
+                  }}
                 />
                 {search && (
                   <button
@@ -318,9 +326,9 @@ export const MarketplaceListPage = () => {
                   </button>
                 )}
               </div>
-              <Button type="submit" variant="secondary" style={{ height: '44px', padding: '0 1.25rem' }}>
+              <button type="submit" className="btn btn-liquid-orange" style={{ height: '44px', padding: '0 1.35rem' }}>
                 Search
-              </Button>
+              </button>
             </form>
           </div>
 
@@ -352,18 +360,18 @@ export const MarketplaceListPage = () => {
                     borderRadius: '9999px',
                     fontSize: '0.8125rem',
                     fontWeight: isSelected ? '700' : '500',
-                    border: isSelected ? '1px solid #111111' : '1px solid var(--border-subtle)',
-                    backgroundColor: isSelected ? '#111111' : 'rgba(255, 255, 255, 0.9)',
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    color: isSelected ? '#FFFFFF' : 'var(--text-secondary)',
-                    boxShadow: isSelected ? '0 4px 14px rgba(15, 23, 42, 0.2)' : 'none',
+                    border: isSelected ? '1px solid var(--accent-orange)' : '1px solid var(--liquid-glass-border)',
+                    backgroundColor: isSelected ? 'var(--accent-orange)' : 'var(--liquid-glass-bg)',
+                    backdropFilter: 'var(--liquid-glass-blur)',
+                    WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+                    color: isSelected ? '#ffffff' : 'var(--text-secondary)',
+                    boxShadow: isSelected ? '0 2px 8px rgba(0, 0, 0, 0.12)' : 'var(--liquid-glass-shadow)',
                     cursor: 'pointer',
                     whiteSpace: 'nowrap',
                     transition: 'all 0.15s ease',
                   }}
                 >
-                  <Icon size={14} color={isSelected ? '#FFFFFF' : 'currentColor'} />
+                  <Icon size={14} color={isSelected ? '#ffffff' : 'currentColor'} />
                   <span>{cat.label}</span>
                 </button>
               );
@@ -375,7 +383,7 @@ export const MarketplaceListPage = () => {
       {/* 2. Filters & Sort Bar */}
       <div className="container" style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
         <div
-          className="card"
+          className="card liquid-glass-card"
           style={{
             padding: '1rem 1.25rem',
             display: 'flex',
@@ -383,11 +391,16 @@ export const MarketplaceListPage = () => {
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             gap: '1rem',
+            background: 'var(--liquid-glass-bg)',
+            backdropFilter: 'var(--liquid-glass-blur)',
+            WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+            border: '1px solid var(--liquid-glass-border)',
+            boxShadow: 'var(--liquid-glass-shadow)',
           }}
         >
           {/* Left: Filters Controls */}
           <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--text-muted)', fontSize: '0.8125rem', fontWeight: '600' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--accent-orange)', fontSize: '0.8125rem', fontWeight: '600' }}>
               <Filter size={15} />
               <span>Filters:</span>
             </div>

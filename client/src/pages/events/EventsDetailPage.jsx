@@ -185,7 +185,7 @@ export const EventsDetailPage = () => {
   return (
     <div className="event-detail-page page-wrapper" style={{ paddingBottom: '6rem' }}>
       {/* Top Back Navigation Bar */}
-      <div style={{ borderBottom: '1px solid var(--border-subtle)', background: 'var(--bg-card)', padding: '0.85rem 0' }}>
+      <div style={{ borderBottom: '1px solid var(--liquid-glass-border)', background: 'var(--liquid-glass-bg)', backdropFilter: 'var(--liquid-glass-blur)', WebkitBackdropFilter: 'var(--liquid-glass-blur)', padding: '0.85rem 0' }}>
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Link
             to="/events"
@@ -208,7 +208,7 @@ export const EventsDetailPage = () => {
             <Link
               to={`/events/${id}/edit`}
               className="btn btn-secondary btn-sm"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem' }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', backdropFilter: 'blur(12px)' }}
             >
               <Edit3 size={14} />
               <span>Edit Event</span>
@@ -236,16 +236,17 @@ export const EventsDetailPage = () => {
           <div>
             {/* Banner Image or Fallback */}
             <div
+              className="card liquid-glass-card"
               style={{
                 position: 'relative',
                 width: '100%',
                 paddingTop: '50%',
                 borderRadius: 'var(--radius-xl)',
                 overflow: 'hidden',
-                border: '1px solid var(--border-subtle)',
-                backgroundColor: 'var(--bg-subtle)',
+                border: '1px solid var(--liquid-glass-border)',
+                backgroundColor: 'var(--liquid-glass-bg)',
                 marginBottom: '2rem',
-                boxShadow: 'var(--shadow-md)',
+                boxShadow: 'var(--liquid-glass-shadow)',
               }}
             >
               {bannerImage ? (
@@ -277,8 +278,8 @@ export const EventsDetailPage = () => {
                     gap: '0.75rem',
                   }}
                 >
-                  <Sparkles size={36} color="var(--text-primary)" />
-                  <span style={{ fontSize: '0.85rem', fontWeight: '700', color: 'var(--text-secondary)', letterSpacing: '0.1em', fontFamily: 'var(--font-mono)' }}>
+                  <Sparkles size={36} color="var(--accent-orange)" />
+                  <span style={{ fontSize: '0.85rem', fontWeight: '700', color: 'var(--accent-orange)', letterSpacing: '0.1em', fontFamily: 'var(--font-mono)' }}>
                     CAMPUS EVENT
                   </span>
                 </div>
@@ -287,7 +288,7 @@ export const EventsDetailPage = () => {
               {/* Status Badge Over Banner */}
               <div style={{ position: 'absolute', top: '1rem', right: '1rem', zIndex: 2 }}>
                 {isCancelled && (
-                  <span className="badge badge-outline" style={{ background: '#eeeeee', color: '#222222', borderColor: '#cccccc', fontWeight: 700 }}>
+                  <span className="badge badge-outline" style={{ background: 'rgba(0,0,0,0.6)', color: '#ffffff', borderColor: '#666666', fontWeight: 700 }}>
                     <XCircle size={12} /> CANCELLED
                   </span>
                 )}
@@ -297,8 +298,8 @@ export const EventsDetailPage = () => {
                   </span>
                 )}
                 {!isCancelled && !isClosed && (
-                  <span className="badge badge-primary">
-                    {event.status || 'ACTIVE'}
+                  <span className="badge badge-orange" style={{ fontWeight: 700 }}>
+                    <span className="orange-dot" /> {event.status || 'ACTIVE'}
                   </span>
                 )}
               </div>
@@ -315,15 +316,16 @@ export const EventsDetailPage = () => {
                   borderRadius: 'var(--radius-full)',
                   fontSize: '0.78rem',
                   fontWeight: 600,
-                  backgroundColor: 'var(--border-subtle)',
-                  color: 'var(--text-primary)',
+                  backgroundColor: 'var(--accent-orange-subtle)',
+                  border: '1px solid var(--accent-orange-border)',
+                  color: 'var(--accent-orange)',
                   fontFamily: 'var(--font-mono)',
                   textTransform: 'uppercase',
                   letterSpacing: '0.06em',
                   marginBottom: '0.75rem',
                 }}
               >
-                <Tag size={12} /> {event.category || 'Campus Event'}
+                <Tag size={12} color="var(--accent-orange)" /> {event.category || 'Campus Event'}
               </span>
 
               <h1
@@ -342,15 +344,19 @@ export const EventsDetailPage = () => {
 
             {/* Organizer Byline */}
             <div
+              className="card liquid-glass-card"
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.75rem',
                 padding: '1rem 1.25rem',
-                background: 'var(--card-bg)',
-                border: '1px solid var(--border-subtle)',
+                background: 'var(--liquid-glass-bg)',
+                backdropFilter: 'var(--liquid-glass-blur)',
+                WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+                border: '1px solid var(--liquid-glass-border)',
                 borderRadius: 'var(--radius-lg)',
                 marginBottom: '2rem',
+                boxShadow: 'var(--liquid-glass-shadow)',
               }}
             >
               <div
@@ -358,13 +364,14 @@ export const EventsDetailPage = () => {
                   width: '40px',
                   height: '40px',
                   borderRadius: '50%',
-                  background: 'var(--btn-primary-bg)',
-                  color: 'var(--btn-primary-text)',
+                  background: 'var(--accent-orange)',
+                  color: '#ffffff',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   fontWeight: 700,
                   fontSize: '1rem',
+                  boxShadow: 'none',
                 }}
               >
                 {event.organizer?.name ? event.organizer.name.charAt(0).toUpperCase() : 'O'}
@@ -384,11 +391,14 @@ export const EventsDetailPage = () => {
 
             {/* Event Description Section */}
             <div
-              className="card"
+              className="card liquid-glass-card"
               style={{
                 padding: '2rem',
-                background: 'var(--card-bg)',
-                border: '1px solid var(--border-subtle)',
+                background: 'var(--liquid-glass-bg)',
+                backdropFilter: 'var(--liquid-glass-blur)',
+                WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+                border: '1px solid var(--liquid-glass-border)',
+                boxShadow: 'var(--liquid-glass-shadow)',
               }}
             >
               <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1rem' }}>
@@ -410,14 +420,16 @@ export const EventsDetailPage = () => {
           {/* Sidebar Column: RSVP Card & Key Meta */}
           <div>
             <div
-              className="card"
+              className="card liquid-glass-card"
               style={{
                 position: 'sticky',
                 top: '90px',
                 padding: '2rem',
-                background: 'var(--shelf-bg)',
-                border: '1px solid var(--border-hover)',
-                boxShadow: 'var(--shadow-lg)',
+                background: 'var(--liquid-glass-bg)',
+                backdropFilter: 'var(--liquid-glass-blur)',
+                WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+                border: '1px solid var(--liquid-glass-border)',
+                boxShadow: 'var(--liquid-glass-shadow)',
               }}
             >
               {/* Event Schedule Box */}
@@ -428,7 +440,7 @@ export const EventsDetailPage = () => {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.15rem', marginBottom: '2rem' }}>
                 {/* Date */}
                 <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
-                  <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'var(--border-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-primary)', flexShrink: 0 }}>
+                  <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'var(--accent-orange-subtle)', border: '1px solid var(--accent-orange-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent-orange)', flexShrink: 0 }}>
                     <Calendar size={16} />
                   </div>
                   <div>
@@ -440,7 +452,7 @@ export const EventsDetailPage = () => {
                 {/* Time */}
                 {(event.startTime || event.endTime) && (
                   <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
-                    <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'var(--border-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-primary)', flexShrink: 0 }}>
+                    <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'var(--accent-orange-subtle)', border: '1px solid var(--accent-orange-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent-orange)', flexShrink: 0 }}>
                       <Clock size={16} />
                     </div>
                     <div>
@@ -454,7 +466,7 @@ export const EventsDetailPage = () => {
 
                 {/* Location */}
                 <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
-                  <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'var(--border-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-primary)', flexShrink: 0 }}>
+                  <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'var(--accent-orange-subtle)', border: '1px solid var(--accent-orange-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent-orange)', flexShrink: 0 }}>
                     <MapPin size={16} />
                   </div>
                   <div>
@@ -467,7 +479,7 @@ export const EventsDetailPage = () => {
 
                 {/* Capacity & Attendance */}
                 <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
-                  <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'var(--border-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-primary)', flexShrink: 0 }}>
+                  <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'var(--accent-orange-subtle)', border: '1px solid var(--accent-orange-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent-orange)', flexShrink: 0 }}>
                     <Users size={16} />
                   </div>
                   <div style={{ flex: 1 }}>
@@ -484,7 +496,8 @@ export const EventsDetailPage = () => {
                             style={{
                               width: `${Math.min(100, Math.round((currentParticipants / maximumParticipants) * 100))}%`,
                               height: '100%',
-                              backgroundColor: isSoldOut ? '#333333' : 'var(--text-primary)',
+                              backgroundColor: isSoldOut ? 'var(--text-muted)' : 'var(--accent-orange)',
+                              boxShadow: 'none',
                               borderRadius: '9999px',
                               transition: 'width 0.3s ease',
                             }}
@@ -500,11 +513,11 @@ export const EventsDetailPage = () => {
               </div>
 
               {/* Registration Action Section */}
-              <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: '1.5rem' }}>
+              <div style={{ borderTop: '1px solid var(--liquid-glass-border)', paddingTop: '1.5rem' }}>
                 {/* State 1: Cancelled Event */}
                 {isCancelled && (
                   <div style={{ textAlign: 'center', padding: '1rem', background: 'var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.45rem', color: '#333333', fontWeight: 700, marginBottom: '0.35rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.45rem', color: 'var(--text-primary)', fontWeight: 700, marginBottom: '0.35rem' }}>
                       <AlertCircle size={16} />
                       <span>Event Cancelled</span>
                     </div>
@@ -536,10 +549,10 @@ export const EventsDetailPage = () => {
                         alignItems: 'center',
                         gap: '0.65rem',
                         padding: '0.85rem 1rem',
-                        background: 'rgba(16, 185, 129, 0.1)',
-                        border: '1px solid rgba(16, 185, 129, 0.3)',
+                        background: 'var(--accent-orange-subtle)',
+                        border: '1px solid var(--accent-orange-border)',
                         borderRadius: 'var(--radius-lg)',
-                        color: '#555555',
+                        color: 'var(--accent-orange)',
                         marginBottom: '1rem',
                       }}
                     >
@@ -553,9 +566,9 @@ export const EventsDetailPage = () => {
                       <div
                         style={{
                           padding: '1rem',
-                          background: 'var(--border-subtle)',
+                          background: 'var(--liquid-glass-bg)',
                           borderRadius: 'var(--radius-md)',
-                          border: '1px solid var(--border-hover)',
+                          border: '1px solid var(--liquid-glass-border)',
                           textAlign: 'center',
                         }}
                       >
@@ -579,8 +592,8 @@ export const EventsDetailPage = () => {
                             className="btn btn-outline btn-sm"
                             style={{
                               flex: 1,
-                              borderColor: '#333333',
-                              color: '#333333',
+                              borderColor: 'var(--border-strong)',
+                              color: 'var(--text-primary)',
                             }}
                           >
                             {isSubmitting ? (
@@ -602,8 +615,8 @@ export const EventsDetailPage = () => {
                         style={{
                           width: '100%',
                           fontSize: '0.9rem',
-                          borderColor: '#333333',
-                          color: '#333333',
+                          borderColor: 'var(--liquid-glass-border)',
+                          color: 'var(--text-secondary)',
                           cursor: isSubmitting ? 'not-allowed' : 'pointer',
                           opacity: isSubmitting ? 0.7 : 1,
                         }}
@@ -655,7 +668,7 @@ export const EventsDetailPage = () => {
                         type="button"
                         onClick={handleRegister}
                         disabled={isSubmitting}
-                        className="btn btn-primary btn-lg"
+                        className="btn btn-liquid-orange btn-lg"
                         style={{
                           width: '100%',
                           fontSize: '1rem',
@@ -668,16 +681,26 @@ export const EventsDetailPage = () => {
                             <RefreshCw size={16} className="animate-spin" /> Processing RSVP...
                           </span>
                         ) : (
-                          <span>Register for Event</span>
+                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
+                            <CheckCircle2 size={18} /> Reserve Free Spot
+                          </span>
                         )}
                       </button>
                     ) : (
                       <Link
                         to={`/login?redirect=/events/${id}`}
-                        className="btn btn-primary btn-lg"
-                        style={{ width: '100%', fontSize: '0.95rem', textAlign: 'center' }}
+                        className="btn btn-liquid-orange btn-lg"
+                        style={{
+                          width: '100%',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '0.45rem',
+                          textDecoration: 'none',
+                          fontSize: '1rem',
+                        }}
                       >
-                        <span>Sign In to Register</span>
+                        <span>Sign In to RSVP</span>
                       </Link>
                     )}
                   </div>

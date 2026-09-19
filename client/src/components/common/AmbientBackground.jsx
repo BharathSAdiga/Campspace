@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 /**
  * AmbientBackground
- * Rich, vibrant deep-space ambient background with coloured glow orbs,
- * a subtle radial noise texture, and a mouse-tracking light bloom.
- * Zero geometric grid lines.
+ * Atmospheric liquid ambient background combining monochrome depth
+ * with delicate, ethereal Light Orange glows and a subtle mouse-following light bloom.
  */
 export const AmbientBackground = ({ className = '', style = {} }) => {
   const [mousePos, setMousePos] = useState({ x: -2000, y: -2000 });
@@ -31,101 +30,109 @@ export const AmbientBackground = ({ className = '', style = {} }) => {
       }}
       aria-hidden="true"
     >
-      {/* 1. Top violet hero glow — largest, brightest */}
+      <style>{`
+        @keyframes liquidDrift1 {
+          0% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(-30px, 40px) scale(1.08); }
+          100% { transform: translate(25px, -20px) scale(0.96); }
+        }
+        @keyframes liquidDrift2 {
+          0% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(40px, -30px) scale(1.05); }
+          100% { transform: translate(-20px, 35px) scale(0.95); }
+        }
+        @keyframes liquidPulseSlow {
+          0%, 100% { opacity: 0.55; }
+          50% { opacity: 0.85; }
+        }
+      `}</style>
+
+      {/* 1. Luminous Pure White / Subtle Starlight Core (Top Center) */}
       <div
+        className="ambient-glow-orb"
         style={{
-          position: 'absolute',
           top: '-15%',
-          left: '40%',
-          width: '780px',
-          height: '580px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(124,58,237,0.22) 0%, rgba(109,40,217,0.1) 40%, transparent 70%)',
-          filter: 'blur(100px)',
-          animation: 'driftLeft 26s ease-in-out infinite alternate',
+          left: '35%',
+          width: '740px',
+          height: '520px',
+          background: 'radial-gradient(ellipse at center, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 45%, transparent 70%)',
+          animation: 'liquidDrift1 28s ease-in-out infinite alternate',
         }}
       />
 
-      {/* 2. Cyan accent orb — top-right */}
+      {/* 2. Primary Light Orange Aurora Bloom (Top Right) */}
       <div
+        className="ambient-glow-orb"
         style={{
-          position: 'absolute',
-          top: '5%',
-          right: '-8%',
+          top: '2%',
+          right: '-5%',
+          width: '580px',
+          height: '460px',
+          background: 'radial-gradient(circle, rgba(255, 138, 61, 0.11) 0%, rgba(255, 165, 89, 0.04) 50%, transparent 75%)',
+          animation: 'liquidDrift2 34s ease-in-out infinite alternate',
+        }}
+      />
+
+      {/* 3. Soft Amber Whisper (Mid-Left) */}
+      <div
+        className="ambient-glow-orb"
+        style={{
+          top: '42%',
+          left: '-8%',
+          width: '500px',
+          height: '420px',
+          background: 'radial-gradient(circle, rgba(255, 150, 75, 0.08) 0%, rgba(255, 138, 61, 0.02) 50%, transparent 75%)',
+          animation: 'liquidDrift1 30s ease-in-out infinite alternate-reverse',
+        }}
+      />
+
+      {/* 4. Deep Obsidian Shadow with Soft Warm Glow (Bottom Right) */}
+      <div
+        className="ambient-glow-orb"
+        style={{
+          bottom: '8%',
+          right: '15%',
           width: '560px',
           height: '440px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(34,211,238,0.16) 0%, rgba(6,182,212,0.06) 45%, transparent 70%)',
-          filter: 'blur(90px)',
-          animation: 'driftRight 32s ease-in-out infinite alternate',
+          background: 'radial-gradient(circle, rgba(255, 138, 61, 0.07) 0%, rgba(255, 255, 255, 0.02) 40%, transparent 70%)',
+          animation: 'liquidDrift2 36s ease-in-out infinite alternate',
         }}
       />
 
-      {/* 3. Pink/rose accent orb — mid-left */}
+      {/* 5. Minimal Bottom Left Starlight Halo */}
       <div
+        className="ambient-glow-orb"
         style={{
-          position: 'absolute',
-          top: '40%',
-          left: '-6%',
-          width: '480px',
-          height: '400px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(236,72,153,0.13) 0%, rgba(219,39,119,0.05) 45%, transparent 70%)',
-          filter: 'blur(110px)',
-          animation: 'driftUp 28s ease-in-out infinite alternate',
+          bottom: '2%',
+          left: '10%',
+          width: '380px',
+          height: '320px',
+          background: 'radial-gradient(circle, rgba(255, 180, 110, 0.06) 0%, transparent 70%)',
+          animation: 'liquidDrift1 40s ease-in-out infinite alternate',
         }}
       />
 
-      {/* 4. Deep violet orb — bottom-right */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '10%',
-          right: '20%',
-          width: '520px',
-          height: '420px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(139,92,246,0.14) 0%, rgba(124,58,237,0.05) 45%, transparent 70%)',
-          filter: 'blur(120px)',
-          animation: 'driftLeft 34s ease-in-out infinite alternate-reverse',
-        }}
-      />
-
-      {/* 5. Amber warm accent — bottom-left */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '5%',
-          left: '15%',
-          width: '360px',
-          height: '300px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(245,158,11,0.08) 0%, transparent 70%)',
-          filter: 'blur(100px)',
-          animation: 'driftRight 38s ease-in-out infinite alternate',
-        }}
-      />
-
-      {/* 6. Subtle top vignette gradient for header separation */}
+      {/* 6. Subtle Top Vignette Gradient for Header Separation */}
       <div
         style={{
           position: 'absolute',
           top: 0,
           left: 0,
           right: 0,
-          height: '40%',
-          background: 'linear-gradient(to bottom, rgba(7,7,15,0.5) 0%, transparent 100%)',
+          height: '35%',
+          background: 'linear-gradient(to bottom, var(--surface-0) 0%, transparent 100%)',
+          opacity: 0.7,
           pointerEvents: 'none',
         }}
       />
 
-      {/* 7. Interactive mouse-tracking glow bloom */}
+      {/* 7. Mouse-Tracking Light Bloom with delicate Light Orange tint */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          background: `radial-gradient(700px circle at ${mousePos.x}px ${mousePos.y}px, rgba(124,58,237,0.07) 0%, transparent 50%)`,
-          transition: 'background 0.08s ease',
+          background: `radial-gradient(650px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255, 138, 61, 0.045) 0%, rgba(255, 255, 255, 0.015) 30%, transparent 60%)`,
+          transition: 'background 0.06s ease',
         }}
       />
     </div>

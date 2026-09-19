@@ -206,19 +206,21 @@ export const MarketplaceCreatePage = () => {
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.35rem',
+              gap: '0.4rem',
               fontSize: '0.75rem',
               fontWeight: '700',
-              color: '#111111',
-              backgroundColor: '#E8E0D2',
-              border: '1px solid rgba(216, 204, 184, 0.9)',
-              padding: '0.2rem 0.65rem',
+              color: 'var(--accent-orange)',
+              backgroundColor: 'var(--accent-orange-subtle)',
+              border: '1px solid var(--accent-orange-border)',
+              padding: '0.25rem 0.75rem',
               borderRadius: '9999px',
               textTransform: 'uppercase',
               letterSpacing: '0.05em',
+              fontFamily: 'var(--font-mono)',
+              boxShadow: 'none',
             }}
           >
-            <Sparkles size={12} color="#111111" /> Peer Marketplace
+            <span className="orange-dot" /> Peer Marketplace
           </span>
         </div>
         <h1 style={{ fontSize: '1.85rem', fontWeight: '800', margin: 0, color: 'var(--text-primary)' }}>
@@ -237,7 +239,18 @@ export const MarketplaceCreatePage = () => {
       )}
 
       {/* Main Listing Form */}
-      <div className="card" style={{ padding: '2rem', boxShadow: 'var(--shadow-sm)' }}>
+      <div
+        className="card liquid-glass-card"
+        style={{
+          padding: '2rem',
+          background: 'var(--liquid-glass-bg)',
+          backdropFilter: 'var(--liquid-glass-blur)',
+          WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+          border: '1px solid var(--liquid-glass-border)',
+          borderRadius: 'var(--radius-xl)',
+          boxShadow: 'var(--liquid-glass-shadow)',
+        }}
+      >
         <form onSubmit={handleSubmit} noValidate>
           {/* Section 1: Item Details */}
           <div style={{ marginBottom: '1.75rem' }}>
@@ -533,18 +546,18 @@ export const MarketplaceCreatePage = () => {
               borderTop: '1px solid var(--border-subtle)',
             }}
           >
-            <Link to="/marketplace" className="btn btn-secondary" style={{ textDecoration: 'none' }}>
+            <Link to="/marketplace" className="btn btn-secondary" style={{ textDecoration: 'none', backdropFilter: 'blur(12px)' }}>
               Cancel
             </Link>
-            <Button
+            <button
               type="submit"
-              variant="primary"
-              size="lg"
-              isLoading={isSubmitting}
-              icon={<ShoppingBag size={18} />}
+              disabled={isSubmitting}
+              className="btn btn-liquid-orange btn-lg"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', minWidth: '170px', justifyContent: 'center' }}
             >
-              Publish Listing
-            </Button>
+              <ShoppingBag size={18} />
+              <span>{isSubmitting ? 'Publishing...' : 'Publish Listing'}</span>
+            </button>
           </div>
         </form>
       </div>

@@ -196,7 +196,7 @@ export const EventsMyEventsPage = () => {
 
   return (
     <div className="container" style={{ padding: '2.5rem 1.5rem 5rem' }}>
-      {/* Header Section */}
+      {/* Page Header */}
       <div
         style={{
           display: 'flex',
@@ -213,19 +213,21 @@ export const EventsMyEventsPage = () => {
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.35rem',
+                gap: '0.45rem',
                 fontSize: '0.74rem',
                 fontWeight: '700',
-                color: 'var(--primary-600)',
-                backgroundColor: 'var(--primary-50)',
-                border: '1px solid var(--primary-100)',
-                padding: '0.2rem 0.65rem',
+                color: 'var(--accent-orange)',
+                backgroundColor: 'var(--accent-orange-subtle)',
+                border: '1px solid var(--accent-orange-border)',
+                padding: '0.25rem 0.75rem',
                 borderRadius: '9999px',
                 textTransform: 'uppercase',
                 letterSpacing: '0.08em',
+                fontFamily: 'var(--font-mono)',
+                boxShadow: 'none',
               }}
             >
-              <Shield size={12} /> Organizer Control Center
+              <span className="orange-dot" /> Organizer Control Center
             </span>
           </div>
           <h1 style={{ fontSize: '2rem', fontWeight: '800', margin: 0, color: 'var(--text-primary)' }}>
@@ -238,7 +240,7 @@ export const EventsMyEventsPage = () => {
 
         <Link
           to="/events/create"
-          className="btn btn-primary"
+          className="btn btn-liquid-orange"
           style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem' }}
         >
           <Plus size={18} />
@@ -255,10 +257,20 @@ export const EventsMyEventsPage = () => {
           marginBottom: '2rem',
         }}
       >
-        <div className="card" style={{ padding: '1.25rem' }}>
+        <div
+          className="card liquid-glass-card"
+          style={{
+            padding: '1.25rem',
+            background: 'var(--liquid-glass-bg)',
+            backdropFilter: 'var(--liquid-glass-blur)',
+            WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+            border: '1px solid var(--liquid-glass-border)',
+            boxShadow: 'var(--liquid-glass-shadow)',
+          }}
+        >
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
             <span style={{ fontSize: '0.8125rem', fontWeight: '600', textTransform: 'uppercase' }}>Total Events</span>
-            <Calendar size={18} color="var(--primary-500)" />
+            <Calendar size={18} color="var(--accent-orange)" />
           </div>
           <div style={{ fontSize: '1.75rem', fontWeight: '800', color: 'var(--text-primary)' }}>
             {totalEventsCount}
@@ -268,12 +280,22 @@ export const EventsMyEventsPage = () => {
           </div>
         </div>
 
-        <div className="card" style={{ padding: '1.25rem' }}>
+        <div
+          className="card liquid-glass-card"
+          style={{
+            padding: '1.25rem',
+            background: 'var(--liquid-glass-bg)',
+            backdropFilter: 'var(--liquid-glass-blur)',
+            WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+            border: '1px solid var(--liquid-glass-border)',
+            boxShadow: 'var(--liquid-glass-shadow)',
+          }}
+        >
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
             <span style={{ fontSize: '0.8125rem', fontWeight: '600', textTransform: 'uppercase' }}>Active Events</span>
-            <CheckCircle2 size={18} color="var(--accent-emerald)" />
+            <CheckCircle2 size={18} color="var(--accent-orange)" />
           </div>
-          <div style={{ fontSize: '1.75rem', fontWeight: '800', color: 'var(--accent-emerald)' }}>
+          <div style={{ fontSize: '1.75rem', fontWeight: '800', color: 'var(--accent-orange)' }}>
             {activeEventsCount}
           </div>
           <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
@@ -281,10 +303,20 @@ export const EventsMyEventsPage = () => {
           </div>
         </div>
 
-        <div className="card" style={{ padding: '1.25rem' }}>
+        <div
+          className="card liquid-glass-card"
+          style={{
+            padding: '1.25rem',
+            background: 'var(--liquid-glass-bg)',
+            backdropFilter: 'var(--liquid-glass-blur)',
+            WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+            border: '1px solid var(--liquid-glass-border)',
+            boxShadow: 'var(--liquid-glass-shadow)',
+          }}
+        >
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
             <span style={{ fontSize: '0.8125rem', fontWeight: '600', textTransform: 'uppercase' }}>Total Attendees</span>
-            <Users size={18} color="var(--primary-600)" />
+            <Users size={18} color="var(--accent-orange)" />
           </div>
           <div style={{ fontSize: '1.75rem', fontWeight: '800', color: 'var(--text-primary)' }}>
             {totalParticipantsEnrolled}
@@ -294,12 +326,22 @@ export const EventsMyEventsPage = () => {
           </div>
         </div>
 
-        <div className="card" style={{ padding: '1.25rem' }}>
+        <div
+          className="card liquid-glass-card"
+          style={{
+            padding: '1.25rem',
+            background: 'var(--liquid-glass-bg)',
+            backdropFilter: 'var(--liquid-glass-blur)',
+            WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+            border: '1px solid var(--liquid-glass-border)',
+            boxShadow: 'var(--liquid-glass-shadow)',
+          }}
+        >
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
             <span style={{ fontSize: '0.8125rem', fontWeight: '600', textTransform: 'uppercase' }}>Fill Capacity</span>
-            <BarChart3 size={18} color="var(--accent-indigo)" />
+            <BarChart3 size={18} color="var(--accent-orange)" />
           </div>
-          <div style={{ fontSize: '1.75rem', fontWeight: '800', color: 'var(--accent-indigo)' }}>
+          <div style={{ fontSize: '1.75rem', fontWeight: '800', color: 'var(--text-primary)' }}>
             {overallFillRate}%
           </div>
           <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
@@ -326,7 +368,7 @@ export const EventsMyEventsPage = () => {
             action={
               <button
                 type="button"
-                onClick={fetchMyEvents}
+                onClick={() => fetchMyEvents()}
                 style={{
                   background: 'transparent',
                   border: 'none',
@@ -353,7 +395,7 @@ export const EventsMyEventsPage = () => {
           flexWrap: 'wrap',
           gap: '1rem',
           marginBottom: '1.5rem',
-          borderBottom: '1px solid var(--border-subtle)',
+          borderBottom: '1px solid var(--liquid-glass-border)',
           paddingBottom: '0.75rem',
         }}
       >
@@ -372,14 +414,15 @@ export const EventsMyEventsPage = () => {
                 type="button"
                 onClick={() => setFilterStatus(tab.id)}
                 style={{
-                  background: isActive ? 'var(--primary-50)' : 'transparent',
-                  border: 'none',
-                  color: isActive ? 'var(--primary-700)' : 'var(--text-secondary)',
+                  background: isActive ? 'var(--accent-orange)' : 'var(--liquid-glass-bg)',
+                  border: isActive ? '1px solid var(--accent-orange)' : '1px solid var(--liquid-glass-border)',
+                  color: isActive ? '#ffffff' : 'var(--text-secondary)',
                   fontWeight: isActive ? '700' : '500',
                   padding: '0.45rem 1rem',
                   borderRadius: '9999px',
                   cursor: 'pointer',
                   fontSize: '0.875rem',
+                  boxShadow: 'none',
                   transition: 'all 0.15s ease',
                 }}
               >
@@ -478,13 +521,18 @@ export const EventsMyEventsPage = () => {
             return (
               <div
                 key={eventId}
-                className="card"
+                className="card liquid-glass-card"
                 style={{
                   padding: '1.5rem',
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '1.25rem',
-                  border: '1px solid var(--border-subtle)',
+                  background: 'var(--liquid-glass-bg)',
+                  backdropFilter: 'var(--liquid-glass-blur)',
+                  WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+                  border: '1px solid var(--liquid-glass-border)',
+                  boxShadow: 'var(--liquid-glass-shadow)',
+                  borderRadius: 'var(--radius-xl)',
                   transition: 'border-color 0.2s, box-shadow 0.2s',
                 }}
               >

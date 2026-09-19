@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { PageHeader } from './PageHeader';
-import { Card } from './Card';
-import { Badge } from './Badge';
-import { Layers, Calendar, Users, Clock, ShieldCheck, ArrowRight, CheckCircle2, ChevronRight } from 'lucide-react';
+import { TiltCard } from './TiltCard';
+import { Layers, Calendar, Users, Clock, ArrowRight } from 'lucide-react';
 
 export const PlaceholderPage = ({
   title,
@@ -24,8 +23,10 @@ export const PlaceholderPage = ({
           breadcrumb={`Campspace // ${module.toUpperCase()}`}
           badge={
             <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-              <span className="mono-badge mono-badge-filled">[MODULE: {module.toUpperCase()}]</span>
-              <span className="mono-badge">[ROUTE: {routePath}]</span>
+              <span className="badge-orange">[MODULE: {module.toUpperCase()}]</span>
+              <span className="liquid-glass-pill" style={{ fontSize: '0.65rem', padding: '0.2rem 0.5rem' }}>
+                [ROUTE: {routePath}]
+              </span>
             </div>
           }
         />
@@ -40,184 +41,192 @@ export const PlaceholderPage = ({
           }}
         >
           {/* Column 1: System Spec & Telemetry */}
-          <div className="card arch-panel" style={{ padding: '2rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1.25rem' }}>
-              <div
-                style={{
-                  width: '36px',
-                  height: '36px',
-                  borderRadius: 'var(--radius-xs)',
-                  background: 'var(--text-primary)',
-                  color: 'var(--text-inverse)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                {isResource ? <Clock size={18} /> : isClub ? <Users size={18} /> : <Layers size={18} />}
+          <TiltCard tiltIntensity={6}>
+            <div className="card liquid-glass-card" style={{ padding: '2rem', height: '100%' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
+                <div
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: 'var(--radius-sm)',
+                    background: 'var(--liquid-glass-bg)',
+                    border: '1px solid var(--accent-orange-border)',
+                    color: 'var(--accent-orange)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 0 12px var(--accent-orange-subtle)',
+                  }}
+                >
+                  {isResource ? <Clock size={20} /> : isClub ? <Users size={20} /> : <Layers size={20} />}
+                </div>
+                <div>
+                  <h3 style={{ fontSize: '1.15rem', fontWeight: 800, fontFamily: 'var(--font-heading)' }}>
+                    {isResource ? 'Resource Scheduling Architecture' : isClub ? 'Campus Guild Registry' : 'Module Specification'}
+                  </h3>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'var(--text-muted)' }}>
+                    ID: {routePath.replace(/\//g, '_').toUpperCase()}
+                  </span>
+                </div>
               </div>
-              <div>
-                <h3 style={{ fontSize: '1.15rem', fontWeight: 750 }}>
-                  {isResource ? 'Resource Scheduling Architecture' : isClub ? 'Campus Guild Registry' : 'Module Specification'}
-                </h3>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'var(--text-muted)' }}>
-                  ID: {routePath.replace(/\//g, '_').toUpperCase()}
-                </span>
+
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.6, marginBottom: '1.5rem' }}>
+                {description}
+              </p>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '0.65rem 0.85rem',
+                    background: 'var(--liquid-glass-bg)',
+                    border: '1px solid var(--liquid-glass-border)',
+                    borderRadius: 'var(--radius-sm)',
+                  }}
+                >
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-muted)' }}>ENDPOINT</span>
+                  <code style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--accent-orange)' }}>{routePath}</code>
+                </div>
+
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '0.65rem 0.85rem',
+                    background: 'var(--liquid-glass-bg)',
+                    border: '1px solid var(--liquid-glass-border)',
+                    borderRadius: 'var(--radius-sm)',
+                  }}
+                >
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-muted)' }}>STATUS</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-primary)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                    <span className="orange-dot" style={{ width: 6, height: 6 }} />
+                    INTEGRATED WITH CLIENT ROUTER
+                  </span>
+                </div>
+
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '0.65rem 0.85rem',
+                    background: 'var(--liquid-glass-bg)',
+                    border: '1px solid var(--liquid-glass-border)',
+                    borderRadius: 'var(--radius-sm)',
+                  }}
+                >
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-muted)' }}>ACCESS CONTROL</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-primary)', fontWeight: 700 }}>
+                    CAMPUS AUTHENTICATED
+                  </span>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                <Link to="/dashboard" className="btn btn-liquid-orange btn-sm">
+                  Dashboard Hub
+                </Link>
+                <Link to="/events" className="btn btn-secondary btn-sm">
+                  Explore Events
+                </Link>
               </div>
             </div>
-
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.6, marginBottom: '1.5rem' }}>
-              {description}
-            </p>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: '0.6rem 0.75rem',
-                  background: 'var(--surface-2)',
-                  border: '1px solid var(--border-subtle)',
-                  borderRadius: 'var(--radius-xs)',
-                }}
-              >
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-muted)' }}>ENDPOINT</span>
-                <code style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text-primary)' }}>{routePath}</code>
-              </div>
-
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: '0.6rem 0.75rem',
-                  background: 'var(--surface-2)',
-                  border: '1px solid var(--border-subtle)',
-                  borderRadius: 'var(--radius-xs)',
-                }}
-              >
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-muted)' }}>STATUS</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-primary)', fontWeight: 700 }}>
-                  ● INTEGRATED WITH CLIENT ROUTER
-                </span>
-              </div>
-
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: '0.6rem 0.75rem',
-                  background: 'var(--surface-2)',
-                  border: '1px solid var(--border-subtle)',
-                  borderRadius: 'var(--radius-xs)',
-                }}
-              >
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-muted)' }}>ACCESS CONTROL</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-primary)' }}>
-                  CAMPUS AUTHENTICATED
-                </span>
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-              <Link to="/dashboard" className="btn btn-primary btn-sm">
-                Dashboard Hub
-              </Link>
-              <Link to="/events" className="btn btn-secondary btn-sm">
-                Explore Events
-              </Link>
-            </div>
-          </div>
+          </TiltCard>
 
           {/* Column 2: Interactive Operational Schedule / Roster */}
-          <div className="card arch-panel" style={{ padding: '2rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.72rem',
-                  letterSpacing: '0.08em',
-                  color: 'var(--text-muted)',
-                  textTransform: 'uppercase',
-                }}
-              >
-                [OPERATIONAL TELEMETRY]
-              </span>
-              <span className="mono-badge">[ONLINE]</span>
+          <TiltCard tiltIntensity={6}>
+            <div className="card liquid-glass-card" style={{ padding: '2rem', height: '100%' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+                <span
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.72rem',
+                    letterSpacing: '0.08em',
+                    color: 'var(--accent-orange)',
+                    textTransform: 'uppercase',
+                    fontWeight: 700,
+                  }}
+                >
+                  [OPERATIONAL TELEMETRY]
+                </span>
+                <span className="badge-orange">[ONLINE]</span>
+              </div>
+
+              {isResource ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                  <div style={{ border: '1px solid var(--liquid-glass-border)', background: 'var(--liquid-glass-bg)', borderRadius: 'var(--radius-sm)', padding: '0.85rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
+                      <strong style={{ fontSize: '0.88rem' }}>Digital Fabrication Lab 01</strong>
+                      <span className="badge-orange">READY</span>
+                    </div>
+                    <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: 0 }}>
+                      3D Printers, Laser Cutters, CNC Stations // Max capacity: 16
+                    </p>
+                  </div>
+
+                  <div style={{ border: '1px solid var(--liquid-glass-border)', background: 'var(--liquid-glass-bg)', borderRadius: 'var(--radius-sm)', padding: '0.85rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
+                      <strong style={{ fontSize: '0.88rem' }}>Quantum Computing Sandbox</strong>
+                      <span className="liquid-glass-pill" style={{ padding: '0.2rem 0.5rem', fontSize: '0.65rem' }}>RESERVED</span>
+                    </div>
+                    <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: 0 }}>
+                      Cryogenic cluster terminal node // Scheduled: 14:00 - 18:00
+                    </p>
+                  </div>
+
+                  <div style={{ border: '1px solid var(--liquid-glass-border)', background: 'var(--liquid-glass-bg)', borderRadius: 'var(--radius-sm)', padding: '0.85rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
+                      <strong style={{ fontSize: '0.88rem' }}>Audio-Visual Media Studio B</strong>
+                      <span className="badge-orange">READY</span>
+                    </div>
+                    <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: 0 }}>
+                      Sound isolation acoustic booth, 4K camera rig // Open Booking
+                    </p>
+                  </div>
+                </div>
+              ) : isClub ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                  <div style={{ border: '1px solid var(--liquid-glass-border)', background: 'var(--liquid-glass-bg)', borderRadius: 'var(--radius-sm)', padding: '0.85rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
+                      <strong style={{ fontSize: '0.88rem' }}>AI & Autonomous Systems Society</strong>
+                      <span className="badge-orange">ACTIVE</span>
+                    </div>
+                    <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: 0 }}>
+                      Weekly research sprints & open-source ML build sessions. 184 active members.
+                    </p>
+                  </div>
+
+                  <div style={{ border: '1px solid var(--liquid-glass-border)', background: 'var(--liquid-glass-bg)', borderRadius: 'var(--radius-sm)', padding: '0.85rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
+                      <strong style={{ fontSize: '0.88rem' }}>Campus Design & Architecture Guild</strong>
+                      <span className="badge-orange">ACTIVE</span>
+                    </div>
+                    <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: 0 }}>
+                      Spatial computing, UI critique, and Swiss typography workshops.
+                    </p>
+                  </div>
+
+                  <div style={{ border: '1px solid var(--liquid-glass-border)', background: 'var(--liquid-glass-bg)', borderRadius: 'var(--radius-sm)', padding: '0.85rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
+                      <strong style={{ fontSize: '0.88rem' }}>Competitive Robotics League</strong>
+                      <span className="badge-orange">ACTIVE</span>
+                    </div>
+                    <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: 0 }}>
+                      National tournament prep and hardware integration drills.
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <div style={{ padding: '1.5rem', textAlign: 'center', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', fontSize: '0.82rem' }}>
+                  [CAMPUS SUBSYSTEM OPERATIONAL]
+                </div>
+              )}
             </div>
-
-            {isResource ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-                <div style={{ border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-xs)', padding: '0.85rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
-                    <strong style={{ fontSize: '0.88rem' }}>Digital Fabrication Lab 01</strong>
-                    <span className="mono-badge mono-badge-filled">READY</span>
-                  </div>
-                  <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: 0 }}>
-                    3D Printers, Laser Cutters, CNC Stations // Max capacity: 16
-                  </p>
-                </div>
-
-                <div style={{ border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-xs)', padding: '0.85rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
-                    <strong style={{ fontSize: '0.88rem' }}>Quantum Computing Sandbox</strong>
-                    <span className="mono-badge">RESERVED</span>
-                  </div>
-                  <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: 0 }}>
-                    Cryogenic cluster terminal node // Scheduled: 14:00 - 18:00
-                  </p>
-                </div>
-
-                <div style={{ border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-xs)', padding: '0.85rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
-                    <strong style={{ fontSize: '0.88rem' }}>Audio-Visual Media Studio B</strong>
-                    <span className="mono-badge mono-badge-filled">READY</span>
-                  </div>
-                  <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: 0 }}>
-                    Sound isolation acoustic booth, 4K camera rig // Open Booking
-                  </p>
-                </div>
-              </div>
-            ) : isClub ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-                <div style={{ border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-xs)', padding: '0.85rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
-                    <strong style={{ fontSize: '0.88rem' }}>AI & Autonomous Systems Society</strong>
-                    <span className="mono-badge mono-badge-filled">ACTIVE</span>
-                  </div>
-                  <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: 0 }}>
-                    Weekly research sprints & open-source ML build sessions. 184 active members.
-                  </p>
-                </div>
-
-                <div style={{ border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-xs)', padding: '0.85rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
-                    <strong style={{ fontSize: '0.88rem' }}>Campus Design & Architecture Guild</strong>
-                    <span className="mono-badge mono-badge-filled">ACTIVE</span>
-                  </div>
-                  <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: 0 }}>
-                    Spatial computing, UI critique, and Swiss typography workshops.
-                  </p>
-                </div>
-
-                <div style={{ border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-xs)', padding: '0.85rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
-                    <strong style={{ fontSize: '0.88rem' }}>Competitive Robotics League</strong>
-                    <span className="mono-badge mono-badge-filled">ACTIVE</span>
-                  </div>
-                  <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: 0 }}>
-                    National tournament prep and hardware integration drills.
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <div style={{ padding: '1.5rem', textAlign: 'center', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', fontSize: '0.82rem' }}>
-                [CAMPUS SUBSYSTEM OPERATIONAL]
-              </div>
-            )}
-          </div>
+          </TiltCard>
         </div>
       </div>
     </div>

@@ -206,10 +206,10 @@ export const EventsListPage = () => {
       {/* 1. Header Section */}
       <section
         style={{
-          background: 'var(--card-bg)',
-          backdropFilter: 'blur(24px)',
-          WebkitBackdropFilter: 'blur(24px)',
-          borderBottom: '1px solid var(--border-subtle)',
+          background: 'var(--liquid-glass-bg)',
+          backdropFilter: 'var(--liquid-glass-blur)',
+          WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+          borderBottom: '1px solid var(--liquid-glass-border)',
           padding: '2.5rem 0 2rem 0',
           position: 'relative',
         }}
@@ -230,20 +230,21 @@ export const EventsListPage = () => {
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '0.35rem',
+                    gap: '0.4rem',
                     fontSize: '0.74rem',
                     fontWeight: '700',
-                    color: 'var(--text-primary)',
-                    backgroundColor: 'var(--border-subtle)',
-                    border: '1px solid var(--border-hover)',
+                    color: 'var(--accent-orange)',
+                    backgroundColor: 'var(--accent-orange-subtle)',
+                    border: '1px solid var(--accent-orange-border)',
                     padding: '0.25rem 0.75rem',
                     borderRadius: '9999px',
                     textTransform: 'uppercase',
                     letterSpacing: '0.08em',
                     fontFamily: 'var(--font-mono)',
+                    boxShadow: 'none',
                   }}
                 >
-                  <Sparkles size={12} color="currentColor" /> Campus Life & Activities
+                  <span className="orange-dot" /> Campus Life & Activities
                 </span>
               </div>
               <h1 style={{ fontSize: '2.2rem', fontWeight: '800', margin: 0, color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
@@ -261,14 +262,14 @@ export const EventsListPage = () => {
                   <Link
                     to="/events/my-events"
                     className="btn btn-secondary btn-sm"
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', backdropFilter: 'blur(12px)' }}
                   >
                     <Calendar size={14} />
                     <span>My Events</span>
                   </Link>
                   <Link
                     to="/events/create"
-                    className="btn btn-primary btn-sm"
+                    className="btn btn-liquid-orange btn-sm"
                     style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
                   >
                     <Plus size={14} />
@@ -280,7 +281,7 @@ export const EventsListPage = () => {
                 type="button"
                 onClick={() => loadEvents()}
                 className="btn btn-secondary btn-sm"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', backdropFilter: 'blur(12px)' }}
                 title="Refresh event listings"
               >
                 <RefreshCw size={14} className={isLoading ? 'animate-spin' : ''} />
@@ -310,7 +311,13 @@ export const EventsListPage = () => {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="form-input"
-                  style={{ paddingLeft: '2.6rem', fontSize: '0.9375rem', height: '44px' }}
+                  style={{
+                    paddingLeft: '2.6rem',
+                    fontSize: '0.9375rem',
+                    height: '44px',
+                    background: 'var(--liquid-glass-bg)',
+                    borderColor: 'var(--liquid-glass-border)',
+                  }}
                 />
                 {search && (
                   <button
@@ -337,7 +344,7 @@ export const EventsListPage = () => {
                   </button>
                 )}
               </div>
-              <button type="submit" className="btn btn-primary" style={{ height: '44px', padding: '0 1.4rem' }}>
+              <button type="submit" className="btn btn-liquid-orange" style={{ height: '44px', padding: '0 1.4rem' }}>
                 Search
               </button>
             </form>
@@ -371,16 +378,18 @@ export const EventsListPage = () => {
                     borderRadius: '9999px',
                     fontSize: '0.8125rem',
                     fontWeight: isSelected ? '700' : '500',
-                    border: isSelected ? '1px solid var(--text-primary)' : '1px solid var(--border-subtle)',
-                    backgroundColor: isSelected ? 'var(--btn-primary-bg)' : 'var(--bg-card)',
-                    color: isSelected ? 'var(--btn-primary-text)' : 'var(--text-secondary)',
-                    boxShadow: isSelected ? 'var(--shadow-sm)' : 'none',
+                    border: isSelected ? '1px solid var(--accent-orange)' : '1px solid var(--liquid-glass-border)',
+                    backgroundColor: isSelected ? 'var(--accent-orange)' : 'var(--liquid-glass-bg)',
+                    backdropFilter: 'var(--liquid-glass-blur)',
+                    WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+                    color: isSelected ? '#ffffff' : 'var(--text-secondary)',
+                    boxShadow: isSelected ? '0 2px 8px rgba(0, 0, 0, 0.12)' : 'var(--liquid-glass-shadow)',
                     cursor: 'pointer',
                     whiteSpace: 'nowrap',
                     transition: 'all 0.2s ease',
                   }}
                 >
-                  <Icon size={14} color={isSelected ? 'var(--btn-primary-text)' : 'currentColor'} />
+                  <Icon size={14} color={isSelected ? '#ffffff' : 'currentColor'} />
                   <span>{cat.label}</span>
                 </button>
               );
@@ -392,7 +401,7 @@ export const EventsListPage = () => {
       {/* 2. Filters & Sort Bar */}
       <div className="container" style={{ marginTop: '1.75rem', marginBottom: '1.75rem' }}>
         <div
-          className="card"
+          className="card liquid-glass-card"
           style={{
             padding: '1rem 1.35rem',
             display: 'flex',
@@ -400,12 +409,17 @@ export const EventsListPage = () => {
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             gap: '1rem',
+            background: 'var(--liquid-glass-bg)',
+            backdropFilter: 'var(--liquid-glass-blur)',
+            WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+            border: '1px solid var(--liquid-glass-border)',
+            boxShadow: 'var(--liquid-glass-shadow)',
           }}
         >
           {/* Left: Date Presets & Filter Summary */}
           <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--text-muted)', fontSize: '0.8125rem', fontWeight: '600' }}>
-              <Calendar size={15} />
+              <Calendar size={15} color="var(--accent-orange)" />
               <span>Date:</span>
             </div>
 
@@ -422,9 +436,10 @@ export const EventsListPage = () => {
                       borderRadius: 'var(--radius-full)',
                       fontSize: '0.785rem',
                       fontWeight: isSelected ? '700' : '500',
-                      border: isSelected ? '1px solid var(--text-primary)' : '1px solid var(--border-subtle)',
-                      backgroundColor: isSelected ? 'var(--btn-primary-bg)' : 'transparent',
-                      color: isSelected ? 'var(--btn-primary-text)' : 'var(--text-secondary)',
+                      border: isSelected ? '1px solid var(--accent-orange)' : '1px solid var(--liquid-glass-border)',
+                      backgroundColor: isSelected ? 'var(--accent-orange)' : 'transparent',
+                      color: isSelected ? '#ffffff' : 'var(--text-secondary)',
+                      boxShadow: 'none',
                       cursor: 'pointer',
                       transition: 'all 0.15s ease',
                     }}
@@ -441,7 +456,7 @@ export const EventsListPage = () => {
                 type="button"
                 onClick={handleClearFilters}
                 className="btn btn-outline btn-sm"
-                style={{ fontSize: '0.775rem', padding: '0.25rem 0.65rem' }}
+                style={{ fontSize: '0.775rem', padding: '0.25rem 0.65rem', borderColor: 'var(--accent-orange-border)', color: 'var(--accent-orange)' }}
               >
                 Reset Filters
               </button>
@@ -558,27 +573,31 @@ export const EventsListPage = () => {
                 </button>
 
                 <div style={{ display: 'flex', gap: '0.35rem' }}>
-                  {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((p) => (
-                    <button
-                      key={p}
-                      type="button"
-                      onClick={() => handlePageChange(p)}
-                      style={{
-                        width: '36px',
-                        height: '36px',
-                        borderRadius: 'var(--radius-md)',
-                        fontSize: '0.875rem',
-                        fontWeight: p === page ? '700' : '500',
-                        border: p === page ? '1px solid var(--text-primary)' : '1px solid var(--border-subtle)',
-                        backgroundColor: p === page ? 'var(--btn-primary-bg)' : 'transparent',
-                        color: p === page ? 'var(--btn-primary-text)' : 'var(--text-secondary)',
-                        cursor: 'pointer',
-                        transition: 'all 0.15s ease',
-                      }}
-                    >
-                      {p}
-                    </button>
-                  ))}
+                  {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((p) => {
+                    const isCurrent = p === page;
+                    return (
+                      <button
+                        key={p}
+                        type="button"
+                        onClick={() => handlePageChange(p)}
+                        style={{
+                          width: '36px',
+                          height: '36px',
+                          borderRadius: 'var(--radius-md)',
+                          fontSize: '0.875rem',
+                          fontWeight: isCurrent ? '700' : '500',
+                          border: isCurrent ? '1px solid var(--accent-orange)' : '1px solid var(--liquid-glass-border)',
+                          backgroundColor: isCurrent ? 'var(--accent-orange)' : 'var(--liquid-glass-bg)',
+                          color: isCurrent ? '#ffffff' : 'var(--text-secondary)',
+                          boxShadow: 'none',
+                          cursor: 'pointer',
+                          transition: 'all 0.15s ease',
+                        }}
+                      >
+                        {p}
+                      </button>
+                    );
+                  })}
                 </div>
 
                 <button

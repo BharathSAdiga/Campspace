@@ -239,13 +239,26 @@ export const MarketplaceEditPage = () => {
   if (isUnauthorized) {
     return (
       <div className="container" style={{ padding: '5rem 1.5rem', textAlign: 'center' }}>
-        <div className="card" style={{ maxWidth: '480px', margin: '0 auto', padding: '3rem 2rem' }}>
-          <ShieldAlert size={48} color="var(--accent-rose)" style={{ marginBottom: '1rem' }} />
+        <div
+          className="card liquid-glass-card"
+          style={{
+            maxWidth: '480px',
+            margin: '0 auto',
+            padding: '3rem 2rem',
+            background: 'var(--liquid-glass-bg)',
+            backdropFilter: 'var(--liquid-glass-blur)',
+            WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+            border: '1px solid var(--liquid-glass-border)',
+            borderRadius: 'var(--radius-xl)',
+            boxShadow: 'var(--liquid-glass-shadow)',
+          }}
+        >
+          <ShieldAlert size={48} color="var(--accent-orange)" style={{ marginBottom: '1rem' }} />
           <h2>Permission Denied</h2>
           <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem', marginBottom: '1.5rem' }}>
             You do not own this listing. Only the verified seller or an administrator has permission to modify this item.
           </p>
-          <Link to={`/marketplace/${id}`} className="btn btn-primary">
+          <Link to={`/marketplace/${id}`} className="btn btn-liquid-orange">
             View Listing
           </Link>
         </div>
@@ -276,6 +289,28 @@ export const MarketplaceEditPage = () => {
 
       {/* Header */}
       <div style={{ marginBottom: '2rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              fontSize: '0.75rem',
+              fontWeight: '700',
+              color: 'var(--accent-orange)',
+              backgroundColor: 'var(--accent-orange-subtle)',
+              border: '1px solid var(--accent-orange-border)',
+              padding: '0.25rem 0.75rem',
+              borderRadius: '9999px',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              fontFamily: 'var(--font-mono)',
+              boxShadow: 'none',
+            }}
+          >
+            <span className="orange-dot" /> Listing Management
+          </span>
+        </div>
         <h1 style={{ fontSize: '1.85rem', fontWeight: '800', margin: 0, color: 'var(--text-primary)' }}>
           Edit Marketplace Listing
         </h1>
@@ -292,7 +327,18 @@ export const MarketplaceEditPage = () => {
       )}
 
       {/* Edit Form */}
-      <div className="card" style={{ padding: '2rem', boxShadow: 'var(--shadow-sm)' }}>
+      <div
+        className="card liquid-glass-card"
+        style={{
+          padding: '2rem',
+          background: 'var(--liquid-glass-bg)',
+          backdropFilter: 'var(--liquid-glass-blur)',
+          WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+          border: '1px solid var(--liquid-glass-border)',
+          borderRadius: 'var(--radius-xl)',
+          boxShadow: 'var(--liquid-glass-shadow)',
+        }}
+      >
         <form onSubmit={handleSubmit} noValidate>
           {/* General Details */}
           <div style={{ marginBottom: '1.75rem' }}>
@@ -587,18 +633,18 @@ export const MarketplaceEditPage = () => {
               borderTop: '1px solid var(--border-subtle)',
             }}
           >
-            <Link to={`/marketplace/${id}`} className="btn btn-secondary" style={{ textDecoration: 'none' }}>
+            <Link to={`/marketplace/${id}`} className="btn btn-secondary" style={{ textDecoration: 'none', backdropFilter: 'blur(12px)' }}>
               Cancel
             </Link>
-            <Button
+            <button
               type="submit"
-              variant="primary"
-              size="lg"
-              isLoading={isSubmitting}
-              icon={<Save size={18} />}
+              disabled={isSubmitting}
+              className="btn btn-liquid-orange btn-lg"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', minWidth: '160px', justifyContent: 'center' }}
             >
-              Save Changes
-            </Button>
+              <Save size={18} />
+              <span>{isSubmitting ? 'Saving...' : 'Save Changes'}</span>
+            </button>
           </div>
         </form>
       </div>

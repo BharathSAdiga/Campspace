@@ -20,5 +20,6 @@ export { ProtectedRoute } from './ProtectedRoute';
 export { PlaceholderPage } from './PlaceholderPage';
 export { GalaxyCanvas } from './GalaxyCanvas';
 export { AmbientBackground } from './AmbientBackground';
+export { GridBackground } from './GridBackground';
 export { TiltCard } from './TiltCard';
 export { ScrollProgressBar } from './ScrollProgressBar';

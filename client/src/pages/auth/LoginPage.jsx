@@ -4,6 +4,7 @@ import { Mail, Lock, Eye, EyeOff, GraduationCap, ArrowRight, ShieldCheck } from 
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../../components/common/Button';
 import { Alert } from '../../components/common/Alert';
+import { GoogleAuthButton } from '../../components/auth/GoogleAuthButton';
 
 export const LoginPage = () => {
   const { login } = useAuth();
@@ -104,18 +105,19 @@ export const LoginPage = () => {
             style={{
               width: '52px',
               height: '52px',
-              borderRadius: 'var(--radius-xs)',
+              borderRadius: 'var(--radius-sm)',
               background: 'var(--text-primary)',
-              border: '1px solid var(--border-subtle)',
+              border: '1px solid var(--accent-orange-border)',
               color: 'var(--text-inverse)',
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
               marginBottom: '1rem',
-              boxShadow: 'var(--shadow-sm)',
+              boxShadow: 'none',
+              position: 'relative',
             }}
           >
-            <GraduationCap size={28} />
+            <GraduationCap size={28} style={{ color: 'var(--accent-orange)' }} />
           </div>
           <h1 style={{ fontSize: '1.5rem', fontWeight: '800', marginBottom: '0.35rem', letterSpacing: '-0.02em', color: 'var(--text-primary)' }}>Welcome Back</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
@@ -129,6 +131,38 @@ export const LoginPage = () => {
             <Alert type="error" message={apiError} dismissible onDismiss={() => setApiError('')} />
           </div>
         )}
+
+        {/* Google Authentication */}
+        <div style={{ marginBottom: '1.5rem' }}>
+          <GoogleAuthButton
+            text="Continue with Google"
+            onSuccess={() => navigate(redirectPath, { replace: true })}
+            onError={(err) => setApiError(err.message || 'Google authentication failed')}
+          />
+
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1rem',
+              margin: '1.25rem 0 0.5rem',
+            }}
+          >
+            <div style={{ flex: 1, height: '1px', background: 'var(--border-subtle)' }} />
+            <span
+              style={{
+                fontSize: '0.75rem',
+                fontWeight: '600',
+                color: 'var(--text-muted)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+              }}
+            >
+              Or continue with email
+            </span>
+            <div style={{ flex: 1, height: '1px', background: 'var(--border-subtle)' }} />
+          </div>
+        </div>
 
         {/* Login Form */}
         <form onSubmit={handleSubmit} noValidate>

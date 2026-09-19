@@ -83,7 +83,7 @@ export const MarketplaceWishlistPage = () => {
           gap: '1rem',
           marginBottom: '2rem',
           paddingBottom: '1.5rem',
-          borderBottom: '1px solid var(--border-subtle)',
+          borderBottom: '1px solid var(--liquid-glass-border)',
         }}
       >
         <div
@@ -99,24 +99,26 @@ export const MarketplaceWishlistPage = () => {
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
               <div
                 style={{
-                  width: '36px',
-                  height: '36px',
-                  borderRadius: '10px',
-                  backgroundColor: '#fff1f2',
-                  color: '#333333',
+                  width: '38px',
+                  height: '38px',
+                  borderRadius: '12px',
+                  backgroundColor: 'var(--accent-orange-subtle)',
+                  border: '1px solid var(--accent-orange-border)',
+                  color: 'var(--accent-orange)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
+                  boxShadow: 'none',
                 }}
               >
-                <Heart size={20} fill="#333333" />
+                <Heart size={20} fill="var(--accent-orange)" color="var(--accent-orange)" />
               </div>
               <h1 style={{ fontSize: '1.875rem', fontWeight: '800', color: 'var(--text-primary)', margin: 0 }}>
                 My Saved Wishlist
               </h1>
-              <Badge variant="primary" size="md">
-                {validProducts.length} {validProducts.length === 1 ? 'item' : 'items'}
-              </Badge>
+              <span className="badge badge-orange" style={{ fontWeight: 700 }}>
+                <span className="orange-dot" /> {validProducts.length} {validProducts.length === 1 ? 'item' : 'items'}
+              </span>
             </div>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.9375rem', margin: 0 }}>
               Quickly monitor, revisit, or purchase textbooks, electronics, and gear you've bookmarked.
@@ -129,7 +131,7 @@ export const MarketplaceWishlistPage = () => {
               type="button"
               onClick={() => refreshWishlist()}
               className="btn btn-secondary btn-sm"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', backdropFilter: 'blur(12px)' }}
               title="Refresh wishlist"
             >
               <RefreshCw size={14} />
@@ -137,7 +139,7 @@ export const MarketplaceWishlistPage = () => {
             </button>
             <Link
               to="/marketplace"
-              className="btn btn-primary btn-sm"
+              className="btn btn-liquid-orange btn-sm"
               style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
             >
               <ShoppingBag size={15} />
@@ -186,6 +188,8 @@ export const MarketplaceWishlistPage = () => {
                   paddingLeft: '2.25rem',
                   height: '38px',
                   fontSize: '0.875rem',
+                  background: 'var(--liquid-glass-bg)',
+                  borderColor: 'var(--liquid-glass-border)',
                 }}
               />
             </div>
@@ -193,30 +197,30 @@ export const MarketplaceWishlistPage = () => {
             {/* Category Filter Chips */}
             {categories.length > 2 && (
               <div style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto', paddingBottom: '0.25rem' }}>
-                {categories.map((cat) => (
-                  <button
-                    key={cat}
-                    type="button"
-                    onClick={() => setSelectedCategory(cat)}
-                    style={{
-                      padding: '0.35rem 0.75rem',
-                      borderRadius: '9999px',
-                      fontSize: '0.8125rem',
-                      fontWeight: '600',
-                      border: '1px solid',
-                      borderColor:
-                        selectedCategory === cat ? 'var(--primary-600)' : 'var(--border-subtle)',
-                      backgroundColor:
-                        selectedCategory === cat ? 'var(--primary-50)' : 'var(--bg-card)',
-                      color:
-                        selectedCategory === cat ? 'var(--primary-700)' : 'var(--text-secondary)',
-                      cursor: 'pointer',
-                      transition: 'all 0.15s ease',
-                    }}
-                  >
-                    {cat}
-                  </button>
-                ))}
+                {categories.map((cat) => {
+                  const isSelected = selectedCategory === cat;
+                  return (
+                    <button
+                      key={cat}
+                      type="button"
+                      onClick={() => setSelectedCategory(cat)}
+                      style={{
+                        padding: '0.35rem 0.85rem',
+                        borderRadius: '9999px',
+                        fontSize: '0.8125rem',
+                        fontWeight: '600',
+                        border: isSelected ? '1px solid var(--accent-orange)' : '1px solid var(--liquid-glass-border)',
+                        backgroundColor: isSelected ? 'var(--accent-orange)' : 'var(--liquid-glass-bg)',
+                        color: isSelected ? '#ffffff' : 'var(--text-secondary)',
+                        boxShadow: 'none',
+                        cursor: 'pointer',
+                        transition: 'all 0.15s ease',
+                      }}
+                    >
+                      {cat}
+                    </button>
+                  );
+                })}
               </div>
             )}
           </div>
@@ -231,11 +235,11 @@ export const MarketplaceWishlistPage = () => {
       ) : validProducts.length === 0 ? (
         /* Empty State */
         <EmptyState
-          icon={<Heart size={28} color="#333333" />}
+          icon={<Heart size={28} color="var(--accent-orange)" fill="var(--accent-orange)" />}
           title="Your wishlist is empty"
           description="Explore the campus marketplace and tap the heart icon on any listing to save it here for quick access."
           action={
-            <Link to="/marketplace" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+            <Link to="/marketplace" className="btn btn-liquid-orange" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
               <ShoppingBag size={16} />
               <span>Browse Marketplace</span>
             </Link>

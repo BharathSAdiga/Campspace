@@ -7,7 +7,7 @@ export const Card = ({
   action,
   footer,
   interactive = false,
-  variant = 'default',
+  variant = 'glass',
   className = '',
   onClick,
   style = {},
@@ -16,13 +16,13 @@ export const Card = ({
   const hasHeader = title || subtitle || action;
   const variantClass = variant === 'elevated'
     ? 'surface-2'
-    : variant === 'frame'
-    ? 'geo-frame'
     : variant === 'glass'
+    ? 'liquid-glass-card'
+    : variant === 'glass-orange'
+    ? 'liquid-glass-card border-accent-orange/40'
+    : variant === 'flat'
     ? 'surface-1'
-    : variant === 'spotlight'
-    ? 'studio-spotlight'
-    : '';
+    : 'liquid-glass-card';
 
   return (
     <div
@@ -30,6 +30,7 @@ export const Card = ({
       onClick={onClick}
       style={{
         cursor: interactive || onClick ? 'pointer' : 'default',
+        position: 'relative',
         ...style,
       }}
       {...props}
@@ -43,12 +44,20 @@ export const Card = ({
             gap: '1rem',
             marginBottom: '1rem',
             paddingBottom: '0.75rem',
-            borderBottom: '1px solid var(--border-subtle)',
+            borderBottom: '1px solid var(--liquid-glass-border)',
           }}
         >
           <div>
-            {title && <h3 style={{ fontSize: '1.15rem', color: 'var(--text-primary)' }}>{title}</h3>}
-            {subtitle && <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>{subtitle}</p>}
+            {title && (
+              <h3 style={{ fontSize: '1.15rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                {title}
+              </h3>
+            )}
+            {subtitle && (
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>
+                {subtitle}
+              </p>
+            )}
           </div>
           {action && <div>{action}</div>}
         </div>
@@ -61,7 +70,7 @@ export const Card = ({
           style={{
             marginTop: '1.25rem',
             paddingTop: '0.75rem',
-            borderTop: '1px solid var(--border-subtle)',
+            borderTop: '1px solid var(--liquid-glass-border)',
             fontSize: '0.85rem',
           }}
         >
@@ -71,3 +80,5 @@ export const Card = ({
     </div>
   );
 };
+
+export default Card;
