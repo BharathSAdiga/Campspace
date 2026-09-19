@@ -4,6 +4,7 @@ import { Mail, Lock, Eye, EyeOff, GraduationCap, ArrowRight, ShieldCheck } from 
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../../components/common/Button';
 import { Alert } from '../../components/common/Alert';
+import { GoogleAuthButton } from '../../components/auth/GoogleAuthButton';
 
 export const LoginPage = () => {
   const { login } = useAuth();
@@ -112,7 +113,7 @@ export const LoginPage = () => {
               alignItems: 'center',
               justifyContent: 'center',
               marginBottom: '1rem',
-              boxShadow: '0 0 16px var(--accent-orange-glow)',
+              boxShadow: 'none',
               position: 'relative',
             }}
           >
@@ -130,6 +131,38 @@ export const LoginPage = () => {
             <Alert type="error" message={apiError} dismissible onDismiss={() => setApiError('')} />
           </div>
         )}
+
+        {/* Google Authentication */}
+        <div style={{ marginBottom: '1.5rem' }}>
+          <GoogleAuthButton
+            text="Continue with Google"
+            onSuccess={() => navigate(redirectPath, { replace: true })}
+            onError={(err) => setApiError(err.message || 'Google authentication failed')}
+          />
+
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1rem',
+              margin: '1.25rem 0 0.5rem',
+            }}
+          >
+            <div style={{ flex: 1, height: '1px', background: 'var(--border-subtle)' }} />
+            <span
+              style={{
+                fontSize: '0.75rem',
+                fontWeight: '600',
+                color: 'var(--text-muted)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+              }}
+            >
+              Or continue with email
+            </span>
+            <div style={{ flex: 1, height: '1px', background: 'var(--border-subtle)' }} />
+          </div>
+        </div>
 
         {/* Login Form */}
         <form onSubmit={handleSubmit} noValidate>

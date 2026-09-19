@@ -241,7 +241,7 @@ export const EventsListPage = () => {
                     textTransform: 'uppercase',
                     letterSpacing: '0.08em',
                     fontFamily: 'var(--font-mono)',
-                    boxShadow: '0 0 12px var(--accent-orange-glow)',
+                    boxShadow: 'none',
                   }}
                 >
                   <span className="orange-dot" /> Campus Life & Activities
@@ -383,7 +383,7 @@ export const EventsListPage = () => {
                     backdropFilter: 'var(--liquid-glass-blur)',
                     WebkitBackdropFilter: 'var(--liquid-glass-blur)',
                     color: isSelected ? '#ffffff' : 'var(--text-secondary)',
-                    boxShadow: isSelected ? '0 0 16px var(--accent-orange-glow)' : 'var(--liquid-glass-shadow)',
+                    boxShadow: isSelected ? '0 2px 8px rgba(0, 0, 0, 0.12)' : 'var(--liquid-glass-shadow)',
                     cursor: 'pointer',
                     whiteSpace: 'nowrap',
                     transition: 'all 0.2s ease',
@@ -439,7 +439,7 @@ export const EventsListPage = () => {
                       border: isSelected ? '1px solid var(--accent-orange)' : '1px solid var(--liquid-glass-border)',
                       backgroundColor: isSelected ? 'var(--accent-orange)' : 'transparent',
                       color: isSelected ? '#ffffff' : 'var(--text-secondary)',
-                      boxShadow: isSelected ? '0 0 12px var(--accent-orange-glow)' : 'none',
+                      boxShadow: 'none',
                       cursor: 'pointer',
                       transition: 'all 0.15s ease',
                     }}
@@ -589,7 +589,7 @@ export const EventsListPage = () => {
                           border: isCurrent ? '1px solid var(--accent-orange)' : '1px solid var(--liquid-glass-border)',
                           backgroundColor: isCurrent ? 'var(--accent-orange)' : 'var(--liquid-glass-bg)',
                           color: isCurrent ? '#ffffff' : 'var(--text-secondary)',
-                          boxShadow: isCurrent ? '0 0 12px var(--accent-orange-glow)' : 'none',
+                          boxShadow: 'none',
                           cursor: 'pointer',
                           transition: 'all 0.15s ease',
                         }}

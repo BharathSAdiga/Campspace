@@ -371,7 +371,7 @@ export const EventsDetailPage = () => {
                   justifyContent: 'center',
                   fontWeight: 700,
                   fontSize: '1rem',
-                  boxShadow: '0 0 12px var(--accent-orange-glow)',
+                  boxShadow: 'none',
                 }}
               >
                 {event.organizer?.name ? event.organizer.name.charAt(0).toUpperCase() : 'O'}
@@ -497,7 +497,7 @@ export const EventsDetailPage = () => {
                               width: `${Math.min(100, Math.round((currentParticipants / maximumParticipants) * 100))}%`,
                               height: '100%',
                               backgroundColor: isSoldOut ? 'var(--text-muted)' : 'var(--accent-orange)',
-                              boxShadow: isSoldOut ? 'none' : '0 0 8px var(--accent-orange-glow)',
+                              boxShadow: 'none',
                               borderRadius: '9999px',
                               transition: 'width 0.3s ease',
                             }}

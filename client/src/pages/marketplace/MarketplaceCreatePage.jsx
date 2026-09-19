@@ -217,7 +217,7 @@ export const MarketplaceCreatePage = () => {
               textTransform: 'uppercase',
               letterSpacing: '0.05em',
               fontFamily: 'var(--font-mono)',
-              boxShadow: '0 0 12px var(--accent-orange-glow)',
+              boxShadow: 'none',
             }}
           >
             <span className="orange-dot" /> Peer Marketplace

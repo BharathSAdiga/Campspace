@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { Menu, X, User, LogOut, Heart, Sun, Moon } from 'lucide-react';
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { Menu, X, User, LogOut, Heart, Sun, Moon, ArrowRight, Sparkles } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -36,12 +36,17 @@ export const Navbar = () => {
   const { wishlistCount } = useWishlist();
   const { toggleTheme, isDark } = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 15);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
 
   const handleLogout = () => {
     logout();
@@ -66,216 +71,215 @@ export const Navbar = () => {
         transition: 'all var(--transition-normal)',
       }}
     >
-      <Link
-        to="/"
-        onClick={() => setMobileMenuOpen(false)}
-        style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}
-        aria-label="Campspace Home"
+      <div
+        style={{
+          width: '100%',
+          maxWidth: 'var(--max-width)',
+          margin: '0 auto',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
       >
-        <span
-          style={{
-            width: '34px',
-            height: '34px',
-            borderRadius: 'var(--radius-sm)',
-            background: 'var(--text-primary)',
-            color: 'var(--text-inverse)',
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontFamily: 'var(--font-mono)',
-            fontSize: '0.85rem',
-            fontWeight: 800,
-            letterSpacing: '-0.02em',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.18)',
-            position: 'relative',
-          }}
+        {/* Left: Brand Identity with Dark Orange Gradient Emblem */}
+        <Link
+          to="/"
+          onClick={() => setMobileMenuOpen(false)}
+          style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flexShrink: 0, textDecoration: 'none' }}
+          aria-label="Campspace Home"
         >
-          CS
-          <span
+          <div
             style={{
-              position: 'absolute',
-              top: '-2px',
-              right: '-2px',
-              width: '7px',
-              height: '7px',
+              width: '36px',
+              height: '36px',
               borderRadius: '50%',
-              background: 'var(--accent-orange)',
-              boxShadow: '0 0 6px var(--accent-orange-glow)',
+              background: 'linear-gradient(135deg, #FF9966 0%, #FF5E62 100%)',
+              color: '#ffffff',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.85rem',
+              fontWeight: 800,
+              letterSpacing: '-0.02em',
+              boxShadow: '0 2px 6px rgba(0, 0, 0, 0.12)',
+              position: 'relative',
+              flexShrink: 0,
             }}
-          />
-        </span>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          >
+            CS
+            <span
+              style={{
+                position: 'absolute',
+                top: '-1px',
+                right: '-1px',
+                width: '8px',
+                height: '8px',
+                borderRadius: '50%',
+                background: '#ffffff',
+                border: '2px solid #FF5E62',
+              }}
+            />
+          </div>
+
           <span
             style={{
               color: 'var(--text-primary)',
               fontFamily: 'var(--font-heading)',
-              fontSize: '1.05rem',
-              fontWeight: 850,
-              letterSpacing: '0.04em',
+              fontSize: '1.15rem',
+              fontWeight: 800,
+              letterSpacing: '0.02em',
               textTransform: 'uppercase',
-              lineHeight: 1.1,
+              lineHeight: 1,
             }}
           >
             Campspace
           </span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-            <span
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.62rem',
-                color: 'var(--accent-orange)',
-                letterSpacing: '0.08em',
-                fontWeight: 700,
-              }}
-            >
-              OS // 2.4
-            </span>
-            <span
-              style={{
-                width: '4px',
-                height: '4px',
-                borderRadius: '50%',
-                background: 'var(--accent-orange)',
-                display: 'inline-block',
-              }}
-            />
-          </div>
-        </div>
-      </Link>
-
-      <nav
-        className="desktop-nav"
-        aria-label="Main Navigation"
-        style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}
-      >
-        {allNavItems.map(({ to, label, index }) => (
-          <NavLink
-            key={to}
-            to={to}
-            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-            style={({ isActive }) => ({
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.4rem',
-              padding: '0.45rem 0.8rem',
-              borderRadius: 'var(--radius-sm)',
-              color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
-              background: isActive ? 'var(--liquid-glass-bg-hover)' : 'transparent',
-              border: isActive ? '1px solid var(--accent-orange-border)' : '1px solid transparent',
-              boxShadow: isActive ? '0 2px 8px var(--accent-orange-subtle)' : 'none',
-              transition: 'all var(--transition-fast)',
-            })}
-          >
-            {({ isActive }) => (
-              <>
-                <span
-                  style={{
-                    color: isActive ? 'var(--accent-orange)' : 'var(--text-dim)',
-                    fontSize: '0.65rem',
-                    fontWeight: 800,
-                  }}
-                >
-                  {index}
-                </span>
-                <span>{label}</span>
-                {isActive && (
-                  <span
-                    style={{
-                      width: '5px',
-                      height: '5px',
-                      borderRadius: '50%',
-                      background: 'var(--accent-orange)',
-                      boxShadow: '0 0 6px var(--accent-orange-glow)',
-                    }}
-                  />
-                )}
-              </>
-            )}
-          </NavLink>
-        ))}
-      </nav>
-
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-        <button
-          onClick={toggleTheme}
-          title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-          aria-label={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-          style={iconButtonStyle}
-          className="focus-ring"
-        >
-          {isDark ? <Sun size={16} strokeWidth={2} style={{ color: 'var(--accent-orange)' }} /> : <Moon size={16} strokeWidth={2} />}
-        </button>
-
-        <Link
-          to="/marketplace/wishlist"
-          title="Saved Wishlist"
-          aria-label="Saved Wishlist"
-          style={iconButtonStyle}
-          className="focus-ring"
-        >
-          <Heart size={16} fill={wishlistCount > 0 ? 'var(--accent-orange)' : 'none'} color={wishlistCount > 0 ? 'var(--accent-orange)' : 'currentColor'} strokeWidth={2} />
-          {wishlistCount > 0 && (
-            <span
-              style={{
-                position: 'absolute',
-                top: '-3px',
-                right: '-3px',
-                minWidth: '16px',
-                height: '16px',
-                padding: '0 4px',
-                borderRadius: '999px',
-                background: 'var(--accent-orange)',
-                color: '#ffffff',
-                border: '1px solid var(--surface-0)',
-                fontSize: '0.62rem',
-                fontWeight: 800,
-                lineHeight: '14px',
-                textAlign: 'center',
-                boxShadow: '0 0 8px var(--accent-orange-glow)',
-              }}
-            >
-              {wishlistCount}
-            </span>
-          )}
         </Link>
 
-        <div style={{ width: 1, height: 22, background: 'var(--liquid-glass-border)', margin: '0 0.2rem' }} />
-
-        {isAuthenticated ? (
-          <div className="auth-actions" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-            <Link to="/dashboard" className="btn btn-secondary btn-sm" style={{ gap: '0.4rem', minHeight: 36 }}>
-              <User size={13} />
-              <span>{user?.name?.split(' ')[0] || 'Account'}</span>
-            </Link>
-            <button
-              onClick={handleLogout}
-              title="Sign Out"
-              aria-label="Sign Out"
-              style={iconButtonStyle}
-              className="focus-ring"
-            >
-              <LogOut size={15} />
-            </button>
-          </div>
-        ) : (
-          <div className="auth-actions" style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-            <Link to="/login" className="btn btn-ghost btn-sm">
-              Sign In
-            </Link>
-            <Link to="/register" className="btn btn-primary btn-sm">
-              Join Free
-            </Link>
-          </div>
-        )}
-
-        <button
-          className="mobile-menu-toggle focus-ring"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label={mobileMenuOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
-          style={{ ...iconButtonStyle, display: 'none', color: 'var(--text-primary)' }}
+        {/* Center: Desktop Monospace Indexed Navigation */}
+        <nav
+          className="desktop-nav"
+          aria-label="Main Navigation"
+          style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}
         >
-          {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
+          {allNavItems.map(({ to, label, index }) => (
+            <NavLink
+              key={to}
+              to={to}
+              className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+            >
+              <span
+                className="nav-idx"
+                style={{
+                  fontSize: '0.66rem',
+                  fontFamily: 'var(--font-mono)',
+                  fontWeight: 800,
+                  transition: 'color var(--transition-fast)',
+                }}
+              >
+                {index}
+              </span>
+              <span>{label}</span>
+            </NavLink>
+          ))}
+        </nav>
+
+        {/* Right: Controls + Log In & Get Started Actions */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          {/* Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            aria-label={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            style={iconButtonStyle}
+            className="focus-ring"
+          >
+            {isDark ? (
+              <Sun size={16} strokeWidth={2} style={{ color: 'var(--accent-orange)' }} />
+            ) : (
+              <Moon size={16} strokeWidth={2} />
+            )}
+          </button>
+
+          {/* Saved Wishlist */}
+          <Link
+            to="/marketplace/wishlist"
+            title="Saved Wishlist"
+            aria-label="Saved Wishlist"
+            style={iconButtonStyle}
+            className="focus-ring"
+          >
+            <Heart
+              size={16}
+              fill={wishlistCount > 0 ? 'var(--accent-orange)' : 'none'}
+              color={wishlistCount > 0 ? 'var(--accent-orange)' : 'currentColor'}
+              strokeWidth={2}
+            />
+            {wishlistCount > 0 && (
+              <span
+                style={{
+                  position: 'absolute',
+                  top: '-3px',
+                  right: '-3px',
+                  minWidth: '16px',
+                  height: '16px',
+                  padding: '0 4px',
+                  borderRadius: '999px',
+                  background: 'var(--accent-orange)',
+                  color: '#ffffff',
+                  border: '1px solid var(--surface-0)',
+                  fontSize: '0.62rem',
+                  fontWeight: 800,
+                  lineHeight: '14px',
+                  textAlign: 'center',
+                }}
+              >
+                {wishlistCount}
+              </span>
+            )}
+          </Link>
+
+          <div style={{ width: 1, height: 22, background: 'var(--liquid-glass-border)', margin: '0 0.25rem' }} />
+
+          {/* Guest or Authenticated Actions */}
+          {isAuthenticated ? (
+            <div className="auth-actions" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <Link to="/dashboard" className="btn btn-secondary btn-sm" style={{ gap: '0.4rem', minHeight: 36 }}>
+                <User size={13} />
+                <span>{user?.name?.split(' ')[0] || 'Dashboard'}</span>
+              </Link>
+              <button
+                onClick={handleLogout}
+                title="Sign Out"
+                aria-label="Sign Out"
+                style={iconButtonStyle}
+                className="focus-ring"
+              >
+                <LogOut size={15} />
+              </button>
+            </div>
+          ) : (
+            <div className="auth-actions" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Link
+                to="/login"
+                className="btn btn-ghost btn-sm"
+                style={{
+                  padding: '0.45rem 0.9rem',
+                  fontSize: '0.82rem',
+                  fontWeight: 600,
+                  color: 'var(--text-secondary)',
+                }}
+              >
+                Log In
+              </Link>
+              <Link
+                to="/register"
+                className="btn btn-liquid-orange btn-sm"
+                style={{
+                  gap: '0.35rem',
+                  padding: '0.45rem 1rem',
+                  fontSize: '0.82rem',
+                  fontWeight: 700,
+                }}
+              >
+                <Sparkles size={13} />
+                <span>Get Started</span>
+                <ArrowRight size={13} />
+              </Link>
+            </div>
+          )}
+
+          {/* Mobile Menu Toggle */}
+          <button
+            className="mobile-menu-toggle focus-ring"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
+            style={{ ...iconButtonStyle, display: 'none', color: 'var(--text-primary)' }}
+          >
+            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
       </div>
 
       <style>{`
@@ -286,16 +290,17 @@ export const Navbar = () => {
           border-color: var(--border-subtle) !important;
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 960px) {
           .desktop-nav { display: none !important; }
           .mobile-menu-toggle { display: inline-flex !important; }
         }
 
-        @media (max-width: 620px) {
+        @media (max-width: 640px) {
           .auth-actions { display: none !important; }
         }
       `}</style>
 
+      {/* Full-Screen Mobile Drawer */}
       {mobileMenuOpen && (
         <div
           style={{
@@ -350,6 +355,7 @@ export const Navbar = () => {
                   borderRadius: 'var(--radius-sm)',
                   background: isActive ? 'var(--liquid-glass-bg-hover)' : 'transparent',
                   color: isActive ? 'var(--accent-orange)' : 'var(--text-primary)',
+                  textDecoration: 'none',
                 })}
               >
                 <span>{label}</span>
@@ -370,10 +376,10 @@ export const Navbar = () => {
                 }}
               >
                 <Link to="/login" className="btn btn-secondary" onClick={() => setMobileMenuOpen(false)}>
-                  Sign In
+                  Log In
                 </Link>
-                <Link to="/register" className="btn btn-primary" onClick={() => setMobileMenuOpen(false)}>
-                  Join Free
+                <Link to="/register" className="btn btn-liquid-orange" onClick={() => setMobileMenuOpen(false)}>
+                  Get Started
                 </Link>
               </div>
             ) : (

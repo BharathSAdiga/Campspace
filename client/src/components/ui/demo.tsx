@@ -1,5 +1,12 @@
-import { PrismaHero } from "@/components/ui/prisma-hero";
+import { Navbar1 } from "@/components/ui/navbar-1"
 
-export default function DemoOne() {
-  return <PrismaHero />;
+const Demo = () => {
+    return (
+        <>
+            <Navbar1/>
+        </>
+    )
 }
+
+export {Demo}
+export default Demo;

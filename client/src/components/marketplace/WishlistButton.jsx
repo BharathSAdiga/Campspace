@@ -78,9 +78,7 @@ export const WishlistButton = ({
             : isHovered
             ? '1px solid var(--liquid-glass-border-hover)'
             : '1px solid var(--liquid-glass-border)',
-          boxShadow: isSaved
-            ? '0 0 16px var(--accent-orange-glow)'
-            : isHovered
+          boxShadow: isHovered
             ? 'var(--liquid-glass-shadow-hover)'
             : 'var(--liquid-glass-shadow)',
           cursor: pending ? 'wait' : 'pointer',
@@ -139,7 +137,7 @@ export const WishlistButton = ({
         padding: size === 'sm' ? '0.4rem 0.75rem' : size === 'lg' ? '0.75rem 1.5rem' : '0.6rem 1.15rem',
         transition: 'all 0.2s ease',
         cursor: pending ? 'wait' : 'pointer',
-        boxShadow: isSaved ? '0 0 14px var(--accent-orange-glow)' : 'var(--liquid-glass-shadow)',
+        boxShadow: isHovered ? 'var(--liquid-glass-shadow-hover)' : 'var(--liquid-glass-shadow)',
         ...style,
       }}
     >

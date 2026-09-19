@@ -30,3 +30,9 @@ yarn-error.log*
 Thumbs.db
 .vscode/
 .idea/
+
+# Local Database files
+data/
+server/data/
+*.db
+

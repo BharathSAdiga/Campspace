@@ -4,6 +4,7 @@ import { User, Mail, Lock, Eye, EyeOff, GraduationCap, ArrowRight, CheckCircle2 
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../../components/common/Button';
 import { Alert } from '../../components/common/Alert';
+import { GoogleAuthButton } from '../../components/auth/GoogleAuthButton';
 
 export const RegisterPage = () => {
   const { register } = useAuth();
@@ -111,7 +112,7 @@ export const RegisterPage = () => {
               alignItems: 'center',
               justifyContent: 'center',
               marginBottom: '1rem',
-              boxShadow: '0 0 16px var(--accent-orange-glow)',
+              boxShadow: 'none',
               position: 'relative',
             }}
           >
@@ -129,6 +130,38 @@ export const RegisterPage = () => {
             <Alert type="error" message={apiError} dismissible onDismiss={() => setApiError('')} />
           </div>
         )}
+
+        {/* Google Registration */}
+        <div style={{ marginBottom: '1.5rem' }}>
+          <GoogleAuthButton
+            text="Sign up with Google"
+            onSuccess={() => navigate('/dashboard', { replace: true })}
+            onError={(err) => setApiError(err.message || 'Google registration failed')}
+          />
+
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1rem',
+              margin: '1.25rem 0 0.5rem',
+            }}
+          >
+            <div style={{ flex: 1, height: '1px', background: 'var(--border-subtle)' }} />
+            <span
+              style={{
+                fontSize: '0.75rem',
+                fontWeight: '600',
+                color: 'var(--text-muted)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+              }}
+            >
+              Or register with email
+            </span>
+            <div style={{ flex: 1, height: '1px', background: 'var(--border-subtle)' }} />
+          </div>
+        </div>
 
         {/* Register Form */}
         <form onSubmit={handleSubmit} noValidate>

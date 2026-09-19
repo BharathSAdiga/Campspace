@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
 /**
@@ -13,13 +13,11 @@ export const TiltCard = ({
   className = '',
   style = {},
   tiltIntensity = 12,
-  glare = true,
   delay = 0,
   onClick,
   ...props
 }) => {
   const cardRef = useRef(null);
-  const [isHovered, setIsHovered] = useState(false);
 
   // Normalized mouse coords (-0.5 to 0.5)
   const mouseX = useMotionValue(0);
@@ -35,16 +33,6 @@ export const TiltCard = ({
     damping: 24,
   });
 
-  // Glare position
-  const glareX = useSpring(useTransform(mouseX, [-0.5, 0.5], [0, 100]), {
-    stiffness: 300,
-    damping: 25,
-  });
-  const glareY = useSpring(useTransform(mouseY, [-0.5, 0.5], [0, 100]), {
-    stiffness: 300,
-    damping: 25,
-  });
-
   const handleMouseMove = (e) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
@@ -54,12 +42,7 @@ export const TiltCard = ({
     mouseY.set(y);
   };
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
   const handleMouseLeave = () => {
-    setIsHovered(false);
     mouseX.set(0);
     mouseY.set(0);
   };
@@ -72,7 +55,6 @@ export const TiltCard = ({
       viewport={{ once: true, amount: 0.15 }}
       transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
       onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
       style={{
@@ -96,21 +78,6 @@ export const TiltCard = ({
         }}
       >
         {children}
-
-        {/* Dynamic Specular Light Glare (White + Light Orange) */}
-        {glare && isHovered && (
-          <motion.div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              borderRadius: 'inherit',
-              pointerEvents: 'none',
-              zIndex: 10,
-              background: `radial-gradient(circle at ${glareX.get()}% ${glareY.get()}%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 138, 61, 0.1) 32%, transparent 68%)`,
-              mixBlendMode: 'screen',
-            }}
-          />
-        )}
       </motion.div>
     </motion.div>
   );

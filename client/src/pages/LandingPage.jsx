@@ -236,25 +236,36 @@ export const LandingPage = () => {
                 flagship student hackathons with live telemetry, trade textbooks directly at 0% fees, book GPU clusters, and charter student societies.
               </p>
 
-              {/* Action Buttons */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.85rem', marginBottom: '2.5rem' }}>
+              {/* Action Buttons: Get Started and Log In */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.85rem', marginBottom: '1.5rem' }}>
                 <Link
                   to={isAuthenticated ? '/dashboard' : '/register'}
                   className="btn btn-liquid-orange btn-lg"
-                  style={{ gap: '0.5rem', minWidth: '190px' }}
+                  style={{ gap: '0.5rem', minWidth: '165px' }}
                 >
-                  <Terminal size={16} />
-                  <span>{isAuthenticated ? 'Enter Dashboard' : 'Initialize Session'}</span>
+                  <Sparkles size={16} />
+                  <span>{isAuthenticated ? 'Go to Dashboard' : 'Get Started'}</span>
                   <ArrowRight size={16} />
                 </Link>
 
+                {!isAuthenticated && (
+                  <Link
+                    to="/login"
+                    className="btn btn-secondary btn-lg"
+                    style={{ gap: '0.5rem', minWidth: '130px' }}
+                  >
+                    <Lock size={15} style={{ color: 'var(--accent-orange)' }} />
+                    <span>Log In</span>
+                  </Link>
+                )}
+
                 <Link
                   to="/events"
-                  className="btn btn-secondary btn-lg"
+                  className="btn btn-ghost btn-lg"
                   style={{ gap: '0.5rem' }}
                 >
                   <Calendar size={16} style={{ color: 'var(--accent-orange)' }} />
-                  <span>Explore Events</span>
+                  <span>Events</span>
                 </Link>
 
                 <Link
@@ -265,6 +276,19 @@ export const LandingPage = () => {
                   <span>Marketplace</span>
                   <ArrowUpRight size={15} />
                 </Link>
+              </div>
+
+              {/* Instant Access Badging */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '2.5rem', flexWrap: 'wrap' }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                  <Shield size={13} style={{ color: 'var(--accent-orange)' }} />
+                  <span>Sign up in 30 seconds</span>
+                </div>
+                <span style={{ color: 'var(--border-subtle)' }}>•</span>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                  <Zap size={13} style={{ color: 'var(--accent-orange)' }} />
+                  <span>Google 1-Click login supported</span>
+                </div>
               </div>
 
               {/* Architecture Specs Monospace Bar */}
@@ -291,7 +315,7 @@ export const LandingPage = () => {
 
             {/* Right Column: Live Operational Telemetry Monitor in TiltCard */}
             <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0.15}>
-              <TiltCard glare={true} tiltIntensity={8}>
+              <TiltCard tiltIntensity={8}>
                 <div
                   className="card liquid-glass-card"
                   style={{
@@ -345,7 +369,7 @@ export const LandingPage = () => {
                           fontSize: '0.72rem',
                           fontWeight: 800,
                           cursor: 'pointer',
-                          boxShadow: activeSector === sec.id ? '0 0 12px var(--accent-orange-glow)' : 'none',
+                          boxShadow: 'none',
                           transition: 'all var(--transition-fast)',
                         }}
                       >
@@ -419,7 +443,7 @@ export const LandingPage = () => {
                           width: `${currentSectorData.items[0].progress}%`,
                           height: '100%',
                           background: 'linear-gradient(90deg, var(--accent-orange) 0%, var(--accent-orange-light) 100%)',
-                          boxShadow: '0 0 8px var(--accent-orange-glow)',
+                          boxShadow: 'none',
                         }}
                       />
                     </div>
@@ -482,7 +506,7 @@ export const LandingPage = () => {
             {sectors.map((sector) => {
               const Icon = sector.icon;
               return (
-                <TiltCard key={sector.id} glare={true} tiltIntensity={6}>
+                <TiltCard key={sector.id} tiltIntensity={6}>
                   <div
                     className="card liquid-glass-card"
                     style={{
@@ -621,7 +645,7 @@ export const LandingPage = () => {
       {/* ── 04 // Architectural Call To Action ─────────────────────── */}
       <section style={{ padding: 'clamp(4rem, 7vw, 6.5rem) 0' }}>
         <div className="container">
-          <TiltCard glare={true} tiltIntensity={5}>
+          <TiltCard tiltIntensity={5}>
             <div
               className="card liquid-glass-card"
               style={{
@@ -670,15 +694,27 @@ export const LandingPage = () => {
                 <Link
                   to={isAuthenticated ? '/dashboard' : '/register'}
                   className="btn btn-liquid-orange btn-lg"
-                  style={{ gap: '0.5rem', minWidth: '220px' }}
+                  style={{ gap: '0.5rem', minWidth: '190px' }}
                 >
-                  <span>{isAuthenticated ? 'Enter Dashboard Hub' : 'Create Campus Account'}</span>
+                  <Sparkles size={16} />
+                  <span>{isAuthenticated ? 'Enter Dashboard Hub' : 'Get Started'}</span>
                   <ArrowRight size={16} />
                 </Link>
 
-                <Link to="/events" className="btn btn-secondary btn-lg">
-                  <span>Explore Campus Events</span>
-                </Link>
+                {!isAuthenticated ? (
+                  <Link
+                    to="/login"
+                    className="btn btn-secondary btn-lg"
+                    style={{ gap: '0.5rem', minWidth: '130px' }}
+                  >
+                    <Lock size={15} style={{ color: 'var(--accent-orange)' }} />
+                    <span>Log In</span>
+                  </Link>
+                ) : (
+                  <Link to="/events" className="btn btn-secondary btn-lg">
+                    <span>Explore Campus Events</span>
+                  </Link>
+                )}
               </div>
             </div>
           </TiltCard>

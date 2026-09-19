@@ -224,7 +224,7 @@ export const EventsMyEventsPage = () => {
                 textTransform: 'uppercase',
                 letterSpacing: '0.08em',
                 fontFamily: 'var(--font-mono)',
-                boxShadow: '0 0 12px var(--accent-orange-glow)',
+                boxShadow: 'none',
               }}
             >
               <span className="orange-dot" /> Organizer Control Center
@@ -422,7 +422,7 @@ export const EventsMyEventsPage = () => {
                   borderRadius: '9999px',
                   cursor: 'pointer',
                   fontSize: '0.875rem',
-                  boxShadow: isActive ? '0 0 12px var(--accent-orange-glow)' : 'none',
+                  boxShadow: 'none',
                   transition: 'all 0.15s ease',
                 }}
               >

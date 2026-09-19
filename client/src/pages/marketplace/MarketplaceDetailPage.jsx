@@ -302,7 +302,7 @@ export const MarketplaceDetailPage = () => {
                     fontSize: '0.8125rem',
                     fontWeight: '700',
                     color: '#ffffff',
-                    boxShadow: '0 0 12px var(--accent-orange-glow)',
+                    boxShadow: 'none',
                   }}
                 >
                   {product.category}

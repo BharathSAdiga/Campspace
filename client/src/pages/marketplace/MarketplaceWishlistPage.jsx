@@ -108,7 +108,7 @@ export const MarketplaceWishlistPage = () => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  boxShadow: '0 0 12px var(--accent-orange-glow)',
+                  boxShadow: 'none',
                 }}
               >
                 <Heart size={20} fill="var(--accent-orange)" color="var(--accent-orange)" />
@@ -212,7 +212,7 @@ export const MarketplaceWishlistPage = () => {
                         border: isSelected ? '1px solid var(--accent-orange)' : '1px solid var(--liquid-glass-border)',
                         backgroundColor: isSelected ? 'var(--accent-orange)' : 'var(--liquid-glass-bg)',
                         color: isSelected ? '#ffffff' : 'var(--text-secondary)',
-                        boxShadow: isSelected ? '0 0 12px var(--accent-orange-glow)' : 'none',
+                        boxShadow: 'none',
                         cursor: 'pointer',
                         transition: 'all 0.15s ease',
                       }}

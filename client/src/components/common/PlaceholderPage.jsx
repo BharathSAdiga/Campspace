@@ -41,7 +41,7 @@ export const PlaceholderPage = ({
           }}
         >
           {/* Column 1: System Spec & Telemetry */}
-          <TiltCard glare={true} tiltIntensity={6}>
+          <TiltCard tiltIntensity={6}>
             <div className="card liquid-glass-card" style={{ padding: '2rem', height: '100%' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
                 <div
@@ -138,7 +138,7 @@ export const PlaceholderPage = ({
           </TiltCard>
 
           {/* Column 2: Interactive Operational Schedule / Roster */}
-          <TiltCard glare={true} tiltIntensity={6}>
+          <TiltCard tiltIntensity={6}>
             <div className="card liquid-glass-card" style={{ padding: '2rem', height: '100%' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
                 <span

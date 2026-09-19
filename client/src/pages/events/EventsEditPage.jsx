@@ -181,7 +181,7 @@ export const EventsEditPage = () => {
               fontFamily: 'var(--font-mono)',
               color: 'var(--accent-orange)',
               marginBottom: '0.75rem',
-              boxShadow: '0 0 12px var(--accent-orange-glow)',
+              boxShadow: 'none',
             }}
           >
             <span className="orange-dot" />

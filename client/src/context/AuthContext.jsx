@@ -78,6 +78,25 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   /**
+   * Log in or register user with Google OAuth
+   */
+  const loginWithGoogle = useCallback(async (payload) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await authService.googleLogin(payload);
+      setUser(response.user);
+      return response;
+    } catch (err) {
+      const message = err.message || 'Google authentication failed. Please try again.';
+      setError(message);
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  /**
    * Sign out current user
    */
   const logout = useCallback(() => {
@@ -97,6 +116,7 @@ export const AuthProvider = ({ children }) => {
     error,
     login,
     register,
+    loginWithGoogle,
     logout,
     clearError,
     setUser,

@@ -242,7 +242,7 @@ export const MarketplaceListPage = () => {
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em',
                     fontFamily: 'var(--font-mono)',
-                    boxShadow: '0 0 12px var(--accent-orange-glow)',
+                    boxShadow: 'none',
                   }}
                 >
                   <span className="orange-dot" /> Verified Peer-to-Peer
@@ -365,7 +365,7 @@ export const MarketplaceListPage = () => {
                     backdropFilter: 'var(--liquid-glass-blur)',
                     WebkitBackdropFilter: 'var(--liquid-glass-blur)',
                     color: isSelected ? '#ffffff' : 'var(--text-secondary)',
-                    boxShadow: isSelected ? '0 0 16px var(--accent-orange-glow)' : 'var(--liquid-glass-shadow)',
+                    boxShadow: isSelected ? '0 2px 8px rgba(0, 0, 0, 0.12)' : 'var(--liquid-glass-shadow)',
                     cursor: 'pointer',
                     whiteSpace: 'nowrap',
                     transition: 'all 0.15s ease',

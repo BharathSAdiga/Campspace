@@ -49,7 +49,7 @@ export const EmptyState = ({
           alignItems: 'center',
           justifyContent: 'center',
           marginBottom: '1.25rem',
-          boxShadow: '0 0 20px var(--accent-orange-glow)',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
         }}
       >
         {renderIcon()}
