@@ -27,6 +27,13 @@ const fadeUp = {
   }),
 };
 
+const TICKER_ITEMS = [
+  'Upcoming Events',
+  'Marketplace — Buy & Sell with Zero Fees',
+  'Book Campus Rooms & Labs',
+  'Explore Student Clubs — Join or Create',
+];
+
 export const LandingPage = () => {
   const { isAuthenticated } = useAuth();
   const [activeSector, setActiveSector] = useState('events');
@@ -35,7 +42,7 @@ export const LandingPage = () => {
     {
       id: 'events',
       name: 'Events & Workshops',
-      code: 'SECTOR-01',
+      code: 'EVENTS',
       index: '01',
       icon: Calendar,
       tagline: 'Flagship Hackathons, Summits & Mixers',
@@ -45,7 +52,7 @@ export const LandingPage = () => {
       cta: 'Explore All Events',
       items: [
         {
-          title: 'HackCampus 2026 // 24H AI & Robotics Hackathon',
+          title: 'HackCampus 2026 — 24-Hour AI & Robotics Hackathon',
           meta: 'Oct 24 • Engineering Atrium',
           badge: 'FLAGSHIP',
           capacity: '184 / 250 Spots Filled',
@@ -70,7 +77,7 @@ export const LandingPage = () => {
     {
       id: 'marketplace',
       name: 'Peer Marketplace',
-      code: 'SECTOR-02',
+      code: 'MARKETPLACE',
       index: '02',
       icon: ShoppingBag,
       tagline: 'Zero-Fee Direct Student Commerce',
@@ -104,34 +111,34 @@ export const LandingPage = () => {
     },
     {
       id: 'resources',
-      name: 'Compute & Labs',
-      code: 'SECTOR-03',
+      name: 'Campus Resources',
+      code: 'RESOURCES',
       index: '03',
       icon: Layers,
-      tagline: 'High-Performance Facilities & Hardware',
+      tagline: 'Book Rooms, Labs & Equipment',
       description:
-        'Reserve high-power GPU cluster nodes, clean rooms, podcast soundstages, rapid 3D prototyping bays, and private focus study pods.',
+        'Reserve study rooms, computer labs, recording studios, maker spaces, and other campus facilities with easy time-slot scheduling.',
       route: '/resources',
       cta: 'Book Facilities',
       items: [
         {
-          title: 'Quantum & AI Simulation Cluster #2 (8x H100)',
+          title: 'Computer Lab 402 — Workstations Available',
           meta: 'Engineering Building Lab 402',
-          badge: 'SUPERCOMPUTE',
+          badge: 'LAB',
           capacity: 'Available Today • 3 Slots Open',
           progress: 60,
         },
         {
           title: 'Acoustic Soundstage & Podcasting Suite A',
           meta: 'Fine Arts Media Wing',
-          badge: 'MULTIMEDIA',
+          badge: 'STUDIO',
           capacity: 'Reserved for 4 PM',
           progress: 40,
         },
         {
-          title: 'Rapid Prototyping & 3D Fabrication Studio',
+          title: '3D Printing & Maker Space',
           meta: 'Innovation Workshop Center',
-          badge: 'MAKER LAB',
+          badge: 'MAKER SPACE',
           capacity: 'Open Walk-in Today',
           progress: 85,
         },
@@ -139,35 +146,35 @@ export const LandingPage = () => {
     },
     {
       id: 'clubs',
-      name: 'Guilds & Societies',
-      code: 'SECTOR-04',
+      name: 'Clubs & Organizations',
+      code: 'CLUBS',
       index: '04',
       icon: Users,
-      tagline: 'Chartered Student Organizations',
+      tagline: 'Find and Join Student Clubs',
       description:
-        'Discover autonomous engineering teams, design guilds, academic associations, and cultural societies active on campus.',
+        'Browse active student clubs, engineering teams, cultural groups, and academic societies. Join existing ones or start your own.',
       route: '/clubs',
       cta: 'Discover Clubs',
       items: [
         {
-          title: 'Autonomous Systems & Drone Racing Guild',
-          meta: 'Engineering Quad Hangar • 142 Members',
+          title: 'Robotics & Drone Racing Club',
+          meta: 'Engineering Quad • 142 Members',
           badge: 'ENGINEERING',
-          capacity: 'Open Recruitment Sprint',
+          capacity: 'Now Recruiting',
           progress: 92,
         },
         {
-          title: 'Campus Design Collective & Swiss Typography Lab',
+          title: 'Campus Design Club',
           meta: 'Arts Studio 204 • 88 Members',
           badge: 'DESIGN',
-          capacity: 'Portfolio Review Active',
+          capacity: 'Portfolio Reviews Open',
           progress: 80,
         },
         {
-          title: 'Collegiate Esports & High-Performance Gaming',
+          title: 'Esports & Gaming Club',
           meta: 'Student Union Arena • 310 Members',
-          badge: 'ATHLETICS',
-          capacity: 'Open Practice Friday',
+          badge: 'GAMING',
+          capacity: 'Practice Sessions Open',
           progress: 65,
         },
       ],
@@ -204,7 +211,7 @@ export const LandingPage = () => {
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem' }}>
                 <span className="liquid-glass-pill" style={{ padding: '0.3rem 0.75rem' }}>
                   <span className="orange-dot" />
-                  <span>[01 // SYSTEM OVERVIEW]</span>
+                  <span>Welcome to Campspace</span>
                 </span>
               </div>
 
@@ -288,26 +295,7 @@ export const LandingPage = () => {
                 </div>
               </div>
 
-              {/* Architecture Specs Monospace Bar */}
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '1.25rem',
-                  paddingTop: '1.25rem',
-                  borderTop: '1px solid var(--liquid-glass-border)',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.72rem',
-                  color: 'var(--text-muted)',
-                  flexWrap: 'wrap',
-                }}
-              >
-                <span>AUTH: JWT BEARER</span>
-                <span>•</span>
-                <span>COMMERCE: <span style={{ color: 'var(--accent-orange)' }}>0% TAX</span></span>
-                <span>•</span>
-                <span>System Modules</span>
-              </div>
+
             </motion.div>
 
             {/* Right Column: Live Operational Telemetry Monitor in TiltCard */}
@@ -334,7 +322,7 @@ export const LandingPage = () => {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                       <Activity size={16} style={{ color: 'var(--accent-orange)' }} />
                       <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700 }}>
-                        Active Selection
+                        Quick Preview
                       </span>
                     </div>
                     <span className="badge-orange" style={{ padding: '0.2rem 0.55rem', borderRadius: 'var(--radius-xs)', fontSize: '0.68rem', fontWeight: 800 }}>
@@ -392,7 +380,7 @@ export const LandingPage = () => {
                           color: 'var(--text-primary)',
                         }}
                       >
-                        <span>Launch</span>
+                        <span>View</span>
                         <ArrowRight size={12} />
                       </Link>
                     </div>
@@ -419,7 +407,7 @@ export const LandingPage = () => {
                       </span>
                       <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--accent-orange)', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
                         <span className="orange-dot" style={{ width: 5, height: 5 }} />
-                        REAL-TIME
+                        LIVE
                       </span>
                     </div>
                     <div style={{ fontSize: '0.92rem', fontWeight: 750, color: 'var(--text-primary)', marginBottom: '0.35rem' }}>
@@ -453,25 +441,28 @@ export const LandingPage = () => {
       </section>
 
       {/* ── Real-Time Architectural Ticker Strip ───────────────────── */}
-      <div className="ticker-strip">
-        <div className="ticker-item">
-          <span className="orange-dot" style={{ width: 6, height: 6 }} />
-          <span>Recent Events</span>
+      <div className="ticker-strip" aria-label="Campus features ticker">
+        <div className="ticker-track">
+          {[...TICKER_ITEMS, ...TICKER_ITEMS].map((text, idx) => (
+            <React.Fragment key={`t1-${idx}`}>
+              <div className="ticker-item">
+                <span className="orange-dot" style={{ width: 6, height: 6 }} />
+                <span>{text}</span>
+              </div>
+              <span className="ticker-divider">///</span>
+            </React.Fragment>
+          ))}
         </div>
-        <span>///</span>
-        <div className="ticker-item">
-          <span className="orange-dot" style={{ width: 6, height: 6 }} />
-          <span>PEER MARKETPLACE: 0% TRANSACTION FEES // VERIFIED STUDENTS</span>
-        </div>
-        <span>///</span>
-        <div className="ticker-item">
-          <span className="orange-dot" style={{ width: 6, height: 6 }} />
-          <span>RESOURCE ALLOCATION: OPERATIONAL // TIME-SLOT SCHEDULING</span>
-        </div>
-        <span>///</span>
-        <div className="ticker-item">
-          <span className="orange-dot" style={{ width: 6, height: 6 }} />
-          <span>STUDENT GUILDS: CHARTERED DIRECTORY // OPEN RECRUITMENT</span>
+        <div className="ticker-track" aria-hidden="true">
+          {[...TICKER_ITEMS, ...TICKER_ITEMS].map((text, idx) => (
+            <React.Fragment key={`t2-${idx}`}>
+              <div className="ticker-item">
+                <span className="orange-dot" style={{ width: 6, height: 6 }} />
+                <span>{text}</span>
+              </div>
+              <span className="ticker-divider">///</span>
+            </React.Fragment>
+          ))}
         </div>
       </div>
 
@@ -482,14 +473,14 @@ export const LandingPage = () => {
             <div>
               <span className="liquid-glass-pill" style={{ marginBottom: '0.65rem' }}>
                 <Sparkles size={13} style={{ color: 'var(--accent-orange)' }} />
-                <span>[02 // SECTOR ARCHITECTURE]</span>
+                <span>What We Offer</span>
               </span>
               <h2 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.75rem)', fontWeight: 850, margin: 0, textTransform: 'uppercase' }}>
-                Four Synchronized Modules.
+                Everything You Need on Campus.
               </h2>
             </div>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: '420px', margin: 0 }}>
-              Engineered to operate as one unified liquid campus ecosystem rather than disconnected siloed tools.
+              Four core features working together to simplify your campus experience.
             </p>
           </div>
 
@@ -571,13 +562,13 @@ export const LandingPage = () => {
           <div style={{ marginBottom: '3rem', maxWidth: '640px' }}>
             <span className="liquid-glass-pill" style={{ marginBottom: '0.65rem' }}>
               <Shield size={13} style={{ color: 'var(--accent-orange)' }} />
-              <span>[03 // PLATFORM INTEGRITY]</span>
+              <span>Why Campspace?</span>
             </span>
             <h2 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.75rem)', fontWeight: 850, margin: '0 0 0.75rem', textTransform: 'uppercase' }}>
-              Engineered For Campus Trust.
+              Built for Students, By Students.
             </h2>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', margin: 0 }}>
-              Strictly enforced access policies and student security built into the core backend.
+              A safe, reliable, and easy-to-use platform designed specifically for campus life.
             </p>
           </div>
 
@@ -591,42 +582,42 @@ export const LandingPage = () => {
             <div className="card liquid-glass-card" style={{ padding: '2rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1rem' }}>
                 <Shield size={20} style={{ color: 'var(--accent-orange)' }} />
-                <span className="badge-orange">AUTH PROTOCOL</span>
+                <span className="badge-orange">VERIFIED USERS</span>
               </div>
               <h4 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0 0 0.65rem' }}>
-                Verified Collegiate Authentication
+                Only Real Students
               </h4>
               <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>
-                Every participant holds an authenticated university session verified through JWT Bearer tokens and
-                role-governed authorization (Students, Organizers, Administrators). Zero bot traffic, zero spam.
+                Every user is verified with a secure login. Role-based access ensures students, organizers, and admins
+                each get the right permissions. No bots, no spam.
               </p>
             </div>
 
             <div className="card liquid-glass-card" style={{ padding: '2rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1rem' }}>
                 <Lock size={20} style={{ color: 'var(--accent-orange)' }} />
-                <span className="badge-orange">COMMERCE POLICY</span>
+                <span className="badge-orange">ZERO FEES</span>
               </div>
               <h4 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0 0 0.65rem' }}>
-                Zero Platform Commission
+                No Hidden Charges
               </h4>
               <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>
-                Student transactions remain 100% peer-to-peer. No 15% marketplace commissions, no platform processing tax.
-                Coordinate campus handoffs with direct in-person inspection and accountability.
+                Buy and sell directly with other students — no platform fees, no commissions.
+                Meet on campus for safe, in-person exchanges.
               </p>
             </div>
 
             <div className="card liquid-glass-card" style={{ padding: '2rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1rem' }}>
                 <Zap size={20} style={{ color: 'var(--accent-orange)' }} />
-                <span className="badge-orange">RSVP TRACKING</span>
+                <span className="badge-orange">LIVE UPDATES</span>
               </div>
               <h4 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0 0 0.65rem' }}>
-                Real-Time Capacity Tracking
+                Always Up to Date
               </h4>
               <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>
-                Live capacity tracking ensures attendee quotas are respected automatically. Capacity meters,
-                instant registration confirmations, and direct organizer attendee management.
+                See available spots in real time. Get instant confirmations when you register for events
+                or book campus resources.
               </p>
             </div>
           </div>
@@ -651,7 +642,7 @@ export const LandingPage = () => {
             >
               <span className="liquid-glass-pill" style={{ marginBottom: '1.25rem' }}>
                 <span className="orange-dot" />
-                <span>[04 // SESSION INITIATION]</span>
+                <span>Join Campspace</span>
               </span>
 
               <h2
@@ -665,7 +656,7 @@ export const LandingPage = () => {
                   maxWidth: '780px',
                 }}
               >
-                Ready To Enter The <span className="text-orange">Campspace</span> Network?
+                Ready to Join <span className="text-orange">Campspace</span>?
               </h2>
 
               <p
@@ -677,8 +668,8 @@ export const LandingPage = () => {
                   lineHeight: 1.6,
                 }}
               >
-                Access event registrations, fee-free student commerce, campus lab reservations, and student
-                societies in a single unified operating workspace.
+                Sign up to discover events, buy and sell with zero fees, book campus facilities, and connect
+                with student clubs — all in one place.
               </p>
 
               <div style={{ display: 'flex', gap: '0.85rem', flexWrap: 'wrap', justifyContent: 'center' }}>
@@ -688,7 +679,7 @@ export const LandingPage = () => {
                   style={{ gap: '0.5rem', minWidth: '190px' }}
                 >
                   <Sparkles size={16} />
-                  <span>{isAuthenticated ? 'Enter Dashboard Hub' : 'Get Started'}</span>
+                  <span>{isAuthenticated ? 'Go to Dashboard' : 'Get Started'}</span>
                   <ArrowRight size={16} />
                 </Link>
 
