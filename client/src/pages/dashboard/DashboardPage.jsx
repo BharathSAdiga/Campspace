@@ -86,10 +86,13 @@ export const DashboardPage = () => {
                 Marketplace
               </Link>
               <Link to="/events" className="btn btn-secondary btn-sm">
-                Events Archive
+                Events
               </Link>
-              <Link to="/resources" className="btn btn-ghost btn-sm">
-                Book Resources
+              <Link to="/resources" className="btn btn-secondary btn-sm">
+                Resources
+              </Link>
+              <Link to="/clubs" className="btn btn-secondary btn-sm">
+                Clubs
               </Link>
             </div>
           </div>

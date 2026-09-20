@@ -7,7 +7,7 @@ export const ResourcesPage = () => {
         <div className="card">
           <h2 style={{ marginBottom: '0.75rem' }}>Resource Allocation & Booking</h2>
           <p style={{ color: 'var(--slate-400)', fontSize: '0.95rem' }}>
-            Developer 2 module: Resource allocation foundation.
+            Resource allocation foundation.
           </p>
         </div>
       </div>

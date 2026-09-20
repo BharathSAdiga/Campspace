@@ -7,7 +7,7 @@ export const EventsPage = () => {
         <div className="card">
           <h2 style={{ marginBottom: '0.75rem' }}>Campus Events</h2>
           <p style={{ color: 'var(--slate-400)', fontSize: '0.95rem' }}>
-            Developer 1 module: Campus events foundation.
+            Campus events foundation.
           </p>
         </div>
       </div>

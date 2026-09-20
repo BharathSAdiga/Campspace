@@ -230,7 +230,6 @@ a {
 }
 
 img { display: block; max-width: 100%; height: auto; }
-::selection { background: var(--text-primary); color: var(--text-inverse); }
 
 .text-gradient {
   background: none;
@@ -535,9 +534,11 @@ textarea:focus-visible {
 .badge-warning { background: var(--warning-bg); color: var(--warning-ink); border-color: var(--warning-border); }
 .badge-danger { background: var(--danger-bg); color: var(--danger-ink); border-color: var(--danger-border); }
 .badge-orange {
-  background: var(--accent-orange-subtle);
-  color: var(--accent-orange);
-  border: 1px solid var(--accent-orange-border);
+  background: transparent;
+  color: var(--text-primary);
+  border: none;
+  padding: 0;
+  font-weight: normal;
 }
 
 [data-theme='dark'] .badge-success,
@@ -549,9 +550,9 @@ textarea:focus-visible {
 }
 
 [data-theme='dark'] .badge-orange {
-  background: rgba(255, 138, 61, 0.14);
-  color: var(--accent-orange-light);
-  border-color: rgba(255, 138, 61, 0.35);
+  background: transparent;
+  color: var(--text-primary);
+  border: none;
 }
 
 .beacon-dot {
@@ -820,12 +821,12 @@ textarea:focus-visible {
 
 .grid-animated-surface {
   will-change: transform;
-  animation: gridDrift 28s linear infinite;
+  animation: gridDrift 8s linear infinite;
 }
 
 .grid-animated-container {
   will-change: opacity;
-  animation: gridPulse 9s ease-in-out infinite;
+  animation: gridPulse 14s ease-in-out infinite;
 }
 
 .aura-animated-beam {

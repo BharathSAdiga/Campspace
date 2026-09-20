@@ -7,7 +7,7 @@ export const MarketplacePage = () => {
         <div className="card">
           <h2 style={{ marginBottom: '0.75rem' }}>Marketplace</h2>
           <p style={{ color: 'var(--slate-400)', fontSize: '0.95rem' }}>
-            Developer 1 module: Campus marketplace foundation.
+            Campus marketplace foundation.
           </p>
         </div>
       </div>

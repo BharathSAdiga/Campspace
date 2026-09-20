@@ -53,24 +53,15 @@ export const GridBackground = ({ className = '', style = {} }) => {
               position: 'absolute',
               inset: 0,
               backgroundImage: `
-                linear-gradient(to right, var(--border-subtle) 1px, transparent 1px),
-                linear-gradient(to bottom, var(--border-subtle) 1px, transparent 1px)
+                linear-gradient(to right, var(--border-hover) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--border-hover) 1px, transparent 1px)
               `,
               backgroundSize: '54px 54px',
               opacity: 0.85,
             }}
           />
 
-          {/* Secondary Sub-Grid / Intersection Dots */}
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              backgroundImage: `radial-gradient(circle, var(--text-muted) 1px, transparent 1px)`,
-              backgroundSize: '54px 54px',
-              opacity: 0.35,
-            }}
-          />
+
         </div>
       </div>
 
