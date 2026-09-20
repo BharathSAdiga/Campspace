@@ -1,13 +1,251 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSearchParams, Link, useParams, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
-  Search, Calendar, MapPin, Users, Info, ChevronRight, CheckCircle, XCircle, Plus, BookOpen, Clock, Activity, FileText
+  Search,
+  Calendar,
+  MapPin,
+  Users,
+  Info,
+  ChevronRight,
+  ArrowLeft,
+  CheckCircle,
+  XCircle,
+  Plus,
+  BookOpen,
+  Clock,
+  Activity,
+  FileText,
+  Sparkles,
+  ArrowRight,
+  Layers,
+  Cpu,
+  Laptop,
+  Building,
+  Dumbbell,
+  Tag,
+  Check,
+  AlertCircle,
+  Trash2,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { resourceService, bookingService } from '../../services';
-import { Button, Card, Spinner, Alert, EmptyState, Badge, Modal, Input, Select, Textarea } from '../../components/common';
+import { Button } from '../../components/common/Button';
+import { Spinner } from '../../components/common/Spinner';
+import { Alert } from '../../components/common/Alert';
+import { EmptyState } from '../../components/common/EmptyState';
+import { Badge } from '../../components/common/Badge';
 
-const CATEGORIES = ['All Categories', 'Room', 'Equipment', 'Laboratory', 'Sports', 'Other'];
+const CATEGORIES = [
+  { id: 'All', label: 'All Resources', icon: Layers },
+  { id: 'Room', label: 'Study & Event Rooms', icon: Building },
+  { id: 'Laboratory', label: 'Labs & Makerbays', icon: Cpu },
+  { id: 'Equipment', label: 'Hardware & AV Gear', icon: Laptop },
+  { id: 'Sports', label: 'Sports Courts & Gym', icon: Dumbbell },
+  { id: 'Other', label: 'Other Spaces', icon: Tag },
+];
+
+const getResourceTheme = (cat) => {
+  switch (cat) {
+    case 'Room':
+      return { gradient: 'linear-gradient(135deg, rgba(59, 130, 246, 0.22) 0%, rgba(37, 99, 235, 0.1) 100%)', text: '#3b82f6' };
+    case 'Laboratory':
+      return { gradient: 'linear-gradient(135deg, rgba(255, 138, 61, 0.25) 0%, rgba(245, 158, 11, 0.15) 100%)', text: '#ff8a3d' };
+    case 'Equipment':
+      return { gradient: 'linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(99, 102, 241, 0.15) 100%)', text: '#a855f7' };
+    case 'Sports':
+      return { gradient: 'linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(16, 185, 129, 0.1) 100%)', text: '#22c55e' };
+    default:
+      return { gradient: 'linear-gradient(135deg, rgba(255, 138, 61, 0.18) 0%, rgba(255, 255, 255, 0.05) 100%)', text: '#ff8a3d' };
+  }
+};
+
+// --------------------------------------------------------
+// RESOURCE CARD COMPONENT
+// --------------------------------------------------------
+const ResourceCard = ({ resource, onClick }) => {
+  const { id, _id, name, description, category, location, capacity, facilities = [], status } = resource;
+  const resourceId = id || _id;
+  const theme = getResourceTheme(category);
+  const isAvailable = status === 'Available';
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ y: -4, transition: { duration: 0.2 } }}
+      style={{ height: '100%' }}
+    >
+      <div
+        onClick={onClick}
+        className="card liquid-glass-card"
+        style={{
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          padding: 0,
+          overflow: 'hidden',
+          cursor: 'pointer',
+          borderRadius: 'var(--radius-lg)',
+          position: 'relative',
+          transition: 'all 0.3s ease',
+        }}
+      >
+        {/* Banner Graphic */}
+        <div
+          style={{
+            height: '120px',
+            background: theme.gradient,
+            position: 'relative',
+            padding: '1.25rem',
+            display: 'flex',
+            alignItems: 'flex-start',
+            justifyContent: 'space-between',
+            borderBottom: '1px solid var(--liquid-glass-border)',
+          }}
+        >
+          <span
+            className="liquid-glass-pill"
+            style={{
+              padding: '0.3rem 0.75rem',
+              fontSize: '0.72rem',
+              fontWeight: 700,
+              boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
+            }}
+          >
+            {category}
+          </span>
+          <span
+            style={{
+              fontSize: '0.72rem',
+              fontWeight: 700,
+              padding: '0.25rem 0.65rem',
+              borderRadius: '999px',
+              border: isAvailable
+                ? '1px solid rgba(34, 197, 94, 0.4)'
+                : '1px solid rgba(245, 158, 11, 0.4)',
+              background: isAvailable
+                ? 'rgba(34, 197, 94, 0.15)'
+                : 'rgba(245, 158, 11, 0.15)',
+              color: isAvailable ? '#22c55e' : '#f59e0b',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.35rem',
+            }}
+          >
+            <span
+              style={{
+                width: '6px',
+                height: '6px',
+                borderRadius: '50%',
+                background: isAvailable ? '#22c55e' : '#f59e0b',
+              }}
+            />
+            {status}
+          </span>
+        </div>
+
+        {/* Card Body */}
+        <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+          <h3
+            style={{
+              fontSize: '1.25rem',
+              fontWeight: 700,
+              marginBottom: '0.5rem',
+              color: 'var(--text-primary)',
+              letterSpacing: '-0.02em',
+              lineHeight: 1.3,
+            }}
+          >
+            {name}
+          </h3>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: 'var(--text-muted)', fontSize: '0.84rem', marginBottom: '0.85rem' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+              <MapPin size={14} color="var(--accent-orange)" /> {location}
+            </span>
+            {capacity && (
+              <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                <Users size={14} color="var(--accent-orange)" /> Max {capacity}
+              </span>
+            )}
+          </div>
+
+          <p
+            style={{
+              color: 'var(--text-secondary)',
+              fontSize: '0.9rem',
+              lineHeight: 1.6,
+              marginBottom: '1rem',
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+            }}
+          >
+            {description}
+          </p>
+
+          {/* Facilities tags */}
+          {facilities.length > 0 && (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem', marginBottom: '1.25rem' }}>
+              {facilities.slice(0, 3).map((f, i) => (
+                <span
+                  key={i}
+                  style={{
+                    fontSize: '0.72rem',
+                    padding: '0.2rem 0.5rem',
+                    borderRadius: '4px',
+                    background: 'var(--bg-subtle)',
+                    border: '1px solid var(--liquid-glass-border)',
+                    color: 'var(--text-muted)',
+                  }}
+                >
+                  {f}
+                </span>
+              ))}
+              {facilities.length > 3 && (
+                <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', alignSelf: 'center' }}>
+                  +{facilities.length - 3} more
+                </span>
+              )}
+            </div>
+          )}
+
+          {/* Footer CTA */}
+          <div
+            style={{
+              borderTop: '1px solid var(--liquid-glass-border)',
+              paddingTop: '1rem',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginTop: 'auto',
+            }}
+          >
+            <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+              Verified Campus Space
+            </span>
+            <span
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.3rem',
+                fontSize: '0.82rem',
+                fontWeight: 600,
+                color: 'var(--accent-orange)',
+              }}
+            >
+              Reserve Slot <ArrowRight size={14} />
+            </span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 // --------------------------------------------------------
 // RESOURCES LIST PAGE
@@ -18,8 +256,8 @@ export const ResourcesListPage = () => {
   const navigate = useNavigate();
 
   const [search, setSearch] = useState(searchParams.get('search') || '');
-  const [category, setCategory] = useState(searchParams.get('category') || 'All Categories');
-  
+  const [category, setCategory] = useState(searchParams.get('category') || 'All');
+
   const [resources, setResources] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -30,8 +268,10 @@ export const ResourcesListPage = () => {
     try {
       const query = {};
       if (search.trim()) query.search = search.trim();
-      if (category !== 'All Categories') query.category = category;
-      
+      if (category !== 'All' && category !== 'All Resources' && category !== 'All Categories') {
+        query.category = category;
+      }
+
       const response = await resourceService.getResources(query);
       setResources(response.data || []);
     } catch (err) {
@@ -47,97 +287,268 @@ export const ResourcesListPage = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    setSearchParams({ search, category: category !== 'All Categories' ? category : '' });
+    setSearchParams({
+      ...(search.trim() ? { search: search.trim() } : {}),
+      ...(category !== 'All' ? { category } : {}),
+    });
   };
 
-  const handleCategorySelect = (e) => {
-    const val = e.target.value;
-    setCategory(val);
-    setSearchParams({ search, category: val !== 'All Categories' ? val : '' });
+  const handleCategorySelect = (catId) => {
+    setCategory(catId);
+    setSearchParams({
+      ...(search.trim() ? { search: search.trim() } : {}),
+      ...(catId !== 'All' ? { category: catId } : {}),
+    });
   };
 
   return (
-    <div className="page-wrapper container" style={{ paddingBottom: '5rem', paddingTop: '2rem' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
-        <div>
-          <h1 style={{ fontSize: '2rem', fontWeight: '800', margin: 0 }}>Campus Resources</h1>
-          <p style={{ color: 'var(--text-secondary)' }}>Book study rooms, equipment, and laboratory spaces.</p>
-        </div>
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
-          {user && (
-            <Link to="/resources/my-bookings" className="btn btn-secondary">
-              My Bookings
-            </Link>
-          )}
-          {(user?.role === 'organizer' || user?.role === 'admin') && (
-            <Link to="/resources/create" className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Plus size={16} /> Add Resource
-            </Link>
-          )}
-        </div>
-      </div>
-
-      <div className="card" style={{ padding: '1.25rem', marginBottom: '2rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-        <form onSubmit={handleSearchSubmit} style={{ display: 'flex', flex: 1, gap: '1rem' }}>
-          <div style={{ position: 'relative', flex: 2 }}>
-            <Search size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-            <input
-              type="text"
-              placeholder="Search resources..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="form-input"
-              style={{ paddingLeft: '2.5rem' }}
-            />
-          </div>
-          <div style={{ flex: 1 }}>
-            <Select
-              value={category}
-              onChange={handleCategorySelect}
-              options={CATEGORIES.map(c => ({ value: c, label: c }))}
-            />
-          </div>
-          <Button type="submit" variant="primary">Search</Button>
-        </form>
-      </div>
-
-      {error && <Alert type="error" message={error} />}
-      {isLoading ? (
-        <div style={{ padding: '4rem 0', textAlign: 'center' }}><Spinner /></div>
-      ) : resources.length === 0 ? (
-        <EmptyState title="No Resources Found" description="Try adjusting your search or filters." />
-      ) : (
-        <div className="grid-3">
-          {resources.map((resource) => (
-            <Card
-              key={resource.id}
-              title={resource.name}
-              subtitle={resource.category}
-              interactive
-              onClick={() => navigate(`/resources/${resource.id}`)}
-              footer={
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <MapPin size={14} /> {resource.location}
-                  </span>
-                  <Badge variant={resource.status === 'Available' ? 'success' : 'warning'}>
-                    {resource.status}
-                  </Badge>
-                </div>
-              }
-            >
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1rem', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                {resource.description}
+    <div className="resources-page" style={{ paddingBottom: '4rem' }}>
+      {/* 1. Liquid Glass Header Section (Theme matches Marketplace) */}
+      <section
+        style={{
+          background: 'var(--liquid-glass-bg)',
+          backdropFilter: 'var(--liquid-glass-blur)',
+          WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+          borderBottom: '1px solid var(--liquid-glass-border)',
+          padding: '2.5rem 0',
+          position: 'relative',
+        }}
+      >
+        <div className="container">
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '1.25rem',
+            }}
+          >
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.4rem',
+                    fontSize: '0.75rem',
+                    fontWeight: '700',
+                    color: 'var(--accent-orange)',
+                    backgroundColor: 'var(--accent-orange-subtle)',
+                    border: '1px solid var(--accent-orange-border)',
+                    padding: '0.25rem 0.75rem',
+                    borderRadius: '9999px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                    fontFamily: 'var(--font-mono)',
+                  }}
+                >
+                  <span className="orange-dot" /> Spatial & Hardware Provisioning
+                </span>
+              </div>
+              <h1 style={{ fontSize: '2rem', fontWeight: '800', margin: 0, color: 'var(--text-primary)' }}>
+                Campus Resources & Allocations
+              </h1>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginTop: '0.4rem', margin: 0 }}>
+                Book study suites, AV conference auditoriums, 3D printing maker bays, and engineering lab spaces.
               </p>
-              {resource.capacity && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                  <Users size={14} /> Capacity: {resource.capacity}
-                </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
+              {user && (
+                <Link
+                  to="/resources/my-bookings"
+                  className="btn btn-secondary"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', backdropFilter: 'blur(12px)' }}
+                >
+                  <Clock size={16} color="var(--accent-orange)" />
+                  <span>My Bookings</span>
+                </Link>
               )}
-            </Card>
-          ))}
+              {(user?.role === 'organizer' || user?.role === 'admin') && (
+                <Link
+                  to="/resources/create"
+                  className="btn btn-liquid-orange"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
+                >
+                  <Plus size={18} />
+                  <span>Add Resource</span>
+                </Link>
+              )}
+            </div>
+          </div>
+
+          {/* Search Bar */}
+          <div style={{ marginTop: '1.75rem', maxWidth: '720px' }}>
+            <form onSubmit={handleSearchSubmit} style={{ display: 'flex', gap: '0.5rem' }}>
+              <div style={{ position: 'relative', flex: 1 }}>
+                <Search
+                  size={18}
+                  style={{
+                    position: 'absolute',
+                    left: '0.85rem',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    color: 'var(--text-muted)',
+                    pointerEvents: 'none',
+                  }}
+                />
+                <input
+                  type="text"
+                  placeholder="Search resources by room number, hardware, equipment name..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="form-input"
+                  style={{
+                    paddingLeft: '2.5rem',
+                    fontSize: '0.9375rem',
+                    height: '44px',
+                    background: 'var(--liquid-glass-bg)',
+                    borderColor: 'var(--liquid-glass-border)',
+                  }}
+                />
+                {search && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearch('');
+                      setSearchParams({ ...(category !== 'All' ? { category } : {}) });
+                    }}
+                    style={{
+                      position: 'absolute',
+                      right: '0.75rem',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      background: 'none',
+                      border: 'none',
+                      color: 'var(--text-muted)',
+                      cursor: 'pointer',
+                      fontSize: '0.85rem',
+                    }}
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+              <Button type="submit" variant="primary" style={{ height: '44px', px: '1.5rem' }}>
+                Search
+              </Button>
+            </form>
+          </div>
+
+          {/* Category Filter Chips */}
+          <div
+            style={{
+              display: 'flex',
+              gap: '0.5rem',
+              overflowX: 'auto',
+              paddingTop: '1.25rem',
+              paddingBottom: '0.25rem',
+              scrollbarWidth: 'none',
+            }}
+          >
+            {CATEGORIES.map((cat) => {
+              const Icon = cat.icon;
+              const isActive = category === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  onClick={() => handleCategorySelect(cat.id)}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.45rem',
+                    padding: '0.45rem 0.9rem',
+                    borderRadius: '999px',
+                    fontSize: '0.82rem',
+                    fontWeight: 600,
+                    whiteSpace: 'nowrap',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    background: isActive ? 'var(--accent-orange)' : 'var(--liquid-glass-bg)',
+                    color: isActive ? '#ffffff' : 'var(--text-primary)',
+                    border: isActive
+                      ? '1px solid var(--accent-orange)'
+                      : '1px solid var(--liquid-glass-border)',
+                    boxShadow: isActive ? '0 4px 14px rgba(255, 138, 61, 0.3)' : 'none',
+                  }}
+                >
+                  <Icon size={14} color={isActive ? '#ffffff' : 'var(--accent-orange)'} />
+                  <span>{cat.label}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
-      )}
+      </section>
+
+      {/* 2. Main Content Grid */}
+      <div className="container" style={{ paddingTop: '2.5rem' }}>
+        {error && <Alert type="error" message={error} style={{ marginBottom: '1.5rem' }} />}
+
+        {isLoading ? (
+          <div style={{ padding: '6rem 0', textAlign: 'center' }}>
+            <Spinner />
+            <p style={{ marginTop: '1rem', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+              Loading campus allocations...
+            </p>
+          </div>
+        ) : resources.length === 0 ? (
+          <EmptyState
+            title="No Resources Found"
+            description="No campus facilities or equipment matched your criteria. Try adjusting your query."
+            action={
+              (search || category !== 'All') && (
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setSearch('');
+                    setCategory('All');
+                    setSearchParams({});
+                  }}
+                >
+                  Clear All Filters
+                </Button>
+              )
+            }
+          />
+        ) : (
+          <div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '1.5rem',
+                fontSize: '0.9rem',
+                color: 'var(--text-muted)',
+              }}
+            >
+              <span>
+                Showing <strong style={{ color: 'var(--text-primary)' }}>{resources.length}</strong> available{' '}
+                {resources.length === 1 ? 'allocation' : 'allocations'}
+              </span>
+            </div>
+
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+                gap: '1.5rem',
+              }}
+            >
+              {resources.map((resource) => (
+                <ResourceCard
+                  key={resource.id || resource._id}
+                  resource={resource}
+                  onClick={() => navigate(`/resources/${resource.id || resource._id}`)}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
@@ -149,12 +560,12 @@ export const ResourcesDetailPage = () => {
   const { id } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();
-  
+
   const [resource, setResource] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  
-  // Booking Form State
+
+  // Booking Cockpit Form State
   const [date, setDate] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
@@ -194,7 +605,7 @@ export const ResourcesDetailPage = () => {
         date,
         startTime,
         endTime,
-        purpose
+        purpose,
       });
       setBookingSuccess(true);
       setDate('');
@@ -202,106 +613,335 @@ export const ResourcesDetailPage = () => {
       setEndTime('');
       setPurpose('');
     } catch (err) {
-      setBookingError(err.message || 'Failed to request booking.');
+      setBookingError(err.message || 'Failed to submit reservation request.');
     } finally {
       setIsBooking(false);
     }
   };
 
-  if (isLoading) return <div style={{ padding: '5rem 0', textAlign: 'center' }}><Spinner /></div>;
-  if (error) return <div className="container" style={{ padding: '2rem 0' }}><Alert type="error" message={error} /></div>;
+  if (isLoading)
+    return (
+      <div style={{ padding: '6rem 0', textAlign: 'center' }}>
+        <Spinner />
+      </div>
+    );
+  if (error)
+    return (
+      <div className="container" style={{ padding: '3rem 0' }}>
+        <Alert type="error" message={error} />
+      </div>
+    );
   if (!resource) return <EmptyState title="Resource Not Found" />;
 
+  const theme = getResourceTheme(resource.category);
+  const isAvailable = resource.status === 'Available';
+
   return (
-    <div className="container" style={{ padding: '3rem 0', paddingBottom: '5rem' }}>
-      <Button variant="outline" size="sm" onClick={() => navigate('/resources')} style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-        <ChevronRight size={14} style={{ transform: 'rotate(180deg)' }} /> Back to Resources
-      </Button>
-      
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 350px', gap: '2rem' }}>
-        <div>
-          <Badge variant={resource.status === 'Available' ? 'success' : 'warning'} style={{ marginBottom: '1rem' }}>
-            {resource.status}
-          </Badge>
-          <h1 style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '0.5rem' }}>{resource.name}</h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', marginBottom: '2rem' }}>{resource.category}</p>
-          
-          <div className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
-            <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Info size={18} /> Description
-            </h3>
-            <p style={{ color: 'var(--text-secondary)', lineHeight: '1.7' }}>{resource.description}</p>
-          </div>
+    <div className="page-wrapper" style={{ paddingBottom: '5rem' }}>
+      <div className="container" style={{ paddingTop: '2rem' }}>
+        {/* Back Link */}
+        <Link
+          to="/resources"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+            color: 'var(--text-muted)',
+            fontSize: '0.88rem',
+            textDecoration: 'none',
+            marginBottom: '1.5rem',
+            transition: 'color 0.2s',
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
+          onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
+        >
+          <ArrowLeft size={16} /> Back to Allocations
+        </Link>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-            <Card title="Location" icon={<MapPin size={18} />} style={{ padding: '1.5rem' }}>
-              {resource.location}
-            </Card>
-            <Card title="Capacity" icon={<Users size={18} />} style={{ padding: '1.5rem' }}>
-              {resource.capacity ? `${resource.capacity} People` : 'N/A'}
-            </Card>
-          </div>
-          
-          {resource.facilities?.length > 0 && (
-            <div className="card" style={{ padding: '2rem', marginTop: '1rem' }}>
-              <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>Facilities</h3>
-              <ul style={{ paddingLeft: '1.5rem', color: 'var(--text-secondary)' }}>
-                {resource.facilities.map((f, i) => <li key={i} style={{ marginBottom: '0.5rem' }}>{f}</li>)}
-              </ul>
+        {/* Two-Column Responsive Layout */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '2rem',
+            alignItems: 'start',
+          }}
+        >
+          {/* Column 1: Resource Telemetry & Specs */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            {/* Hero Specs Card */}
+            <div
+              className="card liquid-glass-card"
+              style={{
+                padding: 0,
+                overflow: 'hidden',
+                border: '1px solid var(--liquid-glass-border)',
+              }}
+            >
+              <div
+                style={{
+                  height: '140px',
+                  background: theme.gradient,
+                  padding: '1.5rem',
+                  display: 'flex',
+                  alignItems: 'flex-end',
+                  justifyContent: 'space-between',
+                  borderBottom: '1px solid var(--liquid-glass-border)',
+                }}
+              >
+                <span
+                  className="liquid-glass-pill"
+                  style={{
+                    fontSize: '0.78rem',
+                    fontWeight: 700,
+                    padding: '0.35rem 0.85rem',
+                  }}
+                >
+                  {resource.category}
+                </span>
+
+                <span
+                  style={{
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    padding: '0.3rem 0.75rem',
+                    borderRadius: '999px',
+                    border: isAvailable
+                      ? '1px solid rgba(34, 197, 94, 0.4)'
+                      : '1px solid rgba(245, 158, 11, 0.4)',
+                    background: isAvailable
+                      ? 'rgba(34, 197, 94, 0.15)'
+                      : 'rgba(245, 158, 11, 0.15)',
+                    color: isAvailable ? '#22c55e' : '#f59e0b',
+                  }}
+                >
+                  {resource.status}
+                </span>
+              </div>
+
+              <div style={{ padding: '2rem' }}>
+                <h1
+                  style={{
+                    fontSize: '2.2rem',
+                    fontWeight: 800,
+                    margin: '0 0 0.5rem',
+                    color: 'var(--text-primary)',
+                    letterSpacing: '-0.03em',
+                  }}
+                >
+                  {resource.name}
+                </h1>
+                <p style={{ color: 'var(--text-secondary)', margin: 0, fontSize: '1rem', lineHeight: 1.6 }}>
+                  {resource.description}
+                </p>
+              </div>
             </div>
-          )}
-        </div>
 
-        <div>
-          <div className="card" style={{ padding: '1.5rem', position: 'sticky', top: '2rem' }}>
-            <h3 style={{ fontSize: '1.25rem', marginBottom: '1.5rem' }}>Request Booking</h3>
-            
-            {resource.status !== 'Available' ? (
-              <Alert type="warning" message="This resource is currently not available for booking." />
+            {/* Location & Capacity Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              <div className="card liquid-glass-card" style={{ padding: '1.5rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem', color: 'var(--accent-orange)' }}>
+                  <MapPin size={18} />
+                  <span style={{ fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    Location Spec
+                  </span>
+                </div>
+                <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                  {resource.location}
+                </div>
+              </div>
+
+              <div className="card liquid-glass-card" style={{ padding: '1.5rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem', color: 'var(--accent-orange)' }}>
+                  <Users size={18} />
+                  <span style={{ fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    Max Capacity
+                  </span>
+                </div>
+                <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                  {resource.capacity ? `${resource.capacity} Attendees` : 'Open Allocation'}
+                </div>
+              </div>
+            </div>
+
+            {/* Facilities & Amenities Matrix */}
+            {resource.facilities?.length > 0 && (
+              <div className="card liquid-glass-card" style={{ padding: '2rem' }}>
+                <h3
+                  style={{
+                    fontSize: '1.15rem',
+                    fontWeight: 700,
+                    marginBottom: '1rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    color: 'var(--text-primary)',
+                  }}
+                >
+                  <Cpu size={18} color="var(--accent-orange)" /> Provisioned Equipment & Amenities
+                </h3>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem' }}>
+                  {resource.facilities.map((fac, i) => (
+                    <span
+                      key={i}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.4rem',
+                        fontSize: '0.82rem',
+                        padding: '0.45rem 0.85rem',
+                        borderRadius: '999px',
+                        background: 'var(--bg-subtle)',
+                        border: '1px solid var(--liquid-glass-border)',
+                        color: 'var(--text-primary)',
+                        fontWeight: 500,
+                      }}
+                    >
+                      <Check size={13} color="var(--accent-orange)" /> {fac}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Column 2: Booking Cockpit */}
+          <div
+            className="card liquid-glass-card"
+            style={{
+              padding: '2rem',
+              position: 'sticky',
+              top: '2rem',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+              <span className="liquid-glass-pill" style={{ padding: '0.2rem 0.65rem', fontSize: '0.72rem' }}>
+                <span className="orange-dot" /> [TIME SLOT // ALLOCATION]
+              </span>
+            </div>
+
+            <h3 style={{ fontSize: '1.4rem', fontWeight: 800, margin: '0 0 0.5rem', color: 'var(--text-primary)' }}>
+              Reserve This Resource
+            </h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', margin: '0 0 1.5rem', lineHeight: 1.5 }}>
+              Submit your desired date and hours. Approvals are synchronized in real time to avoid conflicting slots.
+            </p>
+
+            {!isAvailable ? (
+              <div
+                style={{
+                  padding: '1.25rem',
+                  borderRadius: 'var(--radius-md)',
+                  background: 'rgba(245, 158, 11, 0.1)',
+                  border: '1px solid rgba(245, 158, 11, 0.3)',
+                  color: 'var(--text-primary)',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600, marginBottom: '0.35rem' }}>
+                  <AlertCircle size={18} color="#f59e0b" /> Allocation Inactive
+                </div>
+                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: 0 }}>
+                  This resource is currently under scheduled maintenance and cannot accept reservations.
+                </p>
+              </div>
             ) : (
-              <form onSubmit={handleBooking} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <Input
-                  label="Date"
-                  type="date"
-                  required
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  min={new Date().toISOString().split('T')[0]}
-                />
-                <div style={{ display: 'flex', gap: '1rem' }}>
-                  <Input
-                    label="Start Time"
-                    type="time"
+              <form onSubmit={handleBooking} style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, marginBottom: '0.4rem', color: 'var(--text-primary)' }}>
+                    Reservation Date *
+                  </label>
+                  <input
+                    type="date"
                     required
-                    value={startTime}
-                    onChange={(e) => setStartTime(e.target.value)}
-                  />
-                  <Input
-                    label="End Time"
-                    type="time"
-                    required
-                    value={endTime}
-                    onChange={(e) => setEndTime(e.target.value)}
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    min={new Date().toISOString().split('T')[0]}
+                    className="form-input"
                   />
                 </div>
-                <Textarea
-                  label="Purpose"
-                  placeholder="Why do you need this resource?"
-                  required
-                  rows={3}
-                  value={purpose}
-                  onChange={(e) => setPurpose(e.target.value)}
-                />
-                
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, marginBottom: '0.4rem', color: 'var(--text-primary)' }}>
+                      Start Time *
+                    </label>
+                    <input
+                      type="time"
+                      required
+                      value={startTime}
+                      onChange={(e) => setStartTime(e.target.value)}
+                      className="form-input"
+                    />
+                  </div>
+
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, marginBottom: '0.4rem', color: 'var(--text-primary)' }}>
+                      End Time *
+                    </label>
+                    <input
+                      type="time"
+                      required
+                      value={endTime}
+                      onChange={(e) => setEndTime(e.target.value)}
+                      className="form-input"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, marginBottom: '0.4rem', color: 'var(--text-primary)' }}>
+                    Booking Purpose & Notes *
+                  </label>
+                  <textarea
+                    required
+                    rows={3}
+                    placeholder="Specify meeting agenda, student group, or required equipment configuration..."
+                    value={purpose}
+                    onChange={(e) => setPurpose(e.target.value)}
+                    className="form-input"
+                    style={{ resize: 'vertical' }}
+                  />
+                </div>
+
                 {bookingError && <Alert type="error" message={bookingError} />}
-                {bookingSuccess && <Alert type="success" message="Booking request submitted successfully! It is now pending approval." />}
-                
-                <Button type="submit" variant="primary" fullWidth isLoading={isBooking}>
-                  Submit Request
-                </Button>
+                {bookingSuccess && (
+                  <div
+                    style={{
+                      padding: '1rem',
+                      borderRadius: 'var(--radius-md)',
+                      background: 'rgba(34, 197, 94, 0.1)',
+                      border: '1px solid rgba(34, 197, 94, 0.3)',
+                      color: 'var(--text-primary)',
+                      fontSize: '0.88rem',
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600, color: '#22c55e', marginBottom: '0.25rem' }}>
+                      <CheckCircle size={16} /> Request Submitted Successfully
+                    </div>
+                    <span>Your allocation request is pending organizer approval. Track it under My Bookings.</span>
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={isBooking}
+                  className="btn btn-liquid-orange"
+                  style={{
+                    width: '100%',
+                    justifyContent: 'center',
+                    marginTop: '0.5rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                  }}
+                >
+                  <Calendar size={16} />
+                  <span>{isBooking ? 'Validating Slot...' : 'Submit Reservation'}</span>
+                </button>
+
                 {!user && (
-                  <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textAlign: 'center', marginTop: '0.5rem' }}>
-                    You will be asked to log in.
+                  <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textAlign: 'center', margin: 0 }}>
+                    You will be redirected to sign in before reserving.
                   </p>
                 )}
               </form>
@@ -325,14 +965,14 @@ export const ResourcesCreatePage = () => {
     location: '',
     capacity: '',
     status: 'Available',
-    facilities: ''
+    facilities: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -342,67 +982,208 @@ export const ResourcesCreatePage = () => {
     try {
       const dataToSubmit = {
         ...formData,
-        capacity: formData.capacity ? parseInt(formData.capacity) : undefined,
-        facilities: formData.facilities ? formData.facilities.split(',').map(f => f.trim()).filter(f => f) : []
+        capacity: formData.capacity ? parseInt(formData.capacity, 10) : undefined,
+        facilities: formData.facilities
+          ? formData.facilities
+              .split(',')
+              .map((f) => f.trim())
+              .filter(Boolean)
+          : [],
       };
-      
+
       const response = await resourceService.createResource(dataToSubmit);
-      navigate(`/resources/${response.data.id}`);
+      navigate(`/resources/${response.data.id || response.data._id}`);
     } catch (err) {
-      setError(err.message || 'Failed to create resource.');
+      setError(err.message || 'Failed to create campus resource.');
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="container" style={{ padding: '3rem 0', maxWidth: '800px' }}>
-      <div style={{ marginBottom: '2rem' }}>
-        <h1 style={{ fontSize: '2rem', fontWeight: '800' }}>Add Campus Resource</h1>
-        <p style={{ color: 'var(--text-secondary)' }}>Register a new facility or equipment for campus booking.</p>
-      </div>
+    <div className="page-wrapper" style={{ paddingBottom: '5rem' }}>
+      <div className="container" style={{ maxWidth: '780px', paddingTop: '2.5rem' }}>
+        {/* Back Link */}
+        <Link
+          to="/resources"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+            color: 'var(--text-muted)',
+            fontSize: '0.88rem',
+            textDecoration: 'none',
+            marginBottom: '1.5rem',
+            transition: 'color 0.2s',
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
+          onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
+        >
+          <ArrowLeft size={16} /> Cancel and return
+        </Link>
 
-      <div className="card" style={{ padding: '2rem' }}>
-        {error && <Alert type="error" message={error} style={{ marginBottom: '1.5rem' }} />}
-        
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-          <Input label="Resource Name" name="name" required value={formData.name} onChange={handleChange} />
-          <Textarea label="Description" name="description" required rows={4} value={formData.description} onChange={handleChange} />
-          
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
-            <Select
-              label="Category"
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-              options={['Room', 'Equipment', 'Laboratory', 'Sports', 'Other'].map(c => ({ value: c, label: c }))}
-            />
-            <Select
-              label="Status"
-              name="status"
-              value={formData.status}
-              onChange={handleChange}
-              options={['Available', 'Maintenance', 'Unavailable'].map(c => ({ value: c, label: c }))}
-            />
+        <div className="card liquid-glass-card" style={{ padding: '2.5rem' }}>
+          <div style={{ marginBottom: '2rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+              <span className="liquid-glass-pill" style={{ padding: '0.2rem 0.65rem', fontSize: '0.72rem' }}>
+                <span className="orange-dot" /> [NEW ALLOCATION // RESOURCE DEPLOYMENT]
+              </span>
+            </div>
+            <h1 style={{ fontSize: '2rem', fontWeight: 800, margin: '0 0 0.5rem', color: 'var(--text-primary)' }}>
+              Add Campus Resource
+            </h1>
+            <p style={{ color: 'var(--text-secondary)', margin: 0, fontSize: '0.95rem' }}>
+              Register a new facility, technical hardware hub, or laboratory for campus reservation.
+            </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.25rem' }}>
-            <Input label="Location / Room Number" name="location" required value={formData.location} onChange={handleChange} />
-            <Input label="Capacity (optional)" name="capacity" type="number" min="1" value={formData.capacity} onChange={handleChange} />
-          </div>
+          {error && <Alert type="error" message={error} style={{ marginBottom: '1.5rem' }} />}
 
-          <Input 
-            label="Facilities (comma separated)" 
-            name="facilities" 
-            placeholder="Projector, Whiteboard, AC" 
-            value={formData.facilities} 
-            onChange={handleChange} 
-          />
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div>
+              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+                Resource / Space Name *
+              </label>
+              <input
+                type="text"
+                name="name"
+                required
+                placeholder="e.g. Advanced Robotics & IoT Lab"
+                value={formData.name}
+                onChange={handleChange}
+                className="form-input"
+              />
+            </div>
 
-          <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem', justifyContent: 'flex-end' }}>
-            <Button variant="outline" onClick={() => navigate('/resources')} disabled={isSubmitting}>Cancel</Button>
-            <Button type="submit" variant="primary" isLoading={isSubmitting}>Create Resource</Button>
-          </div>
-        </form>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+                  Category *
+                </label>
+                <select
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  className="form-input"
+                  style={{ cursor: 'pointer' }}
+                >
+                  {['Room', 'Laboratory', 'Equipment', 'Sports', 'Other'].map((c) => (
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+                  Operational Status *
+                </label>
+                <select
+                  name="status"
+                  value={formData.status}
+                  onChange={handleChange}
+                  className="form-input"
+                  style={{ cursor: 'pointer' }}
+                >
+                  <option value="Available">Available</option>
+                  <option value="Maintenance">Maintenance</option>
+                  <option value="Unavailable">Unavailable</option>
+                </select>
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1rem' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+                  Location / Room Spec *
+                </label>
+                <input
+                  type="text"
+                  name="location"
+                  required
+                  placeholder="e.g. Engineering Block B, Room 304"
+                  value={formData.location}
+                  onChange={handleChange}
+                  className="form-input"
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+                  Capacity (optional)
+                </label>
+                <input
+                  type="number"
+                  name="capacity"
+                  min="1"
+                  placeholder="e.g. 50"
+                  value={formData.capacity}
+                  onChange={handleChange}
+                  className="form-input"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+                Facilities & Hardware (comma separated)
+              </label>
+              <input
+                type="text"
+                name="facilities"
+                placeholder="Dual Projectors, 3D Printers, High-Speed WiFi, Surround Sound"
+                value={formData.facilities}
+                onChange={handleChange}
+                className="form-input"
+              />
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+                Description & Usage Guidelines *
+              </label>
+              <textarea
+                name="description"
+                required
+                rows={5}
+                placeholder="Describe access rules, hardware equipment instructions, key pickup procedures..."
+                value={formData.description}
+                onChange={handleChange}
+                className="form-input"
+                style={{ resize: 'vertical' }}
+              />
+            </div>
+
+            <div
+              style={{
+                display: 'flex',
+                gap: '1rem',
+                justifyContent: 'flex-end',
+                marginTop: '1rem',
+                borderTop: '1px solid var(--liquid-glass-border)',
+                paddingTop: '1.5rem',
+              }}
+            >
+              <button
+                type="button"
+                onClick={() => navigate('/resources')}
+                className="btn btn-secondary"
+                disabled={isSubmitting}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="btn btn-liquid-orange"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
+              >
+                <Plus size={16} />
+                <span>{isSubmitting ? 'Provisioning...' : 'Provision Resource'}</span>
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
@@ -434,64 +1215,248 @@ export const ResourcesMyBookingsPage = () => {
   }, [loadBookings]);
 
   const handleCancel = async (id) => {
-    if (!window.confirm('Are you sure you want to cancel this booking?')) return;
+    if (!window.confirm('Are you sure you want to cancel this reservation?')) return;
     try {
       await bookingService.cancelBooking(id);
-      loadBookings(); // Reload list
+      loadBookings();
     } catch (err) {
       alert(err.message || 'Failed to cancel booking');
     }
   };
 
   const getStatusBadge = (status) => {
-    const map = {
-      'Pending': 'warning',
-      'Approved': 'success',
-      'Rejected': 'error',
-      'Cancelled': 'default'
-    };
-    return <Badge variant={map[status] || 'default'}>{status}</Badge>;
+    switch (status) {
+      case 'Approved':
+        return (
+          <span
+            style={{
+              fontSize: '0.72rem',
+              fontWeight: 700,
+              padding: '0.25rem 0.65rem',
+              borderRadius: '999px',
+              border: '1px solid rgba(34, 197, 94, 0.4)',
+              background: 'rgba(34, 197, 94, 0.15)',
+              color: '#22c55e',
+            }}
+          >
+            Approved
+          </span>
+        );
+      case 'Pending':
+        return (
+          <span
+            style={{
+              fontSize: '0.72rem',
+              fontWeight: 700,
+              padding: '0.25rem 0.65rem',
+              borderRadius: '999px',
+              border: '1px solid rgba(245, 158, 11, 0.4)',
+              background: 'rgba(245, 158, 11, 0.15)',
+              color: '#f59e0b',
+            }}
+          >
+            Pending Review
+          </span>
+        );
+      case 'Rejected':
+        return (
+          <span
+            style={{
+              fontSize: '0.72rem',
+              fontWeight: 700,
+              padding: '0.25rem 0.65rem',
+              borderRadius: '999px',
+              border: '1px solid rgba(239, 68, 68, 0.4)',
+              background: 'rgba(239, 68, 68, 0.15)',
+              color: '#ef4444',
+            }}
+          >
+            Rejected
+          </span>
+        );
+      default:
+        return (
+          <span
+            style={{
+              fontSize: '0.72rem',
+              fontWeight: 700,
+              padding: '0.25rem 0.65rem',
+              borderRadius: '999px',
+              border: '1px solid var(--liquid-glass-border)',
+              background: 'var(--bg-subtle)',
+              color: 'var(--text-muted)',
+            }}
+          >
+            {status}
+          </span>
+        );
+    }
   };
 
   return (
-    <div className="container" style={{ padding: '3rem 0', paddingBottom: '5rem' }}>
-      <h1 style={{ fontSize: '2rem', fontWeight: '800', marginBottom: '2rem' }}>My Bookings</h1>
-      
-      {error && <Alert type="error" message={error} />}
-      
-      {isLoading ? (
-        <div style={{ padding: '4rem 0', textAlign: 'center' }}><Spinner /></div>
-      ) : bookings.length === 0 ? (
-        <EmptyState title="No Bookings Found" description="You have not made any resource booking requests yet." />
-      ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {bookings.map(booking => (
-            <div key={booking.id} className="card" style={{ padding: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-              <div>
-                <h3 style={{ fontSize: '1.15rem', marginBottom: '0.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <Link to={`/resources/${booking.resource?.id}`} style={{ color: 'var(--text-primary)', textDecoration: 'none' }}>
-                    {booking.resource?.name || 'Unknown Resource'}
-                  </Link>
-                  {getStatusBadge(booking.status)}
-                </h3>
-                <div style={{ display: 'flex', gap: '1.5rem', color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '0.5rem' }}>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}><Calendar size={14} /> {new Date(booking.date).toLocaleDateString()}</span>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}><Clock size={14} /> {booking.startTime} - {booking.endTime}</span>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}><FileText size={14} /> {booking.purpose}</span>
-                </div>
+    <div className="page-wrapper" style={{ paddingBottom: '5rem' }}>
+      {/* Header Banner */}
+      <section
+        style={{
+          background: 'var(--liquid-glass-bg)',
+          backdropFilter: 'var(--liquid-glass-blur)',
+          WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+          borderBottom: '1px solid var(--liquid-glass-border)',
+          padding: '2.5rem 0',
+        }}
+      >
+        <div className="container">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.4rem',
+                    fontSize: '0.75rem',
+                    fontWeight: '700',
+                    color: 'var(--accent-orange)',
+                    backgroundColor: 'var(--accent-orange-subtle)',
+                    border: '1px solid var(--accent-orange-border)',
+                    padding: '0.25rem 0.75rem',
+                    borderRadius: '9999px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                    fontFamily: 'var(--font-mono)',
+                  }}
+                >
+                  <span className="orange-dot" /> Active Reservations
+                </span>
               </div>
-              
-              <div>
-                {(booking.status === 'Pending' || booking.status === 'Approved') && (
-                  <Button variant="outline" size="sm" onClick={() => handleCancel(booking.id)}>
-                    Cancel Booking
-                  </Button>
-                )}
-              </div>
+              <h1 style={{ fontSize: '2rem', fontWeight: 800, margin: 0, color: 'var(--text-primary)' }}>
+                My Resource Bookings
+              </h1>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginTop: '0.35rem', margin: 0 }}>
+                Review and manage your scheduled laboratory, room, and equipment time allocations.
+              </p>
             </div>
-          ))}
+
+            <Link to="/resources" className="btn btn-secondary">
+              Browse Allocations
+            </Link>
+          </div>
         </div>
-      )}
+      </section>
+
+      <div className="container" style={{ paddingTop: '2.5rem' }}>
+        {error && <Alert type="error" message={error} style={{ marginBottom: '1.5rem' }} />}
+
+        {isLoading ? (
+          <div style={{ padding: '6rem 0', textAlign: 'center' }}>
+            <Spinner />
+          </div>
+        ) : bookings.length === 0 ? (
+          <EmptyState
+            title="No Active Reservations"
+            description="You have not requested any campus facility or equipment bookings yet."
+            action={
+              <Link to="/resources" className="btn btn-liquid-orange">
+                Explore & Book Resources
+              </Link>
+            }
+          />
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            {bookings.map((booking) => {
+              const bookingId = booking.id || booking._id;
+              const resId = booking.resource?.id || booking.resource?._id || booking.resource;
+
+              return (
+                <div
+                  key={bookingId}
+                  className="card liquid-glass-card"
+                  style={{
+                    padding: '1.5rem',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                    gap: '1.25rem',
+                  }}
+                >
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
+                      <Link
+                        to={`/resources/${resId}`}
+                        style={{
+                          fontSize: '1.2rem',
+                          fontWeight: 700,
+                          color: 'var(--text-primary)',
+                          textDecoration: 'none',
+                        }}
+                      >
+                        {booking.resource?.name || 'Campus Resource'}
+                      </Link>
+                      {getStatusBadge(booking.status)}
+                    </div>
+
+                    <div
+                      style={{
+                        display: 'flex',
+                        gap: '1.5rem',
+                        color: 'var(--text-muted)',
+                        fontSize: '0.88rem',
+                        flexWrap: 'wrap',
+                      }}
+                    >
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                        <Calendar size={15} color="var(--accent-orange)" />
+                        {new Date(booking.date).toLocaleDateString(undefined, {
+                          weekday: 'short',
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
+                        })}
+                      </span>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                        <Clock size={15} color="var(--accent-orange)" />
+                        {booking.startTime} – {booking.endTime}
+                      </span>
+                      {booking.resource?.location && (
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                          <MapPin size={15} color="var(--accent-orange)" />
+                          {booking.resource.location}
+                        </span>
+                      )}
+                    </div>
+
+                    {booking.purpose && (
+                      <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', margin: '0.6rem 0 0' }}>
+                        <strong>Purpose:</strong> {booking.purpose}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    {(booking.status === 'Pending' || booking.status === 'Approved') && (
+                      <button
+                        type="button"
+                        onClick={() => handleCancel(bookingId)}
+                        className="btn btn-secondary"
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.4rem',
+                          fontSize: '0.82rem',
+                          color: '#ef4444',
+                        }}
+                      >
+                        <Trash2 size={14} /> Cancel Booking
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
