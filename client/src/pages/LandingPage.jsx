@@ -206,9 +206,6 @@ export const LandingPage = () => {
                   <span className="orange-dot" />
                   <span>[01 // SYSTEM OVERVIEW]</span>
                 </span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--accent-orange)', fontWeight: 700 }}>
-                  // OS V2.4
-                </span>
               </div>
 
               <h1
@@ -232,8 +229,8 @@ export const LandingPage = () => {
                   marginBottom: '2.25rem',
                 }}
               >
-                Campspace consolidates student life into one synchronized, liquid glass interface. Coordinate
-                flagship student hackathons, trade textbooks directly at 0% fees, book campus resources, and charter student societies.
+                Campspace brings everything you need on campus into one place. Organize and discover college events,
+                buy and sell items with zero fees, reserve campus rooms and labs, and join or create student clubs — all in a single platform.
               </p>
 
               {/* Action Buttons: Get Started and Log In */}
