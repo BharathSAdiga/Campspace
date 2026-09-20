@@ -10,7 +10,6 @@ import {
   Shield,
   Zap,
   Lock,
-  ArrowUpRight,
   Terminal,
   Activity,
   Sparkles,
@@ -262,24 +261,6 @@ export const LandingPage = () => {
                     <span>Log In</span>
                   </Link>
                 )}
-
-                <Link
-                  to="/events"
-                  className="btn btn-ghost btn-lg"
-                  style={{ gap: '0.5rem', flex: '1 1 auto' }}
-                >
-                  <Calendar size={16} style={{ color: 'var(--accent-orange)' }} />
-                  <span>Events</span>
-                </Link>
-
-                <Link
-                  to="/marketplace"
-                  className="btn btn-ghost btn-lg"
-                  style={{ gap: '0.35rem', flex: '1 1 auto', fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}
-                >
-                  <span>Marketplace</span>
-                  <ArrowUpRight size={15} />
-                </Link>
               </div>
 
               {/* Instant Access Badging */}

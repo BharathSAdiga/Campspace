@@ -12,23 +12,34 @@ import {
   AlertCircle,
   ShieldAlert,
   Save,
+  BookOpen,
+  Laptop,
+  Armchair,
+  Shirt,
+  PenTool,
+  Dumbbell,
+  Home,
+  Package,
 } from 'lucide-react';
 import productService from '../../services/product.service';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../../components/common/Button';
 import { Alert } from '../../components/common/Alert';
 import { Spinner } from '../../components/common/Spinner';
+import { CustomDropdown } from '../../components/common/CustomDropdown';
 
-const CATEGORIES = [
-  'Textbooks',
-  'Electronics',
-  'Furniture',
-  'Clothing',
-  'Stationery',
-  'Sports & Fitness',
-  'Dorm & Housing',
-  'Other',
+const CATEGORY_OPTIONS = [
+  { id: 'Textbooks', label: 'Textbooks', icon: BookOpen },
+  { id: 'Electronics', label: 'Electronics', icon: Laptop },
+  { id: 'Furniture', label: 'Furniture', icon: Armchair },
+  { id: 'Clothing', label: 'Clothing', icon: Shirt },
+  { id: 'Stationery', label: 'Stationery', icon: PenTool },
+  { id: 'Sports & Fitness', label: 'Sports & Fitness', icon: Dumbbell },
+  { id: 'Dorm & Housing', label: 'Dorm & Housing', icon: Home },
+  { id: 'Other', label: 'Other', icon: Package },
 ];
+
+const CATEGORIES = CATEGORY_OPTIONS.map((c) => c.id);
 
 const CONDITIONS = [
   { value: 'New', label: 'Brand New (Unopened in original box)' },
@@ -37,6 +48,14 @@ const CONDITIONS = [
   { value: 'Fair', label: 'Fair (Noticeable wear but functions properly)' },
   { value: 'Poor', label: 'Poor (Heavily worn or for parts/repair)' },
 ];
+
+const STATUS_OPTIONS = [
+  { id: 'ACTIVE', label: 'ACTIVE (Visible in campus search)' },
+  { id: 'SOLD', label: 'SOLD (Marked as completed)' },
+  { id: 'ARCHIVED', label: 'ARCHIVED (Hidden from public catalog)' },
+];
+
+
 
 export const MarketplaceEditPage = () => {
   const { id } = useParams();
@@ -62,6 +81,21 @@ export const MarketplaceEditPage = () => {
   const [formErrors, setFormErrors] = useState({});
   const [apiError, setApiError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDeleteProduct = async () => {
+    if (!window.confirm(`Are you sure you want to permanently delete "${formData.title || 'this listing'}"? This action cannot be undone.`)) {
+      return;
+    }
+    setIsDeleting(true);
+    try {
+      await productService.deleteProduct(id);
+      navigate('/marketplace');
+    } catch (err) {
+      setApiError(err.message || 'Failed to delete listing.');
+      setIsDeleting(false);
+    }
+  };
 
   // Fetch existing product data
   useEffect(() => {
@@ -74,8 +108,11 @@ export const MarketplaceEditPage = () => {
         if (!isMounted) return;
 
         // Check ownership
-        const sellerId = product.seller?.id || product.seller?._id || product.seller;
-        const currentUserId = user?.id || user?._id;
+        const sellerId =
+          product.seller?.id?.toString() ||
+          product.seller?._id?.toString() ||
+          product.seller?.toString();
+        const currentUserId = user?.id?.toString() || user?._id?.toString();
         const isOwner = sellerId === currentUserId || user?.role === 'admin';
 
         if (!isOwner) {
@@ -366,46 +403,44 @@ export const MarketplaceEditPage = () => {
 
             {/* Category & Condition */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem', marginBottom: '1.25rem' }}>
-              <div className="form-group">
-                <label htmlFor="edit-category" className="form-label">
-                  Category <span style={{ color: 'var(--danger-500)' }}>*</span>
+              <div className="form-group" style={{ margin: 0 }}>
+                <label htmlFor="edit-category" className="form-label" style={{ marginBottom: '0.4rem', display: 'block' }}>
+                  Category <span style={{ color: 'var(--accent-orange)' }}>*</span>
                 </label>
-                <select
-                  id="edit-category"
-                  name="category"
+                <CustomDropdown
+                  options={CATEGORY_OPTIONS}
                   value={formData.category}
-                  onChange={handleChange}
-                  className={`form-input ${formErrors.category ? 'is-invalid' : ''}`}
-                  disabled={isSubmitting}
-                >
-                  {CATEGORIES.map((cat) => (
-                    <option key={cat} value={cat}>
-                      {cat}
-                    </option>
-                  ))}
-                </select>
-                {formErrors.category && <span className="form-error">{formErrors.category}</span>}
+                  onChange={(val) => {
+                    setFormData((prev) => ({ ...prev, category: val }));
+                    if (formErrors.category) {
+                      setFormErrors((prev) => ({ ...prev, category: '' }));
+                    }
+                  }}
+                  fullWidth
+                  placeholder="Select Category"
+                  ariaLabel="Select Product Category"
+                />
+                {formErrors.category && <span className="form-error" style={{ display: 'block', marginTop: '0.35rem' }}>{formErrors.category}</span>}
               </div>
 
-              <div className="form-group">
-                <label htmlFor="edit-condition" className="form-label">
-                  Condition <span style={{ color: 'var(--danger-500)' }}>*</span>
+              <div className="form-group" style={{ margin: 0 }}>
+                <label htmlFor="edit-condition" className="form-label" style={{ marginBottom: '0.4rem', display: 'block' }}>
+                  Condition <span style={{ color: 'var(--accent-orange)' }}>*</span>
                 </label>
-                <select
-                  id="edit-condition"
-                  name="condition"
+                <CustomDropdown
+                  options={CONDITIONS}
                   value={formData.condition}
-                  onChange={handleChange}
-                  className={`form-input ${formErrors.condition ? 'is-invalid' : ''}`}
-                  disabled={isSubmitting}
-                >
-                  {CONDITIONS.map((cond) => (
-                    <option key={cond.value} value={cond.value}>
-                      {cond.label}
-                    </option>
-                  ))}
-                </select>
-                {formErrors.condition && <span className="form-error">{formErrors.condition}</span>}
+                  onChange={(val) => {
+                    setFormData((prev) => ({ ...prev, condition: val }));
+                    if (formErrors.condition) {
+                      setFormErrors((prev) => ({ ...prev, condition: '' }));
+                    }
+                  }}
+                  fullWidth
+                  placeholder="Select Condition"
+                  ariaLabel="Select Product Condition"
+                />
+                {formErrors.condition && <span className="form-error" style={{ display: 'block', marginTop: '0.35rem' }}>{formErrors.condition}</span>}
               </div>
             </div>
 
@@ -480,22 +515,17 @@ export const MarketplaceEditPage = () => {
             </div>
 
             {/* Listing Status */}
-            <div className="form-group">
-              <label htmlFor="edit-status" className="form-label">
+            <div className="form-group" style={{ margin: 0 }}>
+              <label htmlFor="edit-status" className="form-label" style={{ marginBottom: '0.4rem', display: 'block' }}>
                 Listing Status
               </label>
-              <select
-                id="edit-status"
-                name="status"
+              <CustomDropdown
+                options={STATUS_OPTIONS}
                 value={formData.status}
-                onChange={handleChange}
-                className="form-input"
-                disabled={isSubmitting}
-              >
-                <option value="ACTIVE">ACTIVE (Visible in campus search)</option>
-                <option value="SOLD">SOLD (Marked as completed)</option>
-                <option value="ARCHIVED">ARCHIVED (Hidden from public catalog)</option>
-              </select>
+                onChange={(st) => setFormData((prev) => ({ ...prev, status: st }))}
+                fullWidth
+                ariaLabel="Listing Status"
+              />
             </div>
           </div>
 
@@ -626,25 +656,47 @@ export const MarketplaceEditPage = () => {
           <div
             style={{
               display: 'flex',
-              justifyContent: 'flex-end',
+              justifyContent: 'space-between',
               alignItems: 'center',
               gap: '1rem',
               paddingTop: '1.25rem',
               borderTop: '1px solid var(--border-subtle)',
+              flexWrap: 'wrap',
             }}
           >
-            <Link to={`/marketplace/${id}`} className="btn btn-secondary" style={{ textDecoration: 'none', backdropFilter: 'blur(12px)' }}>
-              Cancel
-            </Link>
             <button
-              type="submit"
-              disabled={isSubmitting}
-              className="btn btn-liquid-orange btn-lg"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', minWidth: '160px', justifyContent: 'center' }}
+              type="button"
+              onClick={handleDeleteProduct}
+              disabled={isSubmitting || isDeleting}
+              className="btn btn-outline"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                borderColor: 'rgba(239, 68, 68, 0.45)',
+                color: 'var(--danger-500, #ef4444)',
+                backgroundColor: 'rgba(239, 68, 68, 0.06)',
+                cursor: isDeleting ? 'not-allowed' : 'pointer',
+              }}
             >
-              <Save size={18} />
-              <span>{isSubmitting ? 'Saving...' : 'Save Changes'}</span>
+              <Trash2 size={16} />
+              <span>{isDeleting ? 'Deleting...' : 'Delete Listing'}</span>
             </button>
+
+            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+              <Link to={`/marketplace/${id}`} className="btn btn-secondary" style={{ textDecoration: 'none', backdropFilter: 'blur(12px)' }}>
+                Cancel
+              </Link>
+              <button
+                type="submit"
+                disabled={isSubmitting || isDeleting}
+                className="btn btn-liquid-orange btn-lg"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', minWidth: '160px', justifyContent: 'center' }}
+              >
+                <Save size={18} />
+                <span>{isSubmitting ? 'Saving...' : 'Save Changes'}</span>
+              </button>
+            </div>
           </div>
         </form>
       </div>

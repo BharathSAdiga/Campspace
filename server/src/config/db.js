@@ -16,7 +16,7 @@ const connectDB = async () => {
     console.log(`[MongoDB] Connected to database: ${conn.connection.host}/${conn.connection.name}`);
     return conn;
   } catch (error) {
-    console.warn(`[MongoDB] Could not connect to external MongoDB at ${mongoURI}.`);
+    console.warn(`[MongoDB] Could not connect to external MongoDB at ${mongoURI}. Reason: ${error.message}`);
     console.log(`[MongoDB] Starting fast in-memory MongoDB instance for development...`);
 
     try {

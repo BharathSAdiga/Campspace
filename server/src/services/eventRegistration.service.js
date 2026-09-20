@@ -15,6 +15,17 @@ const registerForEvent = async (eventId, userId) => {
     throw error;
   }
 
+  // Business Rule: Event organizer cannot register as an attendee for their own event
+  const organizerId =
+    event.organizer?._id?.toString() ||
+    event.organizer?.id?.toString() ||
+    event.organizer?.toString();
+  if (organizerId && organizerId === userId.toString()) {
+    const error = new Error('You are the organizer of this event and cannot reserve attendee tickets');
+    error.statusCode = 400;
+    throw error;
+  }
+
   // Business Rule: Cannot register for CANCELLED or CLOSED events
   if (event.status !== 'ACTIVE') {
     const error = new Error(`Cannot register for an event with status '${event.status}'`);

@@ -58,6 +58,11 @@ export const CustomDropdown = ({
       : selectedOption
     : placeholder;
 
+  const SelectedIcon =
+    selectedOption && typeof selectedOption === 'object' && selectedOption.icon
+      ? selectedOption.icon
+      : null;
+
   const handleSelect = (opt) => {
     const optValue = typeof opt === 'object' ? (opt.value ?? opt.id) : opt;
     onChange(optValue);
@@ -117,7 +122,11 @@ export const CustomDropdown = ({
         }}
       >
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-          {icon && <span style={{ color: 'var(--accent-orange)', display: 'inline-flex' }}>{icon}</span>}
+          {SelectedIcon ? (
+            <SelectedIcon size={16} style={{ color: 'var(--accent-orange)', flexShrink: 0 }} />
+          ) : icon ? (
+            <span style={{ color: 'var(--accent-orange)', display: 'inline-flex', flexShrink: 0 }}>{icon}</span>
+          ) : null}
           <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{displayLabel}</span>
         </span>
         <ChevronDown
@@ -142,8 +151,8 @@ export const CustomDropdown = ({
             ...(align === 'right' ? { right: 0 } : { left: 0 }),
             width: fullWidth ? '100%' : 'max-content',
             minWidth: '100%',
-            maxWidth: '340px',
-            maxHeight: '280px',
+            maxWidth: fullWidth ? '100%' : '420px',
+            maxHeight: '300px',
             overflowY: 'auto',
             backgroundColor: 'var(--bg-surface-elevated, #16161c)',
             backdropFilter: 'blur(20px)',
@@ -202,9 +211,9 @@ export const CustomDropdown = ({
                   }
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                  {OptIcon && <OptIcon size={14} style={{ color: isSelected ? 'var(--accent-orange)' : 'var(--text-muted)' }} />}
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', overflow: 'hidden', flex: 1 }}>
+                  {OptIcon && <OptIcon size={15} style={{ color: isSelected ? 'var(--accent-orange)' : 'var(--text-muted)', flexShrink: 0 }} />}
+                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'normal', lineHeight: 1.35, textAlign: 'left' }}>
                     {optLabel}
                   </span>
                 </div>

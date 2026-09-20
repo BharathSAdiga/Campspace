@@ -130,6 +130,20 @@ export const EventsEditPage = () => {
     }
   };
 
+  const handleDelete = async () => {
+    if (!window.confirm(`Are you sure you want to permanently delete "${event?.title}"? This will cancel all attendee registrations and cannot be undone.`)) {
+      return;
+    }
+    setIsSubmitting(true);
+    try {
+      await eventService.deleteEvent(id);
+      navigate('/events');
+    } catch (err) {
+      setServerError(err.message || 'Failed to delete event. Please try again.');
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="events-edit-page page-wrapper" style={{ paddingBottom: '6rem' }}>
       {/* Top Header Navigation */}
@@ -191,7 +205,7 @@ export const EventsEditPage = () => {
           <h1
             style={{
               fontSize: 'clamp(2rem, 3.5vw, 2.6rem)',
-              fontWeight: 800,
+              fontWeight: 850,
               color: 'var(--text-primary)',
               margin: '0 0 0.5rem 0',
               letterSpacing: '-0.03em',
@@ -215,6 +229,7 @@ export const EventsEditPage = () => {
         <EventForm
           initialValues={event}
           onSubmit={handleEditSubmit}
+          onDelete={handleDelete}
           isSubmitting={isSubmitting}
           isEdit={true}
           onCancel={() => navigate(`/events/${id}`)}

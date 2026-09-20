@@ -6,6 +6,7 @@ import {
   Shield,
   BookOpen,
   Edit,
+  Trash2,
   UserPlus,
   LogOut,
   Info,
@@ -67,6 +68,20 @@ export const ClubsDetailPage = () => {
     }
   };
 
+  const handleDeleteClub = async () => {
+    if (!window.confirm(`Are you sure you want to permanently delete "${club?.name}"? This action cannot be undone.`)) {
+      return;
+    }
+    setIsProcessing(true);
+    try {
+      await clubService.deleteClub(id);
+      navigate('/clubs');
+    } catch (err) {
+      alert(err.message || 'Failed to delete club.');
+      setIsProcessing(false);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="container" style={{ padding: '5rem 1.5rem', textAlign: 'center' }}>
@@ -91,13 +106,26 @@ export const ClubsDetailPage = () => {
     );
   }
 
-  const isMember = user && club.members?.some(m => m.id === user.id || m._id === user.id || m === user.id);
-  const isCoordinator = user && club.coordinator?.id === user.id;
+  const currentUserId = user?._id?.toString() || user?.id?.toString();
+  const coordId =
+    club.coordinator?._id?.toString() ||
+    club.coordinator?.id?.toString() ||
+    club.coordinator?.toString();
+  const isCoordinator = Boolean(currentUserId && coordId && currentUserId === coordId);
+  const isMember = Boolean(
+    user &&
+      club.members?.some((m) => {
+        const mId = m?._id?.toString() || m?.id?.toString() || m?.toString();
+        return mId === currentUserId;
+      })
+  );
+  const isUserAdmin = user?.role === 'admin';
+  const canManage = isCoordinator || isUserAdmin;
 
   return (
     <div className="container" style={{ padding: '2rem 1.5rem 5rem' }}>
-      {/* Back Breadcrumb */}
-      <div style={{ marginBottom: '1.5rem' }}>
+      {/* Back Breadcrumb & Header Actions */}
+      <div style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
         <Link
           to="/clubs"
           style={{
@@ -113,6 +141,42 @@ export const ClubsDetailPage = () => {
         >
           <ArrowLeft size={16} /> Back to Clubs
         </Link>
+
+        {canManage && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <Link
+              to={`/clubs/${id}/edit`}
+              className="btn btn-outline btn-sm"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                textDecoration: 'none',
+              }}
+            >
+              <Edit size={15} />
+              <span>Edit Club</span>
+            </Link>
+            <button
+              type="button"
+              onClick={handleDeleteClub}
+              disabled={isProcessing}
+              className="btn btn-outline btn-sm"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                borderColor: 'rgba(239, 68, 68, 0.45)',
+                color: 'var(--danger-500, #ef4444)',
+                backgroundColor: 'rgba(239, 68, 68, 0.06)',
+                cursor: isProcessing ? 'not-allowed' : 'pointer',
+              }}
+            >
+              <Trash2 size={15} />
+              <span>Delete Club</span>
+            </button>
+          </div>
+        )}
       </div>
 
       <div
@@ -178,27 +242,45 @@ export const ClubsDetailPage = () => {
             <h3 style={{ fontSize: '1.2rem', fontWeight: '700', marginBottom: '1rem' }}>Membership</h3>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {isCoordinator && (
+              {canManage && (
                 <div style={{ padding: '1rem', backgroundColor: 'var(--bg-subtle)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', marginBottom: '1rem' }}>
-                  <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-secondary)' }}>You are the coordinator of this club.</p>
+                  <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                    {isCoordinator ? 'You are the coordinator of this club.' : 'You have administrative privileges to manage this club.'}
+                  </p>
                 </div>
               )}
               
-              {isMember && !isCoordinator && (
+              {isMember && !canManage && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--success-color)', fontWeight: '600', marginBottom: '0.5rem' }}>
                   <Check size={18} /> You are a member
                 </div>
               )}
 
-              {isCoordinator ? (
-                <Button
-                  variant="primary"
-                  fullWidth
-                  onClick={() => navigate(`/clubs/${id}/edit`)}
-                  style={{ padding: '1rem' }}
-                >
-                  <Edit size={18} style={{ marginRight: '0.5rem' }} /> Edit Club Details
-                </Button>
+              {canManage ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                  <Button
+                    variant="primary"
+                    fullWidth
+                    onClick={() => navigate(`/clubs/${id}/edit`)}
+                    style={{ padding: '0.85rem' }}
+                  >
+                    <Edit size={18} style={{ marginRight: '0.5rem' }} /> Edit Club Details
+                  </Button>
+                  <Button
+                    variant="outline"
+                    fullWidth
+                    onClick={handleDeleteClub}
+                    isLoading={isProcessing}
+                    style={{
+                      padding: '0.85rem',
+                      color: 'var(--danger-500, #ef4444)',
+                      borderColor: 'rgba(239, 68, 68, 0.45)',
+                      backgroundColor: 'rgba(239, 68, 68, 0.05)',
+                    }}
+                  >
+                    <Trash2 size={18} style={{ marginRight: '0.5rem' }} /> Delete Club
+                  </Button>
+                </div>
               ) : isMember ? (
                 <Button
                   variant="outline"

@@ -15,6 +15,10 @@ import {
   Sparkles,
   ShieldCheck,
   Layers,
+  Trash2,
+  Shield,
+  XCircle,
+  AlertTriangle,
 } from 'lucide-react';
 import resourceService from '../../services/resource.service';
 import bookingService from '../../services/booking.service';
@@ -25,6 +29,13 @@ import { Spinner } from '../../components/common/Spinner';
 import { ErrorState } from '../../components/common/ErrorState';
 import { EmptyState } from '../../components/common/EmptyState';
 import { Alert } from '../../components/common/Alert';
+import { CustomDropdown } from '../../components/common/CustomDropdown';
+
+const STATUS_OPTIONS = [
+  { id: 'Available', label: 'Available (Open for bookings)', icon: CheckCircle },
+  { id: 'Unavailable', label: 'Unavailable (Bookings blocked)', icon: XCircle },
+  { id: 'Maintenance', label: 'Maintenance (Under repair)', icon: AlertTriangle },
+];
 
 const CATEGORY_CONFIG = {
   Room: {
@@ -278,6 +289,9 @@ export const ResourcesDetailPage = () => {
   const [resource, setResource] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
+  const [statusSuccessMessage, setStatusSuccessMessage] = useState('');
   
   // Booking Form State
   const [date, setDate] = useState('');
@@ -384,10 +398,69 @@ export const ResourcesDetailPage = () => {
     );
   }
 
+  const extractId = (obj) => {
+    if (!obj) return '';
+    if (typeof obj === 'string') return obj;
+    if (obj._id) return obj._id.toString();
+    if (obj.id) return obj.id.toString();
+    return '';
+  };
+
+  const currentUserId = extractId(user);
+  const createdById = extractId(resource?.createdBy);
+  const userEmail = user?.email?.toLowerCase();
+  const creatorEmail = (typeof resource?.createdBy === 'object' ? resource?.createdBy?.email : '')?.toLowerCase();
+
+  const isOwner = Boolean(
+    (currentUserId && createdById && currentUserId === createdById) ||
+    (userEmail && creatorEmail && userEmail === creatorEmail) ||
+    (user && resource?.createdBy && (
+      resource.createdBy === user.id ||
+      resource.createdBy === user._id ||
+      resource.createdBy._id === user.id ||
+      resource.createdBy._id === user._id ||
+      resource.createdBy.id === user.id ||
+      resource.createdBy.id === user._id
+    ))
+  );
+
+  const isUserAdmin = user?.role === 'admin';
+  const canManage = isOwner || isUserAdmin;
+
+  const handleStatusChange = async (newStatus) => {
+    if (!newStatus || newStatus === resource?.status) return;
+    setIsUpdatingStatus(true);
+    setStatusSuccessMessage('');
+    try {
+      await resourceService.updateResource(id, { status: newStatus });
+      setResource((prev) => ({ ...prev, status: newStatus }));
+      setStatusSuccessMessage(`Status switched to "${newStatus}"`);
+      setTimeout(() => setStatusSuccessMessage(''), 4000);
+    } catch (err) {
+      alert(err.message || 'Failed to update resource status');
+    } finally {
+      setIsUpdatingStatus(false);
+    }
+  };
+
+  const handleDeleteResource = async () => {
+    if (!window.confirm(`Are you sure you want to permanently delete "${resource?.name}"? This action cannot be undone.`)) {
+      return;
+    }
+    setIsDeleting(true);
+    try {
+      await resourceService.deleteResource(id);
+      navigate('/resources');
+    } catch (err) {
+      alert(err.message || 'Failed to delete resource');
+      setIsDeleting(false);
+    }
+  };
+
   return (
     <div className="container" style={{ padding: '2rem 1.5rem 5rem' }}>
-      {/* Back Breadcrumb */}
-      <div style={{ marginBottom: '1.5rem' }}>
+      {/* Back Breadcrumb & Management Actions */}
+      <div style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
         <Link
           to="/resources"
           style={{
@@ -403,6 +476,26 @@ export const ResourcesDetailPage = () => {
         >
           <ArrowLeft size={16} /> Back to Resources
         </Link>
+
+        {canManage && (
+          <button
+            type="button"
+            onClick={handleDeleteResource}
+            disabled={isDeleting}
+            className="btn btn-outline btn-sm"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.45rem',
+              borderColor: 'rgba(239, 68, 68, 0.45)',
+              color: 'var(--danger-500, #ef4444)',
+              cursor: isDeleting ? 'not-allowed' : 'pointer',
+            }}
+          >
+            <Trash2 size={14} />
+            <span>{isDeleting ? 'Deleting...' : 'Delete Resource'}</span>
+          </button>
+        )}
       </div>
 
       <div
@@ -421,6 +514,21 @@ export const ResourcesDetailPage = () => {
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
               <Badge variant="default">{resource.category}</Badge>
               <Badge variant={getStatusBadgeVariant(resource.status)}>{resource.status}</Badge>
+
+              {canManage && (
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginLeft: '0.25rem' }}>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: '600' }}>Switch Status:</span>
+                  <div style={{ minWidth: '190px' }}>
+                    <CustomDropdown
+                      options={STATUS_OPTIONS}
+                      value={resource.status}
+                      onChange={handleStatusChange}
+                      size="sm"
+                      disabled={isUpdatingStatus}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
             <h1 style={{ fontSize: '2.5rem', fontWeight: '850', color: 'var(--text-primary)', lineHeight: 1.2, marginBottom: '1rem' }}>
               {resource.name}
@@ -477,95 +585,219 @@ export const ResourcesDetailPage = () => {
           )}
         </div>
 
-        {/* RIGHT COLUMN: Sticky Action Card (Booking Form) */}
+        {/* RIGHT COLUMN: Sticky Action Card */}
         <aside style={{ position: 'sticky', top: '2rem' }}>
           <div className="card liquid-glass-card" style={{ padding: '2rem' }}>
-            <h3 style={{ fontSize: '1.3rem', fontWeight: '800', marginBottom: '1.5rem', color: 'var(--text-primary)' }}>
-               Request Booking
-            </h3>
-            
-            {user && resource.createdBy && (resource.createdBy === user.id || resource.createdBy._id === user.id || resource.createdBy.id === user.id) ? (
-              <Alert type="info" message="You are the organizer of this resource and cannot book it yourself." />
-            ) : resource.status !== 'Available' ? (
-              <Alert type="warning" message="This resource is currently not available for booking." />
-            ) : (
-              <form onSubmit={handleBooking} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  <label htmlFor="date" style={{ fontSize: '0.9rem', fontWeight: '600', color: 'var(--text-primary)' }}>Date</label>
-                  <div style={{ position: 'relative' }}>
-                    <Calendar size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                    <input
-                      id="date"
-                      type="date"
-                      required
-                      value={date}
-                      onChange={(e) => setDate(e.target.value)}
-                      min={new Date().toISOString().split('T')[0]}
-                      className="form-input"
-                      style={{ paddingLeft: '2.75rem', backgroundColor: 'var(--bg-subtle)' }}
-                    />
-                  </div>
+            {canManage ? (
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                  <Shield size={20} style={{ color: 'var(--accent-orange)' }} />
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: '800', margin: 0, color: 'var(--text-primary)' }}>
+                    Organizer Controls
+                  </h3>
                 </div>
+                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '1.25rem', lineHeight: 1.5 }}>
+                  You uploaded this resource. Manage its availability status or remove this listing from campus.
+                </p>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <label htmlFor="startTime" style={{ fontSize: '0.9rem', fontWeight: '600', color: 'var(--text-primary)' }}>Start</label>
-                    <div style={{ position: 'relative' }}>
-                      <Clock size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                      <input
-                        id="startTime"
-                        type="time"
-                        required
-                        value={startTime}
-                        onChange={(e) => setStartTime(e.target.value)}
-                        className="form-input"
-                        style={{ paddingLeft: '2.25rem', backgroundColor: 'var(--bg-subtle)', paddingRight: '0.5rem' }}
-                      />
-                    </div>
+                {statusSuccessMessage && (
+                  <div style={{ marginBottom: '1rem' }}>
+                    <Alert type="success" message={statusSuccessMessage} />
                   </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <label htmlFor="endTime" style={{ fontSize: '0.9rem', fontWeight: '600', color: 'var(--text-primary)' }}>End</label>
-                    <div style={{ position: 'relative' }}>
-                      <Clock size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                      <input
-                        id="endTime"
-                        type="time"
-                        required
-                        value={endTime}
-                        onChange={(e) => setEndTime(e.target.value)}
-                        className="form-input"
-                        style={{ paddingLeft: '2.25rem', backgroundColor: 'var(--bg-subtle)', paddingRight: '0.5rem' }}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  <label htmlFor="purpose" style={{ fontSize: '0.9rem', fontWeight: '600', color: 'var(--text-primary)' }}>Purpose</label>
-                  <textarea
-                    id="purpose"
-                    placeholder="Why do you need this resource?"
-                    required
-                    rows={3}
-                    value={purpose}
-                    onChange={(e) => setPurpose(e.target.value)}
-                    className="form-input"
-                    style={{ backgroundColor: 'var(--bg-subtle)', resize: 'vertical' }}
-                  />
-                </div>
-                
-                {bookingError && <Alert type="error" message={bookingError} />}
-                {bookingSuccess && <Alert type="success" message="Booking request submitted successfully! It is now pending approval." />}
-                
-                <Button type="submit" variant="primary" fullWidth isLoading={isBooking} style={{ marginTop: '0.5rem', padding: '1rem' }}>
-                  Submit Request
-                </Button>
-                {!user && (
-                  <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textAlign: 'center', marginTop: '0.5rem' }}>
-                    You will be asked to log in.
-                  </p>
                 )}
-              </form>
+
+                {/* Status Switcher Panel */}
+                <div style={{ backgroundColor: 'var(--bg-subtle)', padding: '1.25rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)', marginBottom: '1.5rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+                    <span style={{ fontSize: '0.875rem', fontWeight: '700', color: 'var(--text-primary)' }}>Availability Status</span>
+                    <Badge variant={getStatusBadgeVariant(resource.status)}>{resource.status}</Badge>
+                  </div>
+                  
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '1rem', lineHeight: 1.4 }}>
+                    Switch option to control whether students can reserve this resource:
+                  </p>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                    {STATUS_OPTIONS.map((opt) => {
+                      const isSelected = resource.status === opt.id;
+                      const IconComp = opt.icon;
+                      let activeBorder = 'var(--liquid-glass-border)';
+                      let activeBg = 'var(--liquid-glass-bg)';
+                      if (isSelected) {
+                        if (opt.id === 'Available') {
+                          activeBorder = 'rgba(52, 211, 153, 0.6)';
+                          activeBg = 'rgba(52, 211, 153, 0.12)';
+                        } else if (opt.id === 'Unavailable') {
+                          activeBorder = 'rgba(239, 68, 68, 0.6)';
+                          activeBg = 'rgba(239, 68, 68, 0.12)';
+                        } else {
+                          activeBorder = 'rgba(245, 158, 11, 0.6)';
+                          activeBg = 'rgba(245, 158, 11, 0.12)';
+                        }
+                      }
+                      return (
+                        <button
+                          key={opt.id}
+                          type="button"
+                          disabled={isUpdatingStatus}
+                          onClick={() => handleStatusChange(opt.id)}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            padding: '0.75rem 1rem',
+                            borderRadius: 'var(--radius-sm)',
+                            border: `1.5px solid ${activeBorder}`,
+                            backgroundColor: activeBg,
+                            cursor: isUpdatingStatus ? 'not-allowed' : 'pointer',
+                            transition: 'all 0.15s ease',
+                            textAlign: 'left',
+                            color: 'var(--text-primary)',
+                          }}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                            <IconComp
+                              size={16}
+                              style={{
+                                color:
+                                  opt.id === 'Available'
+                                    ? 'var(--success-500, #10b981)'
+                                    : opt.id === 'Unavailable'
+                                    ? 'var(--danger-500, #ef4444)'
+                                    : 'var(--warning-500, #f59e0b)',
+                              }}
+                            />
+                            <span style={{ fontWeight: isSelected ? '700' : '500', fontSize: '0.875rem' }}>
+                              {opt.id}
+                            </span>
+                          </div>
+                          {isSelected && (
+                            <span style={{ fontSize: '0.725rem', fontWeight: '800', color: 'var(--accent-orange)' }}>
+                              CURRENT
+                            </span>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Organizer Delete Action Button */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                  <button
+                    type="button"
+                    onClick={handleDeleteResource}
+                    disabled={isDeleting}
+                    className="btn btn-outline btn-block"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '0.5rem',
+                      padding: '0.85rem',
+                      borderColor: 'rgba(239, 68, 68, 0.45)',
+                      color: 'var(--danger-500, #ef4444)',
+                      backgroundColor: 'rgba(239, 68, 68, 0.06)',
+                      fontWeight: '600',
+                      cursor: isDeleting ? 'not-allowed' : 'pointer',
+                    }}
+                  >
+                    <Trash2 size={16} />
+                    <span>{isDeleting ? 'Deleting Resource...' : 'Delete Resource'}</span>
+                  </button>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textAlign: 'center', margin: 0 }}>
+                    Permanently removes this resource and blocks any further booking requests.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <h3 style={{ fontSize: '1.3rem', fontWeight: '800', marginBottom: '1.5rem', color: 'var(--text-primary)' }}>
+                   Request Booking
+                </h3>
+                
+                {resource.status !== 'Available' ? (
+                  <Alert type="warning" message="This resource is currently not available for booking." />
+                ) : (
+                  <form onSubmit={handleBooking} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                      <label htmlFor="date" style={{ fontSize: '0.9rem', fontWeight: '600', color: 'var(--text-primary)' }}>Date</label>
+                      <div style={{ position: 'relative' }}>
+                        <Calendar size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                        <input
+                          id="date"
+                          type="date"
+                          required
+                          value={date}
+                          onChange={(e) => setDate(e.target.value)}
+                          min={new Date().toISOString().split('T')[0]}
+                          className="form-input"
+                          style={{ paddingLeft: '2.75rem', backgroundColor: 'var(--bg-subtle)' }}
+                        />
+                      </div>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                        <label htmlFor="startTime" style={{ fontSize: '0.9rem', fontWeight: '600', color: 'var(--text-primary)' }}>Start</label>
+                        <div style={{ position: 'relative' }}>
+                          <Clock size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                          <input
+                            id="startTime"
+                            type="time"
+                            required
+                            value={startTime}
+                            onChange={(e) => setStartTime(e.target.value)}
+                            className="form-input"
+                            style={{ paddingLeft: '2.25rem', backgroundColor: 'var(--bg-subtle)', paddingRight: '0.5rem' }}
+                          />
+                        </div>
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                        <label htmlFor="endTime" style={{ fontSize: '0.9rem', fontWeight: '600', color: 'var(--text-primary)' }}>End</label>
+                        <div style={{ position: 'relative' }}>
+                          <Clock size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                          <input
+                            id="endTime"
+                            type="time"
+                            required
+                            value={endTime}
+                            onChange={(e) => setEndTime(e.target.value)}
+                            className="form-input"
+                            style={{ paddingLeft: '2.25rem', backgroundColor: 'var(--bg-subtle)', paddingRight: '0.5rem' }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                      <label htmlFor="purpose" style={{ fontSize: '0.9rem', fontWeight: '600', color: 'var(--text-primary)' }}>Purpose</label>
+                      <textarea
+                        id="purpose"
+                        placeholder="Why do you need this resource?"
+                        required
+                        rows={3}
+                        value={purpose}
+                        onChange={(e) => setPurpose(e.target.value)}
+                        className="form-input"
+                        style={{ backgroundColor: 'var(--bg-subtle)', resize: 'vertical' }}
+                      />
+                    </div>
+                    
+                    {bookingError && <Alert type="error" message={bookingError} />}
+                    {bookingSuccess && <Alert type="success" message="Booking request submitted successfully! It is now pending approval." />}
+                    
+                    <Button type="submit" variant="primary" fullWidth isLoading={isBooking} style={{ marginTop: '0.5rem', padding: '1rem' }}>
+                      Submit Request
+                    </Button>
+                    {!user && (
+                      <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textAlign: 'center', marginTop: '0.5rem' }}>
+                        You will be asked to log in.
+                      </p>
+                    )}
+                  </form>
+                )}
+              </div>
             )}
           </div>
         </aside>

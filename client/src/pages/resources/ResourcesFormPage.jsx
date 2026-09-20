@@ -8,19 +8,27 @@ import {
   Users,
   CheckCircle,
   Plus,
-  Trash2
+  Trash2,
+  Home,
+  Wrench,
+  FlaskConical,
+  Trophy,
+  Package,
 } from 'lucide-react';
 import resourceService from '../../services/resource.service';
 import { Button } from '../../components/common/Button';
 import { Alert } from '../../components/common/Alert';
+import { CustomDropdown } from '../../components/common/CustomDropdown';
 
-const CATEGORIES = [
-  'Room',
-  'Equipment',
-  'Laboratory',
-  'Sports',
-  'Other'
+const CATEGORY_OPTIONS = [
+  { id: 'Room', label: 'Room / Facility', icon: Home },
+  { id: 'Equipment', label: 'Equipment & Hardware', icon: Wrench },
+  { id: 'Laboratory', label: 'Laboratory / Research', icon: FlaskConical },
+  { id: 'Sports', label: 'Sports & Athletics', icon: Trophy },
+  { id: 'Other', label: 'Other Resource', icon: Package },
 ];
+
+const CATEGORIES = CATEGORY_OPTIONS.map((c) => c.id);
 
 export const ResourcesCreatePage = () => {
   const navigate = useNavigate();
@@ -195,21 +203,22 @@ export const ResourcesCreatePage = () => {
                  {formErrors.name && <span style={{ color: 'var(--danger-color)', fontSize: '0.8rem' }}>{formErrors.name}</span>}
                </div>
 
-               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                 <label htmlFor="category" style={{ fontSize: '0.9rem', fontWeight: '600' }}>Category *</label>
-                 <select
-                   id="category"
-                   name="category"
+               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                 <label htmlFor="category" style={{ fontSize: '0.9rem', fontWeight: '600', color: 'var(--text-primary)' }}>Category *</label>
+                 <CustomDropdown
+                   options={CATEGORY_OPTIONS}
                    value={formData.category}
-                   onChange={handleChange}
-                   className={`form-input ${formErrors.category ? 'error' : ''}`}
-                   style={{ backgroundColor: 'var(--bg-subtle)' }}
-                 >
-                   {CATEGORIES.map(cat => (
-                     <option key={cat} value={cat}>{cat}</option>
-                   ))}
-                 </select>
-                 {formErrors.category && <span style={{ color: 'var(--danger-color)', fontSize: '0.8rem' }}>{formErrors.category}</span>}
+                   onChange={(val) => {
+                     setFormData((prev) => ({ ...prev, category: val }));
+                     if (formErrors.category) {
+                       setFormErrors((prev) => ({ ...prev, category: '' }));
+                     }
+                   }}
+                   fullWidth
+                   placeholder="Select Category"
+                   ariaLabel="Resource Category"
+                 />
+                 {formErrors.category && <span style={{ color: 'var(--danger-color)', fontSize: '0.8rem', marginTop: '0.25rem' }}>{formErrors.category}</span>}
                </div>
             </div>
 

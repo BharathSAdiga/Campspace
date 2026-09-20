@@ -42,7 +42,7 @@ export const ResourcesMyBookingsPage = () => {
     if (!window.confirm("Are you sure you want to cancel this booking?")) return;
     setProcessingId(id);
     try {
-      await bookingService.updateBookingStatus(id, { status: 'Cancelled' });
+      await bookingService.cancelBooking(id);
       await loadBookings();
     } catch (err) {
       alert(err.message || 'Failed to cancel booking');

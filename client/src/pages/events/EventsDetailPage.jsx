@@ -16,6 +16,7 @@ import {
   RefreshCw,
   Lock,
   Edit3,
+  Trash2,
 } from 'lucide-react';
 import { eventService } from '../../services/event.service';
 import { useAuth } from '../../context/AuthContext';
@@ -57,10 +58,23 @@ export const EventsDetailPage = () => {
     fetchEvent();
   }, [fetchEvent]);
 
+  // Ownership & Identity
+  const organizerId =
+    event?.organizer?._id?.toString() ||
+    event?.organizer?.id?.toString() ||
+    event?.organizer?.toString();
+  const currentUserId = user?._id?.toString() || user?.id?.toString();
+  const isOwner = Boolean(currentUserId && organizerId && currentUserId === organizerId);
+
   // Handle Event Registration
   const handleRegister = async () => {
     if (!isAuthenticated) {
       navigate(`/login?redirect=/events/${id}`);
+      return;
+    }
+
+    if (isOwner) {
+      setError('You are the organizer of this event and cannot reserve attendee tickets.');
       return;
     }
 
@@ -120,6 +134,21 @@ export const EventsDetailPage = () => {
     }
   };
 
+  // Handle Delete Event
+  const handleDeleteEvent = async () => {
+    if (!window.confirm(`Are you sure you want to permanently delete "${event?.title}"? This will remove all registrations and cannot be undone.`)) {
+      return;
+    }
+    setIsSubmitting(true);
+    try {
+      await eventService.deleteEvent(id);
+      navigate('/events');
+    } catch (err) {
+      setError(err.message || 'Failed to delete event. Please try again.');
+      setIsSubmitting(false);
+    }
+  };
+
   // Format Date & Time
   const eventDate = event?.date ? new Date(event.date) : null;
   const fullDateString = eventDate
@@ -174,12 +203,6 @@ export const EventsDetailPage = () => {
   if (!event) return null;
 
   const bannerImage = event.banner || event.image;
-  const organizerId =
-    event.organizer?._id?.toString() ||
-    event.organizer?.id?.toString() ||
-    event.organizer?.toString();
-  const currentUserId = user?._id?.toString() || user?.id?.toString();
-  const isOwner = Boolean(currentUserId && organizerId && currentUserId === organizerId);
   const isUserAdmin = user?.role === 'admin';
 
   return (
@@ -205,14 +228,33 @@ export const EventsDetailPage = () => {
           </Link>
 
           {(isOwner || isUserAdmin) && (
-            <Link
-              to={`/events/${id}/edit`}
-              className="btn btn-secondary btn-sm"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', backdropFilter: 'blur(12px)' }}
-            >
-              <Edit3 size={14} />
-              <span>Edit Event</span>
-            </Link>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.65rem' }}>
+              <Link
+                to={`/events/${id}/edit`}
+                className="btn btn-secondary btn-sm"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', backdropFilter: 'blur(12px)' }}
+              >
+                <Edit3 size={14} />
+                <span>Edit Event</span>
+              </Link>
+              <button
+                type="button"
+                onClick={handleDeleteEvent}
+                disabled={isSubmitting}
+                className="btn btn-outline btn-sm"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.45rem',
+                  borderColor: 'rgba(239, 68, 68, 0.45)',
+                  color: 'var(--danger-500, #ef4444)',
+                  cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                }}
+              >
+                <Trash2 size={14} />
+                <span>Delete Event</span>
+              </button>
+            </div>
           )}
         </div>
       </div>
@@ -514,8 +556,72 @@ export const EventsDetailPage = () => {
 
               {/* Registration Action Section */}
               <div style={{ borderTop: '1px solid var(--liquid-glass-border)', paddingTop: '1.5rem' }}>
+                {/* State 0: Organizer / Event Host */}
+                {isOwner && (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.75rem',
+                        padding: '0.85rem 1rem',
+                        background: 'var(--accent-orange-subtle)',
+                        border: '1px solid var(--accent-orange-border)',
+                        borderRadius: 'var(--radius-lg)',
+                        color: 'var(--accent-orange)',
+                      }}
+                    >
+                      <Shield size={20} strokeWidth={2.5} style={{ flexShrink: 0 }} />
+                      <div>
+                        <div style={{ fontSize: '0.88rem', fontWeight: 700 }}>
+                          You are the Event Organizer
+                        </div>
+                        <div style={{ fontSize: '0.78rem', opacity: 0.85, marginTop: '0.15rem' }}>
+                          You are hosting this event and cannot reserve attendee tickets.
+                        </div>
+                      </div>
+                    </div>
+                    <Link
+                      to={`/events/${id}/edit`}
+                      className="btn btn-secondary btn-lg"
+                      style={{
+                        width: '100%',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '0.5rem',
+                        fontSize: '0.95rem',
+                        textDecoration: 'none',
+                      }}
+                    >
+                      <Edit3 size={16} />
+                      <span>Edit Event Details</span>
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={handleDeleteEvent}
+                      disabled={isSubmitting}
+                      className="btn btn-outline"
+                      style={{
+                        width: '100%',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '0.5rem',
+                        fontSize: '0.9rem',
+                        borderColor: 'rgba(239, 68, 68, 0.4)',
+                        color: 'var(--danger-500, #ef4444)',
+                        cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                      }}
+                    >
+                      <Trash2 size={15} />
+                      <span>Delete This Event</span>
+                    </button>
+                  </div>
+                )}
+
                 {/* State 1: Cancelled Event */}
-                {isCancelled && (
+                {!isOwner && isCancelled && (
                   <div style={{ textAlign: 'center', padding: '1rem', background: 'var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.45rem', color: 'var(--text-primary)', fontWeight: 700, marginBottom: '0.35rem' }}>
                       <AlertCircle size={16} />
@@ -528,7 +634,7 @@ export const EventsDetailPage = () => {
                 )}
 
                 {/* State 2: Closed Event */}
-                {!isCancelled && isClosed && (
+                {!isOwner && !isCancelled && isClosed && (
                   <div style={{ textAlign: 'center', padding: '1rem', background: 'var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.45rem', color: 'var(--text-muted)', fontWeight: 700, marginBottom: '0.35rem' }}>
                       <Lock size={16} />
@@ -541,7 +647,7 @@ export const EventsDetailPage = () => {
                 )}
 
                 {/* State 3: User is Registered */}
-                {!isCancelled && !isClosed && isRegistered && (
+                {!isOwner && !isCancelled && !isClosed && isRegistered && (
                   <div>
                     <div
                       style={{
@@ -628,7 +734,7 @@ export const EventsDetailPage = () => {
                 )}
 
                 {/* State 4: Event Full */}
-                {!isCancelled && !isClosed && !isRegistered && isSoldOut && (
+                {!isOwner && !isCancelled && !isClosed && !isRegistered && isSoldOut && (
                   <div>
                     <div
                       style={{
@@ -661,7 +767,7 @@ export const EventsDetailPage = () => {
                 )}
 
                 {/* State 5: Open for Registration */}
-                {!isCancelled && !isClosed && !isRegistered && !isSoldOut && (
+                {!isOwner && !isCancelled && !isClosed && !isRegistered && !isSoldOut && (
                   <div>
                     {isAuthenticated ? (
                       <button

@@ -30,6 +30,21 @@ const bookingService = {
   },
 
   /**
+   * Update booking status (alias delegating to cancel/approve/reject)
+   */
+  updateBookingStatus: async (id, statusData) => {
+    const status = typeof statusData === 'string' ? statusData : statusData?.status;
+    const normalized = (status || '').toLowerCase();
+    if (normalized === 'approved' || normalized === 'approve') {
+      return await api.patch(`/api/bookings/${id}/approve`);
+    }
+    if (normalized === 'rejected' || normalized === 'reject') {
+      return await api.patch(`/api/bookings/${id}/reject`);
+    }
+    return await api.patch(`/api/bookings/${id}/cancel`);
+  },
+
+  /**
    * Approve a booking (admin/organizer)
    */
   approveBooking: async (id) => {

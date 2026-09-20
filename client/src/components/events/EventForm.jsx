@@ -20,6 +20,7 @@ import {
   Trophy,
   Globe,
   Palette,
+  Trash2,
 } from 'lucide-react';
 import { Alert } from '../common/Alert';
 import { CustomDropdown } from '../common/CustomDropdown';
@@ -57,6 +58,7 @@ export const EventForm = ({
   isSubmitting = false,
   isEdit = false,
   onCancel,
+  onDelete,
   serverErrors = null,
 }) => {
   // Normalize initial date format to YYYY-MM-DD for date input
@@ -741,6 +743,26 @@ export const EventForm = ({
             marginTop: '0.5rem',
           }}
         >
+          {onDelete && (
+            <button
+              type="button"
+              onClick={onDelete}
+              disabled={isSubmitting}
+              className="btn btn-outline"
+              style={{
+                marginRight: 'auto',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.45rem',
+                borderColor: 'rgba(239, 68, 68, 0.45)',
+                color: 'var(--danger-500, #ef4444)',
+              }}
+            >
+              <Trash2 size={15} />
+              <span>Delete Event</span>
+            </button>
+          )}
+
           {onCancel && (
             <button
               type="button"

@@ -6,20 +6,30 @@ import {
   BookOpen,
   AlignLeft,
   Plus,
+  GraduationCap,
+  Globe,
+  Trophy,
+  Laptop,
+  Palette,
+  Package,
+  Trash2,
 } from 'lucide-react';
 import clubService from '../../services/club.service';
 import { Button } from '../../components/common/Button';
 import { Alert } from '../../components/common/Alert';
+import { CustomDropdown } from '../../components/common/CustomDropdown';
 
-const CATEGORIES = [
-  'Academic',
-  'Cultural',
-  'Sports',
-  'Technology',
-  'Arts',
-  'Social',
-  'Other'
+const CATEGORY_OPTIONS = [
+  { id: 'Academic', label: 'Academic & Professional', icon: GraduationCap },
+  { id: 'Cultural', label: 'Cultural & Heritage', icon: Globe },
+  { id: 'Sports', label: 'Sports & Fitness', icon: Trophy },
+  { id: 'Technology', label: 'Technology & Coding', icon: Laptop },
+  { id: 'Arts', label: 'Arts & Creative', icon: Palette },
+  { id: 'Social', label: 'Social & Networking', icon: Users },
+  { id: 'Other', label: 'Other', icon: Package },
 ];
+
+const CATEGORIES = CATEGORY_OPTIONS.map((c) => c.id);
 
 export const ClubsFormPage = ({ isEdit = false }) => {
   const navigate = useNavigate();
@@ -34,7 +44,22 @@ export const ClubsFormPage = ({ isEdit = false }) => {
   const [formErrors, setFormErrors] = useState({});
   const [apiError, setApiError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [isLoading, setIsLoading] = useState(isEdit);
+
+  const handleDelete = async () => {
+    if (!window.confirm(`Are you sure you want to permanently delete "${formData.name || 'this club'}"? This action cannot be undone.`)) {
+      return;
+    }
+    setIsDeleting(true);
+    try {
+      await clubService.deleteClub(id);
+      navigate('/clubs');
+    } catch (err) {
+      setApiError(err.message || 'Failed to delete club.');
+      setIsDeleting(false);
+    }
+  };
 
   useEffect(() => {
     if (isEdit && id) {
@@ -229,28 +254,23 @@ export const ClubsFormPage = ({ isEdit = false }) => {
               {formErrors.name && <span style={{ color: 'var(--danger-color)', fontSize: '0.8rem', marginTop: '0.25rem' }}>{formErrors.name}</span>}
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
               <label htmlFor="category" style={{ fontSize: '0.9rem', fontWeight: '600', color: 'var(--text-primary)' }}>
                 Category <span style={{ color: 'var(--danger-color)' }}>*</span>
               </label>
-              <div style={{ position: 'relative' }}>
-                <div style={{ position: 'absolute', top: '50%', left: '1rem', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}>
-                  <BookOpen size={18} />
-                </div>
-                <select
-                  id="category"
-                  name="category"
-                  value={formData.category}
-                  onChange={handleChange}
-                  className={`form-input ${formErrors.category ? 'error' : ''}`}
-                  style={{ paddingLeft: '2.75rem', backgroundColor: 'var(--bg-subtle)', appearance: 'none' }}
-                >
-                  <option value="" disabled>Select a category...</option>
-                  {CATEGORIES.map(cat => (
-                    <option key={cat} value={cat}>{cat}</option>
-                  ))}
-                </select>
-              </div>
+              <CustomDropdown
+                options={CATEGORY_OPTIONS}
+                value={formData.category}
+                onChange={(val) => {
+                  setFormData((prev) => ({ ...prev, category: val }));
+                  if (formErrors.category) {
+                    setFormErrors((prev) => ({ ...prev, category: '' }));
+                  }
+                }}
+                fullWidth
+                placeholder="Select a category..."
+                ariaLabel="Club Category"
+              />
               {formErrors.category && <span style={{ color: 'var(--danger-color)', fontSize: '0.8rem', marginTop: '0.25rem' }}>{formErrors.category}</span>}
             </div>
           </div>
@@ -289,23 +309,46 @@ export const ClubsFormPage = ({ isEdit = false }) => {
 
           <hr style={{ border: 'none', borderTop: '1px solid var(--liquid-glass-border)', margin: '0.5rem 0' }} />
 
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => navigate(isEdit ? `/clubs/${id}` : '/clubs')}
-              disabled={isSubmitting}
-            >
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              variant="primary"
-              isLoading={isSubmitting}
-              style={{ padding: '0 2rem' }}
-            >
-              {isEdit ? 'Save Changes' : 'Register Club'}
-            </Button>
+          <div style={{ display: 'flex', justifyContent: isEdit ? 'space-between' : 'flex-end', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            {isEdit && (
+              <button
+                type="button"
+                onClick={handleDelete}
+                disabled={isSubmitting || isDeleting}
+                className="btn btn-outline"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                  borderColor: 'rgba(239, 68, 68, 0.45)',
+                  color: 'var(--danger-500, #ef4444)',
+                  backgroundColor: 'rgba(239, 68, 68, 0.06)',
+                  cursor: isDeleting ? 'not-allowed' : 'pointer',
+                }}
+              >
+                <Trash2 size={16} />
+                <span>{isDeleting ? 'Deleting...' : 'Delete Club'}</span>
+              </button>
+            )}
+            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => navigate(isEdit ? `/clubs/${id}` : '/clubs')}
+                disabled={isSubmitting || isDeleting}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                variant="primary"
+                isLoading={isSubmitting}
+                disabled={isDeleting}
+                style={{ padding: '0 2rem' }}
+              >
+                {isEdit ? 'Save Changes' : 'Register Club'}
+              </Button>
+            </div>
           </div>
         </form>
       </div>

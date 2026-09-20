@@ -63,8 +63,14 @@ const updateResource = async (id, userId, userRole, updateData) => {
     throw error;
   }
   
+  const ownerId = resource.createdBy
+    ? (resource.createdBy._id || resource.createdBy).toString()
+    : null;
+  const isOwner = Boolean(ownerId && ownerId === userId.toString());
+  const isAdmin = userRole === 'admin';
+
   // Only admin or the creator can update
-  if (userRole !== 'admin' && resource.createdBy.toString() !== userId.toString()) {
+  if (!isAdmin && !isOwner) {
     const error = new Error('Not authorized to update this resource');
     error.status = 403;
     throw error;
@@ -88,7 +94,13 @@ const deleteResource = async (id, userId, userRole) => {
     throw error;
   }
   
-  if (userRole !== 'admin' && resource.createdBy.toString() !== userId.toString()) {
+  const ownerId = resource.createdBy
+    ? (resource.createdBy._id || resource.createdBy).toString()
+    : null;
+  const isOwner = Boolean(ownerId && ownerId === userId.toString());
+  const isAdmin = userRole === 'admin';
+
+  if (!isAdmin && !isOwner) {
     const error = new Error('Not authorized to delete this resource');
     error.status = 403;
     throw error;

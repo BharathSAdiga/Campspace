@@ -10,6 +10,7 @@ import {
   Copy,
   Check,
   Edit,
+  Trash2,
   AlertTriangle,
   Image as ImageIcon,
   User,
@@ -72,14 +73,29 @@ export const MarketplaceDetailPage = () => {
     setTimeout(() => setIsCopied(false), 2500);
   };
 
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDeleteProduct = async () => {
+    if (!window.confirm(`Are you sure you want to permanently delete "${product?.title || 'this listing'}"? This action cannot be undone.`)) {
+      return;
+    }
+    setIsDeleting(true);
+    try {
+      await productService.deleteProduct(id);
+      navigate('/marketplace');
+    } catch (err) {
+      alert(err.message || 'Failed to delete listing.');
+      setIsDeleting(false);
+    }
+  };
+
+  const currentUserId = user?._id?.toString() || user?.id?.toString();
+  const sellerId =
+    product?.seller?._id?.toString() ||
+    product?.seller?.id?.toString() ||
+    product?.seller?.toString();
   const isOwner = Boolean(
-    user &&
-      product &&
-      product.seller &&
-      (product.seller.id === user.id ||
-        product.seller._id === user.id ||
-        product.seller === user.id ||
-        user.role === 'admin')
+    currentUserId && sellerId && (currentUserId === sellerId || user?.role === 'admin')
   );
 
   const getConditionBadgeVariant = (cond) => {
@@ -145,8 +161,8 @@ export const MarketplaceDetailPage = () => {
 
   return (
     <div className="container" style={{ padding: '2rem 1.5rem 5rem' }}>
-      {/* Back to Marketplace Breadcrumb */}
-      <div style={{ marginBottom: '1.5rem' }}>
+      {/* Back to Marketplace Breadcrumb & Owner Actions */}
+      <div style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
         <Link
           to="/marketplace"
           style={{
@@ -165,6 +181,37 @@ export const MarketplaceDetailPage = () => {
           <ArrowLeft size={16} />
           <span>Back to Marketplace</span>
         </Link>
+
+        {isOwner && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <Link
+              to={`/marketplace/${product.id || product._id}/edit`}
+              className="btn btn-outline btn-sm"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', textDecoration: 'none' }}
+            >
+              <Edit size={15} />
+              <span>Edit Listing</span>
+            </Link>
+            <button
+              type="button"
+              onClick={handleDeleteProduct}
+              disabled={isDeleting}
+              className="btn btn-outline btn-sm"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                borderColor: 'rgba(239, 68, 68, 0.45)',
+                color: 'var(--danger-500, #ef4444)',
+                backgroundColor: 'rgba(239, 68, 68, 0.06)',
+                cursor: isDeleting ? 'not-allowed' : 'pointer',
+              }}
+            >
+              <Trash2 size={15} />
+              <span>Delete Listing</span>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* SOLD / ARCHIVED Alert Notice */}
@@ -503,12 +550,30 @@ export const MarketplaceDetailPage = () => {
                   <Link
                     to={`/marketplace/${product.id || product._id}/edit`}
                     className="btn btn-liquid-orange"
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', textDecoration: 'none' }}
                   >
                     <Edit size={16} />
                     <span>Edit Listing</span>
                   </Link>
-                  <Link to="/marketplace" className="btn btn-secondary" style={{ backdropFilter: 'blur(12px)' }}>
+                  <button
+                    type="button"
+                    onClick={handleDeleteProduct}
+                    disabled={isDeleting}
+                    className="btn btn-outline"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.4rem',
+                      borderColor: 'rgba(239, 68, 68, 0.45)',
+                      color: 'var(--danger-500, #ef4444)',
+                      backgroundColor: 'rgba(239, 68, 68, 0.06)',
+                      cursor: isDeleting ? 'not-allowed' : 'pointer',
+                    }}
+                  >
+                    <Trash2 size={16} />
+                    <span>{isDeleting ? 'Deleting...' : 'Delete Listing'}</span>
+                  </button>
+                  <Link to="/marketplace" className="btn btn-secondary" style={{ backdropFilter: 'blur(12px)', textDecoration: 'none' }}>
                     View Other Items
                   </Link>
                 </div>

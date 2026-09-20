@@ -1,5 +1,17 @@
 const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
+const fs = require('fs');
+
+// Resolve .env from server root (two levels up from src/config) or current working directory
+const serverEnvPath = path.resolve(__dirname, '../../.env');
+const cwdEnvPath = path.resolve(process.cwd(), '.env');
+
+if (fs.existsSync(serverEnvPath)) {
+  require('dotenv').config({ path: serverEnvPath });
+} else if (fs.existsSync(cwdEnvPath)) {
+  require('dotenv').config({ path: cwdEnvPath });
+} else {
+  require('dotenv').config();
+}
 
 const config = {
   port: process.env.PORT || 5000,

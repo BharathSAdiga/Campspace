@@ -15,9 +15,9 @@ const optionalAuthenticate = (req, res, next) => {
 router.get('/', resourceController.getResources);
 router.get('/:id', optionalAuthenticate, resourceController.getResourceById);
 
-// Organizer / Admin endpoints
-router.post('/', authenticate, authorize('organizer', 'admin'), resourceController.createResource);
-router.put('/:id', authenticate, authorize('organizer', 'admin'), resourceController.updateResource);
-router.delete('/:id', authenticate, authorize('organizer', 'admin'), resourceController.deleteResource);
+// Endpoints
+router.post('/', authenticate, resourceController.createResource);
+router.put('/:id', authenticate, resourceController.updateResource);
+router.delete('/:id', authenticate, resourceController.deleteResource);
 
 module.exports = router;

@@ -12,21 +12,32 @@ import {
   Trash2,
   AlertCircle,
   CheckCircle2,
+  BookOpen,
+  Laptop,
+  Armchair,
+  Shirt,
+  PenTool,
+  Dumbbell,
+  Home,
+  Package,
 } from 'lucide-react';
 import productService from '../../services/product.service';
 import { Button } from '../../components/common/Button';
 import { Alert } from '../../components/common/Alert';
+import { CustomDropdown } from '../../components/common/CustomDropdown';
 
-const CATEGORIES = [
-  'Textbooks',
-  'Electronics',
-  'Furniture',
-  'Clothing',
-  'Stationery',
-  'Sports & Fitness',
-  'Dorm & Housing',
-  'Other',
+const CATEGORY_OPTIONS = [
+  { id: 'Textbooks', label: 'Textbooks', icon: BookOpen },
+  { id: 'Electronics', label: 'Electronics', icon: Laptop },
+  { id: 'Furniture', label: 'Furniture', icon: Armchair },
+  { id: 'Clothing', label: 'Clothing', icon: Shirt },
+  { id: 'Stationery', label: 'Stationery', icon: PenTool },
+  { id: 'Sports & Fitness', label: 'Sports & Fitness', icon: Dumbbell },
+  { id: 'Dorm & Housing', label: 'Dorm & Housing', icon: Home },
+  { id: 'Other', label: 'Other', icon: Package },
 ];
+
+const CATEGORIES = CATEGORY_OPTIONS.map((c) => c.id);
 
 const CONDITIONS = [
   { value: 'New', label: 'Brand New (Unopened in original box)' },
@@ -283,47 +294,45 @@ export const MarketplaceCreatePage = () => {
             {/* Category & Condition Grid */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem', marginBottom: '1.25rem' }}>
               {/* Category */}
-              <div className="form-group">
-                <label htmlFor="prod-category" className="form-label">
-                  Category <span style={{ color: 'var(--danger-500)' }}>*</span>
+              <div className="form-group" style={{ margin: 0 }}>
+                <label htmlFor="prod-category" className="form-label" style={{ marginBottom: '0.4rem', display: 'block' }}>
+                  Category <span style={{ color: 'var(--accent-orange)' }}>*</span>
                 </label>
-                <select
-                  id="prod-category"
-                  name="category"
+                <CustomDropdown
+                  options={CATEGORY_OPTIONS}
                   value={formData.category}
-                  onChange={handleChange}
-                  className={`form-input ${formErrors.category ? 'is-invalid' : ''}`}
-                  disabled={isSubmitting}
-                >
-                  {CATEGORIES.map((cat) => (
-                    <option key={cat} value={cat}>
-                      {cat}
-                    </option>
-                  ))}
-                </select>
-                {formErrors.category && <span className="form-error">{formErrors.category}</span>}
+                  onChange={(val) => {
+                    setFormData((prev) => ({ ...prev, category: val }));
+                    if (formErrors.category) {
+                      setFormErrors((prev) => ({ ...prev, category: '' }));
+                    }
+                  }}
+                  fullWidth
+                  placeholder="Select Category"
+                  ariaLabel="Select Product Category"
+                />
+                {formErrors.category && <span className="form-error" style={{ display: 'block', marginTop: '0.35rem' }}>{formErrors.category}</span>}
               </div>
 
               {/* Condition */}
-              <div className="form-group">
-                <label htmlFor="prod-condition" className="form-label">
-                  Condition <span style={{ color: 'var(--danger-500)' }}>*</span>
+              <div className="form-group" style={{ margin: 0 }}>
+                <label htmlFor="prod-condition" className="form-label" style={{ marginBottom: '0.4rem', display: 'block' }}>
+                  Condition <span style={{ color: 'var(--accent-orange)' }}>*</span>
                 </label>
-                <select
-                  id="prod-condition"
-                  name="condition"
+                <CustomDropdown
+                  options={CONDITIONS}
                   value={formData.condition}
-                  onChange={handleChange}
-                  className={`form-input ${formErrors.condition ? 'is-invalid' : ''}`}
-                  disabled={isSubmitting}
-                >
-                  {CONDITIONS.map((cond) => (
-                    <option key={cond.value} value={cond.value}>
-                      {cond.label}
-                    </option>
-                  ))}
-                </select>
-                {formErrors.condition && <span className="form-error">{formErrors.condition}</span>}
+                  onChange={(val) => {
+                    setFormData((prev) => ({ ...prev, condition: val }));
+                    if (formErrors.condition) {
+                      setFormErrors((prev) => ({ ...prev, condition: '' }));
+                    }
+                  }}
+                  fullWidth
+                  placeholder="Select Condition"
+                  ariaLabel="Select Product Condition"
+                />
+                {formErrors.condition && <span className="form-error" style={{ display: 'block', marginTop: '0.35rem' }}>{formErrors.condition}</span>}
               </div>
             </div>
 
