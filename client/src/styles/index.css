@@ -819,12 +819,12 @@ textarea:focus-visible {
 
 .grid-animated-surface {
   will-change: transform;
-  animation: gridDrift 28s linear infinite;
+  animation: gridDrift 8s linear infinite;
 }
 
 .grid-animated-container {
   will-change: opacity;
-  animation: gridPulse 9s ease-in-out infinite;
+  animation: gridPulse 14s ease-in-out infinite;
 }
 
 .aura-animated-beam {
