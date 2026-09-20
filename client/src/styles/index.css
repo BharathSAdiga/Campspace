@@ -544,6 +544,8 @@ textarea:focus-visible {
 [data-theme='dark'] .badge-warning,
 [data-theme='dark'] .badge-danger {
   background: var(--surface-2);
+  color: var(--text-primary);
+  border-color: var(--border-subtle);
 }
 
 [data-theme='dark'] .badge-orange {

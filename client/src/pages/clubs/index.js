@@ -1,7 +1,4 @@
-export {
-  ClubsListPage,
-  ClubsDetailPage,
-  ClubsCreatePage,
-  ClubsEditPage,
-  ClubsMyClubsPage,
-} from './ClubsPages';
+export { ClubsListPage } from './ClubsListPage';
+export { ClubsDetailPage } from './ClubsDetailPage';
+export { ClubsCreatePage, ClubsEditPage } from './ClubsFormPage';
+export { ClubsMyClubsPage } from './ClubsMyClubsPage';
