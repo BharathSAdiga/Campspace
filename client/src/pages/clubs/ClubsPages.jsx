@@ -27,6 +27,9 @@ import {
   Tag,
   Check,
   Award,
+  Filter,
+  ArrowUpDown,
+  RotateCcw,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { clubService } from '../../services';
@@ -70,20 +73,19 @@ const getCategoryColor = (cat) => {
 const ClubCard = ({ club, onClick }) => {
   const { id, _id, name, description, category, coordinator, members = [] } = club;
   const clubId = id || _id;
-  const colorTheme = getCategoryColor(category);
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.1 }}
-      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: true, amount: 0.08 }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ y: -4, transition: { duration: 0.2 } }}
       style={{ height: '100%' }}
     >
       <div
         onClick={onClick}
-        className="card liquid-glass-card"
+        className="card liquid-glass-card product-card"
         style={{
           height: '100%',
           display: 'flex',
@@ -93,113 +95,120 @@ const ClubCard = ({ club, onClick }) => {
           cursor: 'pointer',
           borderRadius: 'var(--radius-lg)',
           position: 'relative',
-          transition: 'all 0.3s ease',
         }}
       >
-        {/* Banner Graphic */}
+        {/* Image Container (Marketplace Style) */}
         <div
           style={{
-            height: '120px',
-            background: colorTheme.gradient,
             position: 'relative',
-            padding: '1.25rem',
-            display: 'flex',
-            alignItems: 'flex-start',
-            justifyContent: 'space-between',
+            width: '100%',
+            paddingTop: '65%', // 16:10 aspect ratio
+            backgroundColor: 'var(--bg-subtle)',
+            overflow: 'hidden',
             borderBottom: '1px solid var(--liquid-glass-border)',
           }}
         >
-          <span
-            className="liquid-glass-pill"
+          <div
             style={{
-              padding: '0.3rem 0.75rem',
-              fontSize: '0.72rem',
-              fontWeight: 700,
-              boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
-            }}
-          >
-            {category}
-          </span>
-          <span
-            style={{
-              fontSize: '0.75rem',
-              fontWeight: 600,
-              color: 'var(--text-primary)',
-              background: 'var(--liquid-glass-bg)',
-              padding: '0.3rem 0.65rem',
-              borderRadius: '999px',
-              border: '1px solid var(--liquid-glass-border)',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
               display: 'flex',
+              flexDirection: 'column',
               alignItems: 'center',
+              justifyContent: 'center',
+              color: 'var(--text-muted)',
               gap: '0.35rem',
             }}
           >
-            <Users size={13} color="var(--accent-orange)" />
-            {members.length} {members.length === 1 ? 'member' : 'members'}
-          </span>
+            <Compass size={32} strokeWidth={1.5} />
+            <span style={{ fontSize: '0.75rem' }}>No logo available</span>
+          </div>
+
+          {/* Category Pill (Top-Left) */}
+          <div style={{ position: 'absolute', top: '0.75rem', left: '0.75rem', zIndex: 5 }}>
+            <span
+              className="liquid-glass-pill"
+              style={{
+                padding: '0.25rem 0.65rem',
+                fontSize: '0.72rem',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.18)',
+              }}
+            >
+              {category}
+            </span>
+          </div>
         </div>
 
         {/* Card Body */}
-        <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-          <h3
-            style={{
-              fontSize: '1.25rem',
-              fontWeight: 700,
-              marginBottom: '0.6rem',
-              color: 'var(--text-primary)',
-              letterSpacing: '-0.02em',
-              lineHeight: 1.3,
-            }}
-          >
-            {name}
-          </h3>
+        <div style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
+          <div>
+            {/* Top Info (Members & Status instead of Price) */}
+            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+              <span style={{ fontSize: '1.4rem', fontWeight: '850', color: 'var(--text-primary)', fontFamily: 'var(--font-heading)' }}>
+                {members.length}
+                <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', fontWeight: '600', marginLeft: '0.3rem' }}>
+                  Members
+                </span>
+              </span>
+              <Badge variant="primary" size="sm">Active</Badge>
+            </div>
 
-          <p
-            style={{
-              color: 'var(--text-secondary)',
-              fontSize: '0.9rem',
-              lineHeight: 1.6,
-              marginBottom: '1.25rem',
-              flex: 1,
-              display: '-webkit-box',
-              WebkitLineClamp: 3,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
-            }}
-          >
-            {description}
-          </p>
+            {/* Title */}
+            <h3
+              style={{
+                fontSize: '1rem',
+                fontWeight: '600',
+                lineHeight: 1.35,
+                marginBottom: '0.5rem',
+                color: 'var(--text-primary)',
+                display: '-webkit-box',
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+              }}
+              title={name}
+            >
+              {name}
+            </h3>
+          </div>
 
-          {/* Footer Metadata */}
-          <div
-            style={{
-              borderTop: '1px solid var(--liquid-glass-border)',
-              paddingTop: '1rem',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginTop: 'auto',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-              <Shield size={14} color="var(--accent-orange)" />
-              <span style={{ maxWidth: '140px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                {coordinator?.name || 'Coordinator'}
+          {/* Footer: Coordinator */}
+          <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid var(--liquid-glass-border)', display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
+              <Shield size={14} style={{ flexShrink: 0, color: 'var(--accent-orange)' }} />
+              <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                Led by Coordinator
               </span>
             </div>
 
-            <span
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.3rem',
-                fontSize: '0.82rem',
-                fontWeight: 600,
-                color: 'var(--accent-orange)',
-              }}
-            >
-              Explore <ArrowRight size={14} />
-            </span>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                <div
+                  style={{
+                    width: '20px',
+                    height: '20px',
+                    borderRadius: 'var(--radius-xs)',
+                    backgroundColor: 'var(--btn-primary-bg)',
+                    color: 'var(--btn-primary-text)',
+                    border: '1px solid var(--liquid-glass-border)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '0.65rem',
+                    fontWeight: '700',
+                  }}
+                >
+                  {coordinator?.name ? coordinator.name.charAt(0).toUpperCase() : 'U'}
+                </div>
+                <span style={{ color: 'var(--text-secondary)' }}>{coordinator?.name || 'Verified Student'}</span>
+              </div>
+              <span style={{ color: 'var(--accent-orange)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.2rem' }}>
+                Explore <ArrowRight size={12} />
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -417,22 +426,22 @@ export const ClubsListPage = () => {
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '0.45rem',
-                    padding: '0.45rem 0.9rem',
-                    borderRadius: '999px',
-                    fontSize: '0.82rem',
-                    fontWeight: 600,
-                    whiteSpace: 'nowrap',
+                    padding: '0.45rem 0.95rem',
+                    borderRadius: '9999px',
+                    fontSize: '0.8125rem',
+                    fontWeight: isActive ? '700' : '500',
+                    border: isActive ? '1px solid var(--accent-orange)' : '1px solid var(--liquid-glass-border)',
+                    backgroundColor: isActive ? 'var(--accent-orange)' : 'var(--liquid-glass-bg)',
+                    backdropFilter: 'var(--liquid-glass-blur)',
+                    WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+                    color: isActive ? '#ffffff' : 'var(--text-secondary)',
+                    boxShadow: isActive ? '0 2px 8px rgba(0, 0, 0, 0.12)' : 'var(--liquid-glass-shadow)',
                     cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    background: isActive ? 'var(--accent-orange)' : 'var(--liquid-glass-bg)',
-                    color: isActive ? '#ffffff' : 'var(--text-primary)',
-                    border: isActive
-                      ? '1px solid var(--accent-orange)'
-                      : '1px solid var(--liquid-glass-border)',
-                    boxShadow: isActive ? '0 4px 14px rgba(255, 138, 61, 0.3)' : 'none',
+                    whiteSpace: 'nowrap',
+                    transition: 'all 0.15s ease',
                   }}
                 >
-                  <Icon size={14} color={isActive ? '#ffffff' : 'var(--accent-orange)'} />
+                  <Icon size={14} color={isActive ? '#ffffff' : 'currentColor'} />
                   <span>{cat.label}</span>
                 </button>
               );
@@ -441,7 +450,86 @@ export const ClubsListPage = () => {
         </div>
       </section>
 
-      {/* 2. Main Content Grid */}
+      {/* 2. Filters & Sort Bar (Marketplace Style) */}
+      <div className="container" style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
+        <div
+          className="card liquid-glass-card"
+          style={{
+            padding: '1rem 1.25rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '1rem',
+            background: 'var(--liquid-glass-bg)',
+            backdropFilter: 'var(--liquid-glass-blur)',
+            WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+            border: '1px solid var(--liquid-glass-border)',
+            boxShadow: 'var(--liquid-glass-shadow)',
+          }}
+        >
+          {/* Left: Filters Controls */}
+          <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--accent-orange)', fontSize: '0.8125rem', fontWeight: '600' }}>
+              <Filter size={15} />
+              <span>Filters:</span>
+            </div>
+
+            {/* Reset Active Filters Button */}
+            {(search || category !== 'All') && (
+              <button
+                type="button"
+                onClick={() => {
+                  setSearch('');
+                  setCategory('All');
+                  setSearchParams({});
+                }}
+                className="btn btn-ghost btn-sm"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.3rem',
+                  color: 'var(--danger-500)',
+                  fontSize: '0.8125rem',
+                }}
+              >
+                <RotateCcw size={13} />
+                <span>Reset</span>
+              </button>
+            )}
+          </div>
+
+          {/* Right: Sort Control */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+              <ArrowUpDown size={14} /> Sort:
+            </span>
+            <select
+              className="form-input"
+              style={{ padding: '0.4rem 0.75rem', fontSize: '0.8125rem', height: '36px', width: 'auto' }}
+              aria-label="Sort clubs"
+            >
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Status Count Label */}
+        <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
+          <div>
+            {!isLoading && (
+              <span>
+                Showing <strong>{clubs.length}</strong> active clubs
+                {category !== 'All' && <span> in <em>{category}</em></span>}
+                {search && <span> matching "<strong>{search}</strong>"</span>}
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* 3. Main Content Grid */}
       <div className="container" style={{ paddingTop: '2.5rem' }}>
         {error && <Alert type="error" message={error} style={{ marginBottom: '1.5rem' }} />}
 

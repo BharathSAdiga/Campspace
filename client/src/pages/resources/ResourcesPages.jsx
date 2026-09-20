@@ -27,6 +27,16 @@ import {
   Check,
   AlertCircle,
   Trash2,
+  Compass,
+  ClipboardList,
+  Edit,
+  ShieldAlert,
+  Home,
+  Monitor,
+  Package,
+  Filter,
+  ArrowUpDown,
+  RotateCcw,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { resourceService, bookingService } from '../../services';
@@ -66,21 +76,20 @@ const getResourceTheme = (cat) => {
 const ResourceCard = ({ resource, onClick }) => {
   const { id, _id, name, description, category, location, capacity, facilities = [], status } = resource;
   const resourceId = id || _id;
-  const theme = getResourceTheme(category);
   const isAvailable = status === 'Available';
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.1 }}
-      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: true, amount: 0.08 }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ y: -4, transition: { duration: 0.2 } }}
       style={{ height: '100%' }}
     >
       <div
         onClick={onClick}
-        className="card liquid-glass-card"
+        className="card liquid-glass-card product-card"
         style={{
           height: '100%',
           display: 'flex',
@@ -90,156 +99,126 @@ const ResourceCard = ({ resource, onClick }) => {
           cursor: 'pointer',
           borderRadius: 'var(--radius-lg)',
           position: 'relative',
-          transition: 'all 0.3s ease',
         }}
       >
-        {/* Banner Graphic */}
+        {/* Image Container (Marketplace Style) */}
         <div
           style={{
-            height: '120px',
-            background: theme.gradient,
             position: 'relative',
-            padding: '1.25rem',
-            display: 'flex',
-            alignItems: 'flex-start',
-            justifyContent: 'space-between',
+            width: '100%',
+            paddingTop: '65%', // 16:10 aspect ratio
+            backgroundColor: 'var(--bg-subtle)',
+            overflow: 'hidden',
             borderBottom: '1px solid var(--liquid-glass-border)',
           }}
         >
-          <span
-            className="liquid-glass-pill"
+          <div
             style={{
-              padding: '0.3rem 0.75rem',
-              fontSize: '0.72rem',
-              fontWeight: 700,
-              boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
-            }}
-          >
-            {category}
-          </span>
-          <span
-            style={{
-              fontSize: '0.72rem',
-              fontWeight: 700,
-              padding: '0.25rem 0.65rem',
-              borderRadius: '999px',
-              border: isAvailable
-                ? '1px solid rgba(34, 197, 94, 0.4)'
-                : '1px solid rgba(245, 158, 11, 0.4)',
-              background: isAvailable
-                ? 'rgba(34, 197, 94, 0.15)'
-                : 'rgba(245, 158, 11, 0.15)',
-              color: isAvailable ? '#22c55e' : '#f59e0b',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
               display: 'flex',
+              flexDirection: 'column',
               alignItems: 'center',
+              justifyContent: 'center',
+              color: 'var(--text-muted)',
               gap: '0.35rem',
             }}
           >
+            <Compass size={32} strokeWidth={1.5} />
+            <span style={{ fontSize: '0.75rem' }}>No photo available</span>
+          </div>
+
+          {/* Category Pill (Top-Left) */}
+          <div style={{ position: 'absolute', top: '0.75rem', left: '0.75rem', zIndex: 5 }}>
             <span
+              className="liquid-glass-pill"
               style={{
-                width: '6px',
-                height: '6px',
-                borderRadius: '50%',
-                background: isAvailable ? '#22c55e' : '#f59e0b',
+                padding: '0.25rem 0.65rem',
+                fontSize: '0.72rem',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.18)',
               }}
-            />
-            {status}
-          </span>
+            >
+              {category}
+            </span>
+          </div>
+
+          {/* Status Badge (Bottom-Right) */}
+          <div style={{ position: 'absolute', bottom: '0.65rem', right: '0.65rem', zIndex: 5 }}>
+            <Badge variant={isAvailable ? 'success' : 'warning'} size="sm">
+              {status}
+            </Badge>
+          </div>
         </div>
 
         {/* Card Body */}
-        <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-          <h3
-            style={{
-              fontSize: '1.25rem',
-              fontWeight: 700,
-              marginBottom: '0.5rem',
-              color: 'var(--text-primary)',
-              letterSpacing: '-0.02em',
-              lineHeight: 1.3,
-            }}
-          >
-            {name}
-          </h3>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: 'var(--text-muted)', fontSize: '0.84rem', marginBottom: '0.85rem' }}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-              <MapPin size={14} color="var(--accent-orange)" /> {location}
-            </span>
-            {capacity && (
-              <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                <Users size={14} color="var(--accent-orange)" /> Max {capacity}
+        <div style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
+          <div>
+            {/* Top Info: Capacity & Location */}
+            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+              <span style={{ fontSize: '1.4rem', fontWeight: '850', color: 'var(--text-primary)', fontFamily: 'var(--font-heading)' }}>
+                {capacity}
+                <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', fontWeight: '600', marginLeft: '0.3rem' }}>
+                  Capacity
+                </span>
               </span>
-            )}
+            </div>
+
+            {/* Title */}
+            <h3
+              style={{
+                fontSize: '1rem',
+                fontWeight: '600',
+                lineHeight: 1.35,
+                marginBottom: '0.5rem',
+                color: 'var(--text-primary)',
+                display: '-webkit-box',
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+              }}
+              title={name}
+            >
+              {name}
+            </h3>
           </div>
 
-          <p
-            style={{
-              color: 'var(--text-secondary)',
-              fontSize: '0.9rem',
-              lineHeight: 1.6,
-              marginBottom: '1rem',
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
-            }}
-          >
-            {description}
-          </p>
+          {/* Footer: Location & Action */}
+          <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid var(--liquid-glass-border)', display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
+              <MapPin size={14} style={{ flexShrink: 0, color: 'var(--accent-orange)' }} />
+              <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {location}
+              </span>
+            </div>
 
-          {/* Facilities tags */}
-          {facilities.length > 0 && (
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem', marginBottom: '1.25rem' }}>
-              {facilities.slice(0, 3).map((f, i) => (
-                <span
-                  key={i}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                <div
                   style={{
-                    fontSize: '0.72rem',
-                    padding: '0.2rem 0.5rem',
-                    borderRadius: '4px',
-                    background: 'var(--bg-subtle)',
+                    width: '20px',
+                    height: '20px',
+                    borderRadius: 'var(--radius-xs)',
+                    backgroundColor: 'var(--btn-primary-bg)',
+                    color: 'var(--btn-primary-text)',
                     border: '1px solid var(--liquid-glass-border)',
-                    color: 'var(--text-muted)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '0.65rem',
+                    fontWeight: '700',
                   }}
                 >
-                  {f}
-                </span>
-              ))}
-              {facilities.length > 3 && (
-                <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', alignSelf: 'center' }}>
-                  +{facilities.length - 3} more
-                </span>
-              )}
+                  R
+                </div>
+                <span style={{ color: 'var(--text-secondary)' }}>Verified Space</span>
+              </div>
+              <span style={{ color: 'var(--accent-orange)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.2rem' }}>
+                Reserve <ArrowRight size={12} />
+              </span>
             </div>
-          )}
-
-          {/* Footer CTA */}
-          <div
-            style={{
-              borderTop: '1px solid var(--liquid-glass-border)',
-              paddingTop: '1rem',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginTop: 'auto',
-            }}
-          >
-            <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-              Verified Campus Space
-            </span>
-            <span
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.3rem',
-                fontSize: '0.82rem',
-                fontWeight: 600,
-                color: 'var(--accent-orange)',
-              }}
-            >
-              Reserve Slot <ArrowRight size={14} />
-            </span>
           </div>
         </div>
       </div>
@@ -459,22 +438,22 @@ export const ResourcesListPage = () => {
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '0.45rem',
-                    padding: '0.45rem 0.9rem',
-                    borderRadius: '999px',
-                    fontSize: '0.82rem',
-                    fontWeight: 600,
-                    whiteSpace: 'nowrap',
+                    padding: '0.45rem 0.95rem',
+                    borderRadius: '9999px',
+                    fontSize: '0.8125rem',
+                    fontWeight: isActive ? '700' : '500',
+                    border: isActive ? '1px solid var(--accent-orange)' : '1px solid var(--liquid-glass-border)',
+                    backgroundColor: isActive ? 'var(--accent-orange)' : 'var(--liquid-glass-bg)',
+                    backdropFilter: 'var(--liquid-glass-blur)',
+                    WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+                    color: isActive ? '#ffffff' : 'var(--text-secondary)',
+                    boxShadow: isActive ? '0 2px 8px rgba(0, 0, 0, 0.12)' : 'var(--liquid-glass-shadow)',
                     cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    background: isActive ? 'var(--accent-orange)' : 'var(--liquid-glass-bg)',
-                    color: isActive ? '#ffffff' : 'var(--text-primary)',
-                    border: isActive
-                      ? '1px solid var(--accent-orange)'
-                      : '1px solid var(--liquid-glass-border)',
-                    boxShadow: isActive ? '0 4px 14px rgba(255, 138, 61, 0.3)' : 'none',
+                    whiteSpace: 'nowrap',
+                    transition: 'all 0.15s ease',
                   }}
                 >
-                  <Icon size={14} color={isActive ? '#ffffff' : 'var(--accent-orange)'} />
+                  <Icon size={14} color={isActive ? '#ffffff' : 'currentColor'} />
                   <span>{cat.label}</span>
                 </button>
               );
@@ -483,7 +462,86 @@ export const ResourcesListPage = () => {
         </div>
       </section>
 
-      {/* 2. Main Content Grid */}
+      {/* 2. Filters & Sort Bar (Marketplace Style) */}
+      <div className="container" style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
+        <div
+          className="card liquid-glass-card"
+          style={{
+            padding: '1rem 1.25rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '1rem',
+            background: 'var(--liquid-glass-bg)',
+            backdropFilter: 'var(--liquid-glass-blur)',
+            WebkitBackdropFilter: 'var(--liquid-glass-blur)',
+            border: '1px solid var(--liquid-glass-border)',
+            boxShadow: 'var(--liquid-glass-shadow)',
+          }}
+        >
+          {/* Left: Filters Controls */}
+          <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--accent-orange)', fontSize: '0.8125rem', fontWeight: '600' }}>
+              <Filter size={15} />
+              <span>Filters:</span>
+            </div>
+
+            {/* Reset Active Filters Button */}
+            {(search || category !== 'All') && (
+              <button
+                type="button"
+                onClick={() => {
+                  setSearch('');
+                  setCategory('All');
+                  setSearchParams({});
+                }}
+                className="btn btn-ghost btn-sm"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.3rem',
+                  color: 'var(--danger-500)',
+                  fontSize: '0.8125rem',
+                }}
+              >
+                <RotateCcw size={13} />
+                <span>Reset</span>
+              </button>
+            )}
+          </div>
+
+          {/* Right: Sort Control */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+              <ArrowUpDown size={14} /> Sort:
+            </span>
+            <select
+              className="form-input"
+              style={{ padding: '0.4rem 0.75rem', fontSize: '0.8125rem', height: '36px', width: 'auto' }}
+              aria-label="Sort resources"
+            >
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Status Count Label */}
+        <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
+          <div>
+            {!isLoading && (
+              <span>
+                Showing <strong>{resources.length}</strong> active resources
+                {category !== 'All' && <span> in <em>{category}</em></span>}
+                {search && <span> matching "<strong>{search}</strong>"</span>}
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* 3. Main Content Grid */}
       <div className="container" style={{ paddingTop: '2.5rem' }}>
         {error && <Alert type="error" message={error} style={{ marginBottom: '1.5rem' }} />}
 
