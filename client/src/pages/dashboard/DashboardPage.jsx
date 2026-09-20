@@ -284,10 +284,16 @@ export const DashboardPage = () => {
                 Reserve specialized hardware, 3D printing maker bays, and quantum simulation nodes.
               </p>
             </div>
-            <Link to="/resources" className="btn btn-secondary btn-sm" style={{ marginTop: '1.25rem', width: '100%', justifyContent: 'space-between' }}>
-              <span>Book Allocation</span>
-              <ArrowRight size={13} />
-            </Link>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', marginTop: '1.25rem' }}>
+              <Link to="/resources" className="btn btn-secondary btn-sm" style={{ width: '100%', justifyContent: 'space-between' }}>
+                <span>Book Allocation</span>
+                <ArrowRight size={13} />
+              </Link>
+              <Link to="/resources/my-bookings" className="btn btn-ghost btn-sm" style={{ width: '100%', justifyContent: 'space-between' }}>
+                <span>My Bookings</span>
+                <ArrowRight size={13} />
+              </Link>
+            </div>
           </div>
 
           {/* Clubs */}
@@ -302,10 +308,16 @@ export const DashboardPage = () => {
                 Connect with autonomous engineering leagues, design collectives, and cultural societies.
               </p>
             </div>
-            <Link to="/clubs" className="btn btn-secondary btn-sm" style={{ marginTop: '1.25rem', width: '100%', justifyContent: 'space-between' }}>
-              <span>Guild Directory</span>
-              <ArrowRight size={13} />
-            </Link>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', marginTop: '1.25rem' }}>
+              <Link to="/clubs" className="btn btn-secondary btn-sm" style={{ width: '100%', justifyContent: 'space-between' }}>
+                <span>Guild Directory</span>
+                <ArrowRight size={13} />
+              </Link>
+              <Link to="/clubs/my-clubs" className="btn btn-ghost btn-sm" style={{ width: '100%', justifyContent: 'space-between' }}>
+                <span>My Clubs</span>
+                <ArrowRight size={13} />
+              </Link>
+            </div>
           </div>
         </div>
       </div>

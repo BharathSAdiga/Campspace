@@ -47,10 +47,16 @@ const authRoutes = require('./routes/auth.routes');
 const productRoutes = require('./routes/product.routes');
 const wishlistRoutes = require('./routes/wishlist.routes');
 const eventRoutes = require('./routes/event.routes');
+const resourceRoutes = require('./routes/resource.routes');
+const bookingRoutes = require('./routes/booking.routes');
+const clubRoutes = require('./routes/club.routes');
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/events', eventRoutes);
+app.use('/api/resources', resourceRoutes);
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/clubs', clubRoutes);
 
 // Mount feature API routes
 app.use('/api/v1', apiRoutes);
