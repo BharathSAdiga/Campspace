@@ -241,7 +241,7 @@ export const LandingPage = () => {
                 <Link
                   to={isAuthenticated ? '/dashboard' : '/register'}
                   className="btn btn-liquid-orange btn-lg"
-                  style={{ gap: '0.5rem', minWidth: '165px' }}
+                  style={{ gap: '0.5rem', minWidth: '165px', flex: '1 1 auto' }}
                 >
                   <Sparkles size={16} />
                   <span>{isAuthenticated ? 'Go to Dashboard' : 'Get Started'}</span>
@@ -252,7 +252,7 @@ export const LandingPage = () => {
                   <Link
                     to="/login"
                     className="btn btn-secondary btn-lg"
-                    style={{ gap: '0.5rem', minWidth: '130px' }}
+                    style={{ gap: '0.5rem', minWidth: '130px', flex: '1 1 auto' }}
                   >
                     <Lock size={15} style={{ color: 'var(--accent-orange)' }} />
                     <span>Log In</span>
@@ -262,7 +262,7 @@ export const LandingPage = () => {
                 <Link
                   to="/events"
                   className="btn btn-ghost btn-lg"
-                  style={{ gap: '0.5rem' }}
+                  style={{ gap: '0.5rem', flex: '1 1 auto' }}
                 >
                   <Calendar size={16} style={{ color: 'var(--accent-orange)' }} />
                   <span>Events</span>
@@ -271,7 +271,7 @@ export const LandingPage = () => {
                 <Link
                   to="/marketplace"
                   className="btn btn-ghost btn-lg"
-                  style={{ gap: '0.35rem', fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}
+                  style={{ gap: '0.35rem', flex: '1 1 auto', fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}
                 >
                   <span>Marketplace</span>
                   <ArrowUpRight size={15} />
@@ -496,13 +496,7 @@ export const LandingPage = () => {
             </p>
           </div>
 
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '1.25rem',
-            }}
-          >
+          <div className="grid-4" style={{ marginBottom: '4rem' }}>
             {sectors.map((sector) => {
               const Icon = sector.icon;
               return (
