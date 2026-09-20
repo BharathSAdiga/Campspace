@@ -733,7 +733,8 @@ textarea:focus-visible {
   text-transform: uppercase;
 }
 
-.form-input {
+.form-input,
+.form-select {
   width: 100%;
   min-height: 44px;
   padding: 0.75rem 0.85rem;
@@ -742,17 +743,41 @@ textarea:focus-visible {
   border-radius: var(--radius-sm);
   color: var(--text-primary);
   outline: none;
+  font-family: inherit;
+  font-size: 0.9rem;
   transition: border-color var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
-.form-input:focus {
+.form-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ff8a3d' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  background-size: 16px;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+
+.form-select option {
+  background-color: #1a1a22;
+  color: #fcfcfd;
+  padding: 8px 12px;
+}
+
+.form-input:focus,
+.form-select:focus {
   border-color: var(--border-focus);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--border-focus), transparent 82%);
 }
 
-.form-input.is-invalid {
-  border-color: var(--danger-ink);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--danger-ink), transparent 84%);
+.form-input.is-invalid,
+.form-select.is-invalid,
+.form-input.error,
+.form-select.error {
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-orange), transparent 84%);
 }
 
 .form-error {

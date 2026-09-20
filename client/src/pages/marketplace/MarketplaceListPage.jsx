@@ -29,6 +29,7 @@ import { Spinner } from '../../components/common/Spinner';
 import { EmptyState } from '../../components/common/EmptyState';
 import { ErrorState } from '../../components/common/ErrorState';
 import { Badge } from '../../components/common/Badge';
+import { CustomDropdown } from '../../components/common/CustomDropdown';
 
 const CATEGORIES = [
   { id: 'All', label: 'All Categories', icon: ShoppingBag },
@@ -151,14 +152,14 @@ export const MarketplaceListPage = () => {
   };
 
   const handleConditionSelect = (e) => {
-    const cond = e.target.value;
+    const cond = typeof e === 'string' ? e : e?.target?.value;
     setCondition(cond);
     setPage(1);
     updateUrlParams({ condition: cond, page: 1 });
   };
 
   const handleSortSelect = (e) => {
-    const s = e.target.value;
+    const s = typeof e === 'string' ? e : e?.target?.value;
     setSort(s);
     setPage(1);
     updateUrlParams({ sort: s, page: 1 });
@@ -381,7 +382,7 @@ export const MarketplaceListPage = () => {
       </section>
 
       {/* 2. Filters & Sort Bar */}
-      <div className="container" style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
+      <div className="container" style={{ marginTop: '1.5rem', marginBottom: '1.5rem', position: 'relative', zIndex: 40 }}>
         <div
           className="card liquid-glass-card"
           style={{
@@ -396,6 +397,9 @@ export const MarketplaceListPage = () => {
             WebkitBackdropFilter: 'var(--liquid-glass-blur)',
             border: '1px solid var(--liquid-glass-border)',
             boxShadow: 'var(--liquid-glass-shadow)',
+            overflow: 'visible',
+            position: 'relative',
+            zIndex: 40,
           }}
         >
           {/* Left: Filters Controls */}
@@ -406,19 +410,13 @@ export const MarketplaceListPage = () => {
             </div>
 
             {/* Condition Select */}
-            <select
+            <CustomDropdown
+              options={CONDITIONS}
               value={condition}
               onChange={handleConditionSelect}
-              className="form-input"
-              style={{ padding: '0.4rem 0.75rem', fontSize: '0.8125rem', height: '36px', width: 'auto' }}
-              aria-label="Filter by Condition"
-            >
-              {CONDITIONS.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.label}
-                </option>
-              ))}
-            </select>
+              size="sm"
+              ariaLabel="Filter by Condition"
+            />
 
             {/* Price Range Form */}
             <form
@@ -501,22 +499,17 @@ export const MarketplaceListPage = () => {
 
           {/* Right: Sort Control */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-              <ArrowUpDown size={14} /> Sort:
+            <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
+              Sort:
             </span>
-            <select
+            <CustomDropdown
+              options={SORT_OPTIONS}
               value={sort}
               onChange={handleSortSelect}
-              className="form-input"
-              style={{ padding: '0.4rem 0.75rem', fontSize: '0.8125rem', height: '36px', width: 'auto' }}
-              aria-label="Sort product listings"
-            >
-              {SORT_OPTIONS.map((opt) => (
-                <option key={opt.id} value={opt.id}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
+              icon={<ArrowUpDown size={14} />}
+              size="sm"
+              ariaLabel="Sort product listings"
+            />
           </div>
         </div>
 

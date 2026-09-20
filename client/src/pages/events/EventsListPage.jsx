@@ -28,6 +28,7 @@ import { Button } from '../../components/common/Button';
 import { Spinner } from '../../components/common/Spinner';
 import { Alert } from '../../components/common/Alert';
 import { EmptyState } from '../../components/common/EmptyState';
+import { CustomDropdown } from '../../components/common/CustomDropdown';
 
 const CATEGORIES = [
   { id: 'ALL', label: 'All Categories', icon: Sparkles },
@@ -177,7 +178,7 @@ export const EventsListPage = () => {
   };
 
   const handleSortChange = (e) => {
-    const newSort = e.target.value;
+    const newSort = typeof e === 'string' ? e : e?.target?.value;
     setSort(newSort);
     setPage(1);
     updateUrl({ sort: newSort, page: 1 });
@@ -399,7 +400,7 @@ export const EventsListPage = () => {
       </section>
 
       {/* 2. Filters & Sort Bar */}
-      <div className="container" style={{ marginTop: '1.75rem', marginBottom: '1.75rem' }}>
+      <div className="container" style={{ marginTop: '1.75rem', marginBottom: '1.75rem', position: 'relative', zIndex: 40 }}>
         <div
           className="card liquid-glass-card"
           style={{
@@ -414,6 +415,9 @@ export const EventsListPage = () => {
             WebkitBackdropFilter: 'var(--liquid-glass-blur)',
             border: '1px solid var(--liquid-glass-border)',
             boxShadow: 'var(--liquid-glass-shadow)',
+            overflow: 'visible',
+            position: 'relative',
+            zIndex: 40,
           }}
         >
           {/* Left: Date Presets & Filter Summary */}
@@ -470,20 +474,14 @@ export const EventsListPage = () => {
             </span>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-              <ArrowUpDown size={14} style={{ color: 'var(--text-muted)' }} />
-              <select
+              <CustomDropdown
+                options={SORT_OPTIONS}
                 value={sort}
                 onChange={handleSortChange}
-                className="form-input"
-                style={{ padding: '0.35rem 0.75rem', fontSize: '0.8125rem', height: '36px', width: 'auto' }}
-                aria-label="Sort events"
-              >
-                {SORT_OPTIONS.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
+                icon={<ArrowUpDown size={14} />}
+                size="sm"
+                ariaLabel="Sort events"
+              />
             </div>
           </div>
         </div>

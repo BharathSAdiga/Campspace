@@ -13,19 +13,27 @@ import {
   Sparkles,
   Info,
   Layers,
+  Terminal,
+  BookOpen,
+  Briefcase,
+  GraduationCap,
+  Trophy,
+  Globe,
+  Palette,
 } from 'lucide-react';
 import { Alert } from '../common/Alert';
+import { CustomDropdown } from '../common/CustomDropdown';
 
 const EVENT_CATEGORIES = [
-  'Academic',
-  'Career & Professional',
-  'Social & Mixer',
-  'Sports & Recreation',
-  'Workshop & Seminar',
-  'Cultural',
-  'Tech & Hackathons',
-  'Arts & Performance',
-  'Other',
+  { id: 'Tech & Hackathons', label: 'Tech & Hackathons', icon: Terminal },
+  { id: 'Workshop & Seminar', label: 'Workshops', icon: BookOpen },
+  { id: 'Career & Professional', label: 'Career & Professional', icon: Briefcase },
+  { id: 'Academic', label: 'Academic', icon: GraduationCap },
+  { id: 'Social & Mixer', label: 'Social & Mixers', icon: Users },
+  { id: 'Sports & Recreation', label: 'Sports & Recreation', icon: Trophy },
+  { id: 'Cultural', label: 'Cultural', icon: Globe },
+  { id: 'Arts & Performance', label: 'Arts & Performance', icon: Palette },
+  { id: 'Other', label: 'Other', icon: Tag },
 ];
 
 const parseTimeToMinutes = (timeStr) => {
@@ -120,7 +128,7 @@ export const EventForm = ({
     // Category
     if (!dataToValidate.category) {
       errs.category = 'Please select an event category';
-    } else if (!EVENT_CATEGORIES.includes(dataToValidate.category)) {
+    } else if (!EVENT_CATEGORIES.some((c) => c.id === dataToValidate.category)) {
       errs.category = 'Invalid category selected';
     }
 
@@ -275,6 +283,7 @@ export const EventForm = ({
           display: 'flex',
           flexDirection: 'column',
           gap: '2rem',
+          overflow: 'visible',
         }}
       >
         {/* SECTION 1: Core Details */}
@@ -295,12 +304,12 @@ export const EventForm = ({
             </h2>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
             {/* Title Field */}
             <div className="form-group" style={{ margin: 0 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
                 <label className="form-label" htmlFor="event-title" style={{ margin: 0 }}>
-                  Event Title <span style={{ color: 'var(--accent-rose, #333333)' }}>*</span>
+                  Event Title <span style={{ color: 'var(--accent-orange)' }}>*</span>
                 </label>
                 <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                   {formData.title.length}/120
@@ -316,80 +325,153 @@ export const EventForm = ({
                 onBlur={handleBlur}
                 maxLength={120}
                 className={`form-input ${clientErrors.title && touched.title ? 'error' : ''}`}
-                style={{
-                  borderColor: clientErrors.title && touched.title ? '#333333' : undefined,
-                }}
               />
               {clientErrors.title && touched.title && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#333333', fontSize: '0.8rem', marginTop: '0.35rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--accent-orange)', fontSize: '0.8rem', marginTop: '0.35rem' }}>
                   <AlertCircle size={13} />
                   <span>{clientErrors.title}</span>
                 </div>
               )}
             </div>
 
-            {/* Category and Status Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: isEdit ? '1fr 1fr' : '1fr', gap: '1.5rem' }}>
-              {/* Category */}
-              <div className="form-group" style={{ margin: 0 }}>
-                <label className="form-label" htmlFor="event-category" style={{ marginBottom: '0.4rem', display: 'block' }}>
-                  Category <span style={{ color: 'var(--accent-rose, #333333)' }}>*</span>
+            {/* Event Category with Visual Chips + Select */}
+            <div className="form-group" style={{ margin: 0 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.6rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                <label className="form-label" htmlFor="event-category" style={{ margin: 0, display: 'inline-flex', alignItems: 'center', gap: '0.45rem' }}>
+                  <Tag size={13} style={{ color: 'var(--accent-orange)' }} />
+                  Event Category <span style={{ color: 'var(--accent-orange)' }}>*</span>
                 </label>
-                <select
-                  id="event-category"
-                  name="category"
-                  value={formData.category}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={`form-select ${clientErrors.category && touched.category ? 'error' : ''}`}
-                  style={{
-                    borderColor: clientErrors.category && touched.category ? '#333333' : undefined,
-                  }}
-                >
-                  <option value="">-- Select a Category --</option>
-                  {EVENT_CATEGORIES.map((cat) => (
-                    <option key={cat} value={cat}>
-                      {cat}
-                    </option>
-                  ))}
-                </select>
-                {clientErrors.category && touched.category && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#333333', fontSize: '0.8rem', marginTop: '0.35rem' }}>
-                    <AlertCircle size={13} />
-                    <span>{clientErrors.category}</span>
-                  </div>
+                {formData.category && (
+                  <span
+                    style={{
+                      fontSize: '0.72rem',
+                      fontFamily: 'var(--font-mono)',
+                      color: 'var(--accent-orange)',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.35rem',
+                      background: 'var(--accent-orange-subtle)',
+                      padding: '0.2rem 0.65rem',
+                      borderRadius: '9999px',
+                      border: '1px solid var(--accent-orange-border)',
+                      letterSpacing: '0.04em',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    <span className="orange-dot" style={{ width: '5px', height: '5px' }} />
+                    {formData.category}
+                  </span>
                 )}
               </div>
 
-              {/* Status (Edit Mode Only) */}
-              {isEdit && (
-                <div className="form-group" style={{ margin: 0 }}>
-                  <label className="form-label" htmlFor="event-status" style={{ marginBottom: '0.4rem', display: 'block' }}>
-                    Event Status <span style={{ color: 'var(--accent-rose, #333333)' }}>*</span>
-                  </label>
-                  <select
-                    id="event-status"
-                    name="status"
-                    value={formData.status}
-                    onChange={handleChange}
-                    className="form-select"
-                  >
-                    <option value="ACTIVE">ACTIVE (Open for RSVP)</option>
-                    <option value="CLOSED">CLOSED (RSVPs Locked)</option>
-                    <option value="CANCELLED">CANCELLED (Notice Displayed)</option>
-                  </select>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.35rem', display: 'block' }}>
-                    Setting to Cancelled or Closed stops new attendee registrations.
-                  </span>
+              {/* Quick-Pick Category Chips */}
+              <div
+                style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: '0.5rem',
+                  marginBottom: '0.85rem',
+                }}
+              >
+                {EVENT_CATEGORIES.map((cat) => {
+                  const Icon = cat.icon;
+                  const isSelected = formData.category === cat.id;
+                  return (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => {
+                        const updated = { ...formData, category: cat.id };
+                        setFormData(updated);
+                        if (touched.category) {
+                          const validationErrs = validate(updated);
+                          setClientErrors(validationErrs);
+                        }
+                      }}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.45rem',
+                        padding: '0.45rem 0.85rem',
+                        borderRadius: 'var(--radius-sm)',
+                        fontSize: '0.8rem',
+                        fontWeight: isSelected ? '700' : '500',
+                        border: isSelected
+                          ? '1px solid var(--accent-orange)'
+                          : '1px solid var(--liquid-glass-border)',
+                        backgroundColor: isSelected
+                          ? 'var(--accent-orange-subtle)'
+                          : 'var(--bg-subtle)',
+                        color: isSelected
+                          ? 'var(--accent-orange)'
+                          : 'var(--text-secondary)',
+                        cursor: 'pointer',
+                        transition: 'all 0.18s ease',
+                        boxShadow: isSelected
+                          ? '0 0 0 1px var(--accent-orange), 0 2px 10px rgba(255, 138, 61, 0.2)'
+                          : 'none',
+                      }}
+                    >
+                      <Icon size={14} style={{ color: isSelected ? 'var(--accent-orange)' : 'currentColor' }} />
+                      <span>{cat.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Custom Liquid-Glass Dropdown */}
+              <CustomDropdown
+                options={EVENT_CATEGORIES}
+                value={formData.category}
+                onChange={(catId) => {
+                  const updated = { ...formData, category: catId };
+                  setFormData(updated);
+                  if (touched.category) {
+                    const validationErrs = validate(updated);
+                    setClientErrors(validationErrs);
+                  }
+                }}
+                fullWidth
+                placeholder="-- Or select a category from menu --"
+                ariaLabel="Select event category"
+              />
+
+              {clientErrors.category && touched.category && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--accent-orange)', fontSize: '0.8rem', marginTop: '0.4rem' }}>
+                  <AlertCircle size={13} />
+                  <span>{clientErrors.category}</span>
                 </div>
               )}
             </div>
+
+            {/* Status (Edit Mode Only) */}
+            {isEdit && (
+              <div className="form-group" style={{ margin: 0 }}>
+                <label className="form-label" htmlFor="event-status" style={{ marginBottom: '0.4rem', display: 'block' }}>
+                  Event Status <span style={{ color: 'var(--accent-orange)' }}>*</span>
+                </label>
+                <CustomDropdown
+                  options={[
+                    { id: 'ACTIVE', label: 'ACTIVE (Open for RSVP)' },
+                    { id: 'CLOSED', label: 'CLOSED (RSVPs Locked)' },
+                    { id: 'CANCELLED', label: 'CANCELLED (Notice Displayed)' },
+                  ]}
+                  value={formData.status}
+                  onChange={(st) => setFormData((prev) => ({ ...prev, status: st }))}
+                  fullWidth
+                  ariaLabel="Event Status"
+                />
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.35rem', display: 'block' }}>
+                  Setting to Cancelled or Closed stops new attendee registrations.
+                </span>
+              </div>
+            )}
 
             {/* Description Field */}
             <div className="form-group" style={{ margin: 0 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
                 <label className="form-label" htmlFor="event-description" style={{ margin: 0 }}>
-                  Event Description <span style={{ color: 'var(--accent-rose, #333333)' }}>*</span>
+                  Event Description <span style={{ color: 'var(--accent-orange)' }}>*</span>
                 </label>
                 <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                   {formData.description.length}/5000
@@ -407,12 +489,11 @@ export const EventForm = ({
                 className={`form-input ${clientErrors.description && touched.description ? 'error' : ''}`}
                 style={{
                   resize: 'vertical',
-                  borderColor: clientErrors.description && touched.description ? '#333333' : undefined,
                   minHeight: '120px',
                 }}
               />
               {clientErrors.description && touched.description && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#333333', fontSize: '0.8rem', marginTop: '0.35rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--accent-orange)', fontSize: '0.8rem', marginTop: '0.35rem' }}>
                   <AlertCircle size={13} />
                   <span>{clientErrors.description}</span>
                 </div>
@@ -445,7 +526,7 @@ export const EventForm = ({
               {/* Date */}
               <div className="form-group" style={{ margin: 0 }}>
                 <label className="form-label" htmlFor="event-date" style={{ marginBottom: '0.4rem', display: 'block' }}>
-                  Event Date <span style={{ color: 'var(--accent-rose, #333333)' }}>*</span>
+                  Event Date <span style={{ color: 'var(--accent-orange)' }}>*</span>
                 </label>
                 <input
                   id="event-date"
@@ -455,12 +536,9 @@ export const EventForm = ({
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className={`form-input ${clientErrors.date && touched.date ? 'error' : ''}`}
-                  style={{
-                    borderColor: clientErrors.date && touched.date ? '#333333' : undefined,
-                  }}
                 />
                 {clientErrors.date && touched.date && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#333333', fontSize: '0.8rem', marginTop: '0.35rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--accent-orange)', fontSize: '0.8rem', marginTop: '0.35rem' }}>
                     <AlertCircle size={13} />
                     <span>{clientErrors.date}</span>
                   </div>
@@ -470,7 +548,7 @@ export const EventForm = ({
               {/* Start Time */}
               <div className="form-group" style={{ margin: 0 }}>
                 <label className="form-label" htmlFor="event-start-time" style={{ marginBottom: '0.4rem', display: 'block' }}>
-                  Start Time <span style={{ color: 'var(--accent-rose, #333333)' }}>*</span>
+                  Start Time <span style={{ color: 'var(--accent-orange)' }}>*</span>
                 </label>
                 <input
                   id="event-start-time"
@@ -480,12 +558,9 @@ export const EventForm = ({
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className={`form-input ${clientErrors.startTime && touched.startTime ? 'error' : ''}`}
-                  style={{
-                    borderColor: clientErrors.startTime && touched.startTime ? '#333333' : undefined,
-                  }}
                 />
                 {clientErrors.startTime && touched.startTime && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#333333', fontSize: '0.8rem', marginTop: '0.35rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--accent-orange)', fontSize: '0.8rem', marginTop: '0.35rem' }}>
                     <AlertCircle size={13} />
                     <span>{clientErrors.startTime}</span>
                   </div>
@@ -495,7 +570,7 @@ export const EventForm = ({
               {/* End Time */}
               <div className="form-group" style={{ margin: 0 }}>
                 <label className="form-label" htmlFor="event-end-time" style={{ marginBottom: '0.4rem', display: 'block' }}>
-                  End Time <span style={{ color: 'var(--accent-rose, #333333)' }}>*</span>
+                  End Time <span style={{ color: 'var(--accent-orange)' }}>*</span>
                 </label>
                 <input
                   id="event-end-time"
@@ -505,12 +580,9 @@ export const EventForm = ({
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className={`form-input ${clientErrors.endTime && touched.endTime ? 'error' : ''}`}
-                  style={{
-                    borderColor: clientErrors.endTime && touched.endTime ? '#333333' : undefined,
-                  }}
                 />
                 {clientErrors.endTime && touched.endTime && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#333333', fontSize: '0.8rem', marginTop: '0.35rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--accent-orange)', fontSize: '0.8rem', marginTop: '0.35rem' }}>
                     <AlertCircle size={13} />
                     <span>{clientErrors.endTime}</span>
                   </div>
@@ -523,7 +595,7 @@ export const EventForm = ({
               {/* Location */}
               <div className="form-group" style={{ margin: 0 }}>
                 <label className="form-label" htmlFor="event-location" style={{ marginBottom: '0.4rem', display: 'block' }}>
-                  Location / Venue <span style={{ color: 'var(--accent-rose, #333333)' }}>*</span>
+                  Location / Venue <span style={{ color: 'var(--accent-orange)' }}>*</span>
                 </label>
                 <div style={{ position: 'relative' }}>
                   <input
@@ -536,13 +608,10 @@ export const EventForm = ({
                     onBlur={handleBlur}
                     maxLength={150}
                     className={`form-input ${clientErrors.location && touched.location ? 'error' : ''}`}
-                    style={{
-                      borderColor: clientErrors.location && touched.location ? '#333333' : undefined,
-                    }}
                   />
                 </div>
                 {clientErrors.location && touched.location && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#333333', fontSize: '0.8rem', marginTop: '0.35rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--accent-orange)', fontSize: '0.8rem', marginTop: '0.35rem' }}>
                     <AlertCircle size={13} />
                     <span>{clientErrors.location}</span>
                   </div>
@@ -552,7 +621,7 @@ export const EventForm = ({
               {/* Maximum Participants */}
               <div className="form-group" style={{ margin: 0 }}>
                 <label className="form-label" htmlFor="event-max-participants" style={{ marginBottom: '0.4rem', display: 'block' }}>
-                  Capacity Cap <span style={{ color: 'var(--accent-rose, #333333)' }}>*</span>
+                  Capacity Cap <span style={{ color: 'var(--accent-orange)' }}>*</span>
                 </label>
                 <input
                   id="event-max-participants"
@@ -565,12 +634,9 @@ export const EventForm = ({
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className={`form-input ${clientErrors.maximumParticipants && touched.maximumParticipants ? 'error' : ''}`}
-                  style={{
-                    borderColor: clientErrors.maximumParticipants && touched.maximumParticipants ? '#333333' : undefined,
-                  }}
                 />
                 {clientErrors.maximumParticipants && touched.maximumParticipants && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#333333', fontSize: '0.8rem', marginTop: '0.35rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--accent-orange)', fontSize: '0.8rem', marginTop: '0.35rem' }}>
                     <AlertCircle size={13} />
                     <span>{clientErrors.maximumParticipants}</span>
                   </div>

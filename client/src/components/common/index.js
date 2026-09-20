@@ -23,3 +23,4 @@ export { AmbientBackground } from './AmbientBackground';
 export { GridBackground } from './GridBackground';
 export { TiltCard } from './TiltCard';
 export { ScrollProgressBar } from './ScrollProgressBar';
+export { CustomDropdown } from './CustomDropdown';
